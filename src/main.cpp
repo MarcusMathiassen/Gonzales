@@ -15,14 +15,14 @@ int main()
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
   glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
-	GLFWwindow *window = glfwCreateWindow(1024, 1024, "OpenGLTest", NULL, NULL);
+	GLFWwindow *window = glfwCreateWindow(512, 512, "OpenGLTest", NULL, NULL);
 	glfwMakeContextCurrent(window);
 
   glewExperimental = true;
 
 	glewInit();
 
-  glClearColor(1.0f, 0.3f, 0.3f, 1.0f);
+  glClearColor(0.0f, 0.3f, 0.3f, 1.0f);
 
   glfwSwapInterval(1);
 

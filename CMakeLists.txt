@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.6.2)
-project(MM)
+project(app)
 
 # Compiler flags
 set(CMAKE_CXX_STANDARD 14)
@@ -12,11 +12,13 @@ elseif(APPLE)
     #OSX specific code
 endif()
 
+set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+
 # Load headers
-include_directories(".")
+include_directories("./src/")
 
 # Load sources
-file(GLOB SOURCES "*.cpp")
+file(GLOB SOURCES "./src/*.cpp")
 
 # GLEW
 # find_package(GLEW REQUIRED)
@@ -53,4 +55,3 @@ endif()
 add_executable(${PROJECT_NAME} ${SOURCES})
 target_link_libraries(${PROJECT_NAME} glew ${CMAKE_CURRENT_SOURCE_DIR}/lib/GL/libGLEW.a)
 target_link_libraries(${PROJECT_NAME} glfw ${CMAKE_CURRENT_SOURCE_DIR}/lib/GLFW/libglfw3.a)
-
