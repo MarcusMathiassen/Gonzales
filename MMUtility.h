@@ -41,7 +41,7 @@ static bool MMreadFile(const char *file, char **buffer)
       if (ferror(fp) != 0)
         MMLog(MM_ERROR, "MMreadFile: error reading file");
       else
-        buffer[newLen++] = '\0';
+        buffer[newLen++] = "\0";
     }
     fclose(fp);
   }
