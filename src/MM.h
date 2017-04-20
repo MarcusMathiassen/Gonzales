@@ -10,6 +10,7 @@
 #include "MM_Log.h"
 #include "MM_Utility.h"
 #include "MM_Window.h"
-#include "MM_CoreEngine.h"
+#include "MM_App.h"
+#include "MM_BenchmarkFunc.h"
 
 #endif

@@ -3,7 +3,15 @@
 
 int main()
 {
-  auto window = MM_newWindow(512, 512, "App", 4.1);
+  MM_App app;
+  app.width = 512;
+  app.height = 512;
+  app.title = "App";
+  app.glVersion = 4.1f;
+
+  MM_initApp(app);
+
+
 
   GLuint shaderProgram  = glCreateProgram();
   GLuint vertexShader   = MM_createShader("./res/basic.vs", GL_VERTEX_SHADER);
@@ -22,9 +30,9 @@ int main()
 
   GLfloat vertices[] =
   {
-    -0.5, -0.5,
-     0.0,  0.5,
-     0.5, -0.5,
+    -0.5f, -0.5f,
+     0.0f,  0.5f,
+     0.5f, -0.5f,
   };
 
   GLuint VAO, VBO;
@@ -43,31 +51,20 @@ int main()
   glEnableVertexAttribArray(0);
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), NULL);
 
-  int hue = 0;
-  while ( !glfwWindowShouldClose(window)
-      &&  !(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS))
+
+
+  uint16_t hue{0};
+  while (app.running())
   {
-    if (hue++ > 360)
-      hue = 0;
-
-    glm::vec3 color = MM_HSVtoRGB(hue, 1.0, 1.0);
-    glClearColor(color.r,color.g,color.b,1.0);
-
+    if (hue++ > 360) hue = 0;
+    glm::vec3 color = MM_HSVtoRGB(hue, 1.0f, 1.0f);
+    glClearColor(color.r,color.g,color.b, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
     glBindVertexArray(VAO);
     glUseProgram(shaderProgram);
     glDrawArrays(GL_TRIANGLES, 0, 3);
-
-    // OpenGL fixed pipeline <3.3version
-    // glColor3f(1,1,1);
-    // glBegin(GL_LINES);
-    // glVertex2f(-1,-1);
-    // glVertex2f(1, 1);
-    // glEnd();
-
-    glfwPollEvents();
-    glfwSwapBuffers(window);
   }
-  glfwTerminate();
+
+  app.shutdown();
 }

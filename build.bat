@@ -1,6 +1,10 @@
 @echo off
 
 set output=app.exe
+set Olevel=/Ox
+set options=-W3 %Olevel%
+
+set libs=opengl32.lib glew32s.lib glfw3dll.lib kernel32.lib
 del %output%
-cl /EHsc -W3 -Fe%output% .\src\*.cpp opengl32.lib glew32s.lib glfw3dll.lib
+cl /EHsc %options% -Fe%output% .\src\*.cpp %libs%
 del *.obj

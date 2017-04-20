@@ -7,11 +7,6 @@
 
 #include <glm/glm.hpp>
 
-/* Declarations */
-static bool MM_readFile(const char *file, char **buffer);
-static glm::vec3 MM_HSVtoRGB(float h, float s, float v);
-
-
 /* Definitions */
 static bool MM_readFile(const char *file, char **buffer)
 {
@@ -22,8 +17,7 @@ static bool MM_readFile(const char *file, char **buffer)
   }
 
   FILE *fp;
-  fp = fopen(file,"rb");
-  if (fp != NULL)
+  if (fopen_s(&fp, file, "rb") == 0)
   {
     if (fseek(fp, 0L, SEEK_END) == 0)
     {
@@ -49,18 +43,18 @@ static bool MM_readFile(const char *file, char **buffer)
   return true;
 }
 
-static glm::vec3 MM_HSVtoRGB(float h, float s, float v) {
-  float p, q, t, f;
-  int  i;
-  float r,g,b;
+static glm::vec3 MM_HSVtoRGB(uint16_t h, float s, float v)
+{
+  h = (h >= 360) ? 0 : h;
+  const float hue{ (float)h * 0.016666f };
 
-  h = (h >= 360.0) ? 0 : h;
-  h /= 60.0;
-  i = (int)h;
-  f = h - i;
-  p = v * (1.0 - s);
-  q = v * (1.0 - (s * f));
-  t = v * (1.0 - (s * (1.0 - f)));
+  const uint8_t i { (uint8_t)hue };
+  const float f   { hue - i };
+  const float p   { v * (1.0f - s) };
+  const float q   { v * (1.0f - s*f) };
+  const float t   { v * (1.0f - s*(1.0f-f)) };
+
+  float r{0}, g{0}, b{0};
 
   switch(i) {
     case 0: r = v; g = t; b = p; break;
