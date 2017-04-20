@@ -4,15 +4,15 @@
 #define GLEW_STATIC
 #include <GL/glew.h>
 
-#include "MMUtility.h"
+#include "MM_Utility.h"
 
 /* Declarations */
-static void MMvalidateShader(const char *type, GLuint shader);
-static void MMvalidateShaderProgram(GLuint shaderProgram);
-static GLuint MMcreateShader(const char *file, const GLenum type);
+static void MM_validateShader(const char *type, GLuint shader);
+static void MM_validateShaderProgram(GLuint shaderProgram);
+static GLuint MM_createShader(const char *file, const GLenum type);
 
 /* Definitions */
-static void MMvalidateShader(const char *type, GLuint shader)
+static void MM_validateShader(const char *type, GLuint shader)
 {
   GLchar  infoLog[512] = {0};
   GLint   success;
@@ -24,7 +24,7 @@ static void MMvalidateShader(const char *type, GLuint shader)
   }
 }
 
-static void MMvalidateShaderProgram(GLuint shaderProgram)
+static void MM_validateShaderProgram(GLuint shaderProgram)
 {
   GLchar  infoLog[512] = {0};
   GLint   success;
@@ -36,10 +36,10 @@ static void MMvalidateShaderProgram(GLuint shaderProgram)
   }
 }
 
-static GLuint MMcreateShader(const char *file, const GLenum type)
+static GLuint MM_createShader(const char *file, const GLenum type)
 {
   GLchar *source = NULL;
-  MMreadFile(file, &source);
+  MM_readFile(file, &source);
 
   GLuint shader = glCreateShader(type);
 
@@ -48,11 +48,12 @@ static GLuint MMcreateShader(const char *file, const GLenum type)
 
   glShaderSource(shader, 1, &source, NULL);
   glCompileShader(shader);
+
   switch (type)
   {
-    case GL_VERTEX_SHADER:    MMvalidateShader("VERTEX",    shader); break;
-    case GL_FRAGMENT_SHADER:  MMvalidateShader("FRAGMENT",  shader); break;
-    case GL_GEOMETRY_SHADER:  MMvalidateShader("GEOMETRY",  shader); break;
+    case GL_VERTEX_SHADER:    MM_validateShader("VERTEX",    shader); break;
+    case GL_FRAGMENT_SHADER:  MM_validateShader("FRAGMENT",  shader); break;
+    case GL_GEOMETRY_SHADER:  MM_validateShader("GEOMETRY",  shader); break;
   }
 
   return shader;

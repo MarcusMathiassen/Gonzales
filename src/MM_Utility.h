@@ -1,24 +1,23 @@
 #ifndef _MM_UTILITY_H_
 #define _MM_UTILITY_H_
 
-#include "MMLog.h"
+#include "MM_Log.h"
 #include <cstdlib>
 #include <cstdio>
 
 #include <glm/glm.hpp>
 
-
 /* Declarations */
-static bool MMreadFile(const char *file, char **buffer);
-static glm::vec3 MMHSVtoRGB(float h, float s, float v);
+static bool MM_readFile(const char *file, char **buffer);
+static glm::vec3 MM_HSVtoRGB(float h, float s, float v);
 
 
 /* Definitions */
-static bool MMreadFile(const char *file, char **buffer)
+static bool MM_readFile(const char *file, char **buffer)
 {
   if (*buffer != NULL)
   {
-    MMLog(MM_ERROR, "MMreadFile: input buffer must be NULL");
+    MM_log(MM_ERROR, "MM_readFile: input buffer must be NULL");
     return false;
   }
 
@@ -29,32 +28,28 @@ static bool MMreadFile(const char *file, char **buffer)
     if (fseek(fp, 0L, SEEK_END) == 0)
     {
       long buffer_size = ftell(fp);
-      if (buffer_size == -1)
-        MMLog(MM_ERROR, "MMreadFile: buffer_size is -1");
 
-      *buffer = (char*)malloc(sizeof(char) * (buffer_size+1));
+      *buffer = (char*)calloc(buffer_size, sizeof(char));
 
       if (fseek(fp, 0L, SEEK_SET) != 0)
-        MMLog(MM_ERROR, "MMreadFile: error allocating buffer");
+        MM_log(MM_ERROR, "MM_readFile: error allocating buffer");
 
-      size_t newLen = fread(*buffer, sizeof(char), buffer_size, fp);
+      fread(*buffer, sizeof(char), buffer_size, fp);
       if (ferror(fp) != 0)
-        MMLog(MM_ERROR, "MMreadFile: error reading file");
-      else
-        buffer[newLen++] = "\0";
+        MM_log(MM_ERROR, "MM_readFile: error reading file");
     }
     fclose(fp);
   }
   else
   {
-    MMLog(MM_ERROR, "MMreadFile: error reading file.");
+    MM_log(MM_ERROR, "MM_readFile: error reading file.");
     return false;
   }
 
   return true;
 }
 
-static glm::vec3 MMHSVtoRGB(float h, float s, float v) {
+static glm::vec3 MM_HSVtoRGB(float h, float s, float v) {
   float p, q, t, f;
   int  i;
   float r,g,b;

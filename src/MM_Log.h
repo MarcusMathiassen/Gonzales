@@ -1,10 +1,11 @@
-#pragma once
+#ifndef _MM_LOG_H
+#define _MM_LOG_H
 
 #include "MM.h"
 #include <cstdio>
 #include <cstdint>
 
-static void MMLog(uint8_t TYPE, const char *text)
+static void MM_log(uint8_t TYPE, const char *text)
 {
   switch (TYPE)
   {
@@ -12,3 +13,5 @@ static void MMLog(uint8_t TYPE, const char *text)
     case MM_ERROR: printf("MM_ERROR: %s\n", text); break;
   }
 }
+
+#endif

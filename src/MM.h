@@ -6,9 +6,10 @@
 #define MM_ERROR 1
 
 /* INCLUDES */
-#include "MMShader.h"
-#include "MMLog.h"
-#include "MMUtility.h"
-#include "MMWindow.h"
+#include "MM_Shader.h"
+#include "MM_Log.h"
+#include "MM_Utility.h"
+#include "MM_Window.h"
+#include "MM_CoreEngine.h"
 
 #endif

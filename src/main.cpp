@@ -1,41 +1,72 @@
 
-#define GLEW_STATIC
-#include <GL/glew.h>
-#define GLFW_DLL
-#include <GLFW/glfw3.h>
-
 #include "MM.h"
 
 int main()
 {
-	glfwInit();
+  auto window = MM_newWindow(512, 512, "App", 4.1);
 
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
-  glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-  glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+  GLuint shaderProgram  = glCreateProgram();
+  GLuint vertexShader   = MM_createShader("./res/basic.vs", GL_VERTEX_SHADER);
+  GLuint fragmentShader = MM_createShader("./res/basic.fs", GL_FRAGMENT_SHADER);
 
-	GLFWwindow *window = glfwCreateWindow(512, 512, "OpenGLTest", NULL, NULL);
-	glfwMakeContextCurrent(window);
+  glAttachShader(shaderProgram, vertexShader);
+  glAttachShader(shaderProgram, fragmentShader);
 
-  glewExperimental = true;
+  glDeleteShader(vertexShader);
+  glDeleteShader(fragmentShader);
 
-	glewInit();
+  glBindAttribLocation(shaderProgram, 0, "position");
 
-  glClearColor(0.0f, 0.3f, 0.3f, 1.0f);
+  glLinkProgram(shaderProgram);
+  glValidateProgram(shaderProgram);
 
-  glfwSwapInterval(1);
+  GLfloat vertices[] =
+  {
+    -0.5, -0.5,
+     0.0,  0.5,
+     0.5, -0.5,
+  };
+
+  GLuint VAO, VBO;
+
+  glGenVertexArrays(1, &VAO);
+  glGenBuffers(1, &VBO);
+  glBindVertexArray(VAO);
+  glBindBuffer(GL_ARRAY_BUFFER, VBO);
+
+  glBufferData( GL_ARRAY_BUFFER,
+                sizeof(vertices) * sizeof(GLfloat),
+                vertices,
+                GL_STATIC_DRAW
+              );
+
+  glEnableVertexAttribArray(0);
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), NULL);
 
   int hue = 0;
   while ( !glfwWindowShouldClose(window)
       &&  !(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS))
   {
-    if (hue++ > 360) hue = 0;
-    glm::vec3 col = MMHSVtoRGB(hue, 1.0, 1.0);
-    glClearColor(col.r,col.g,col.b,1.0);
-    glClear(GL_COLOR_BUFFER_BIT);
-    glfwPollEvents();
+    if (hue++ > 360)
+      hue = 0;
 
+    glm::vec3 color = MM_HSVtoRGB(hue, 1.0, 1.0);
+    glClearColor(color.r,color.g,color.b,1.0);
+
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    glBindVertexArray(VAO);
+    glUseProgram(shaderProgram);
+    glDrawArrays(GL_TRIANGLES, 0, 3);
+
+    // OpenGL fixed pipeline <3.3version
+    // glColor3f(1,1,1);
+    // glBegin(GL_LINES);
+    // glVertex2f(-1,-1);
+    // glVertex2f(1, 1);
+    // glEnd();
+
+    glfwPollEvents();
     glfwSwapBuffers(window);
   }
   glfwTerminate();

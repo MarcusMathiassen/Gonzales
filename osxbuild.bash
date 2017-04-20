@@ -6,3 +6,4 @@ pushd ./build > /dev/null 2>&1
 cmake ..
 make
 popd > /dev/null 2>&1
+

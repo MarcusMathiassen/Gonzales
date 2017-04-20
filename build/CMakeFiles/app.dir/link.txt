@@ -1,0 +1,1 @@
+/Library/Developer/CommandLineTools/usr/bin/c++  -Wall -Wextra -Wno-unused-function -Wl,-search_paths_first -Wl,-headerpad_max_install_names  CMakeFiles/app.dir/src/main.cpp.o  -o ../app -framework OpenGL -lglew ../lib/GL/libGLEW.a -lglfw ../lib/GLFW/libglfw3.a 
