@@ -1,19 +1,24 @@
 
 #include "MM.h"
+#include <thread>
+
+void loop();
+
+MM_App *app;
+GLuint shaderProgram;
+GLuint VAO, VBO;
 
 int main()
 {
-  MM_App app;
-  app.width = 512;
-  app.height = 512;
-  app.title = "App";
-  app.glVersion = 4.1f;
+  app = new MM_App();
+  app->width = 512;
+  app->height = 512;
+  app->title = "App";
+  app->glVersion = 4.1f;
+  app->fixedFramerate = 60;
+  MM_initApp(*app);
 
-  MM_initApp(app);
-
-
-
-  GLuint shaderProgram  = glCreateProgram();
+  shaderProgram  = glCreateProgram();
   GLuint vertexShader   = MM_createShader("./res/basic.vs", GL_VERTEX_SHADER);
   GLuint fragmentShader = MM_createShader("./res/basic.fs", GL_FRAGMENT_SHADER);
 
@@ -35,8 +40,6 @@ int main()
      0.5f, -0.5f,
   };
 
-  GLuint VAO, VBO;
-
   glGenVertexArrays(1, &VAO);
   glGenBuffers(1, &VBO);
   glBindVertexArray(VAO);
@@ -51,10 +54,15 @@ int main()
   glEnableVertexAttribArray(0);
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), NULL);
 
+  loop();
 
+  delete app;
+}
 
+void loop()
+{
   uint16_t hue{0};
-  while (app.running())
+  while (app->running())
   {
     if (hue++ > 360) hue = 0;
     glm::vec3 color = MM_HSVtoRGB(hue, 1.0f, 1.0f);
@@ -65,6 +73,4 @@ int main()
     glUseProgram(shaderProgram);
     glDrawArrays(GL_TRIANGLES, 0, 3);
   }
-
-  app.shutdown();
 }

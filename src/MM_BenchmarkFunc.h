@@ -24,17 +24,17 @@ static void  MM_benchmarkFuncs()
   printf("NewFunc used: %fms\n", newFuncTime*1e3);
   printf("OldFunc used: %fms\n", oldFuncTime*1e3);
 
-  bool fastest = (newFuncTime < oldFuncTime) ? 1 : 0;
+  uint8_t fastest = (newFuncTime < oldFuncTime) ? 1 : 0;
   double diff;
   switch (fastest)
   {
     case 1:
           diff = (newFuncTime/oldFuncTime) * 100.0;
-          printf("NewFunc faster by %f%%\n",100.0f-diff);
+          printf("NewFunc faster by %f%%\n",100.0-diff);
           break;
     case 0:
           diff = (oldFuncTime/newFuncTime) * 100.0;
-          printf("OldFunc faster by %f%%\n",100.0f-diff);
+          printf("OldFunc faster by %f%%\n",100.0-diff);
           break;
   }
 }

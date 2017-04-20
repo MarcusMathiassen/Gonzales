@@ -6,24 +6,37 @@
 #include <iostream>
 #include <cmath>
 #include <cstdio>
+#include "MM_Utility.h"
 
 #define GLEW_STATIC
 #include <GL/glew.h>
 #define GLFW_DLL
 #include <GLFW/glfw3.h>
 
+/* Declarations */
+struct MM_App;
+static void MM_initApp(MM_App &app);
+
+/* Definitions */
 struct MM_App
 {
   GLFWwindow *window{NULL};
   uint16_t width{512}, height{512};
   std::string title{"Default title"};
   float glVersion{2.1f};
-  float fixedFrameTime{16.666666f};
-  float deltaTime{fixedFrameTime};
+
+  uint32_t currentFPS{0};
+  uint32_t fixedFramerate{60};
+
+  float fixedFrametime{1000.0f/fixedFramerate};
+  float deltaTime{fixedFrametime};
+
+  uint32_t timeSinceStart{0};
 
   bool hasRan{false};
   bool running();
-  void shutdown();
+
+  ~MM_App();
 };
 
 static void MM_initApp(MM_App &app)

@@ -1,15 +1,18 @@
 #ifndef _MM_SHADER_H_
 #define _MM_SHADER_H_
 
+#include "MM_Utility.h"
+
 #define GLEW_STATIC
 #include <GL/glew.h>
 
-#include "MM_Utility.h"
+#include <cstdlib>
 
 /* Declarations */
 static void MM_validateShader(const char *type, GLuint shader);
 static void MM_validateShaderProgram(GLuint shaderProgram);
 static GLuint MM_createShader(const char *file, const GLenum type);
+
 
 /* Definitions */
 static void MM_validateShader(const char *type, GLuint shader)

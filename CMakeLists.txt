@@ -4,7 +4,7 @@ project(app)
 # Compiler flags
 set(CMAKE_CXX_STANDARD 14)
 
-SET(CMAKE_CXX_FLAGS "-Wall -Wextra -Wno-unused-function")
+SET(CMAKE_CXX_FLAGS "-O3 -Wall -Wextra -Wno-unused-function")
 
 if(WIN32)
     #Windows specific code
