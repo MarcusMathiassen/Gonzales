@@ -1,7 +1,7 @@
 
 #include "MM.h"
 
-TearingTest *testTearing;
+TearingTest *test;
 
 int main()
 {
@@ -9,15 +9,14 @@ int main()
   app.openGLVersion = 4.1f;
   mmInit(app);
 
-  testTearing = new TearingTest();
+  test = new TearingTest();
 
   mmStart(app);
-
-  delete testTearing;
+  delete test;
 }
 
 void draw()
 {
-  testTearing->draw();
-  mmDrawText("Hello from mmDrawText!", 0, 0);
+  test->draw();
+  mmDrawText();
 }

@@ -30,6 +30,8 @@ struct TearingTest
 
     glLinkProgram(shaderProgram);
     glValidateProgram(shaderProgram);
+    mmValidateShaderProgram(shaderProgram);
+
 
     GLfloat vertices[] =
     {

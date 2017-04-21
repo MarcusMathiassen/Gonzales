@@ -81,9 +81,9 @@ static void mmInit(MMApp &app)
 
   glClearColor(1.0f, 0.3f, 0.3f, 1.0f);
 
-  glEnable(GL_DEPTH_TEST);
-  glEnable(GL_CULL_FACE);
-  glEnable(GL_BACK);
+  //glEnable(GL_DEPTH_TEST);
+  //glEnable(GL_CULL_FACE);
+  //glEnable(GL_BACK);
 
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -136,7 +136,7 @@ static void mmInternalDrawLoop(const MMApp &app)
   {
     double timeStartFrame{ glfwGetTime() };
     if (app.noClear)
-      glClear(GL_COLOR_BUFFER_BIT);
+      glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     ++numFrames;
     draw();
     if (app.framerate > 0)

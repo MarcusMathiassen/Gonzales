@@ -18,7 +18,6 @@ struct MMCharacter;
 struct MMTextBuffer;
 
 static MMTextBuffer *MMDefaultTextBuffer = NULL;
-static GLuint mmTextShaderProgram;
 constexpr static GLubyte indices[]{0,1,2, 0,2,3};
 
 static void mmDrawText(const char* text, float x, float y);
@@ -88,25 +87,27 @@ struct MMCharacter
 
 struct MMTextBuffer
 {
+  GLuint              shaderProgram;
   MMTexture           texture{"./res/MM_TextAtlas.png"};
   MMCharacter         character[256];
   MMTextBuffer()
   {
-    mmTextShaderProgram = glCreateProgram();
+    shaderProgram = glCreateProgram();
     GLuint vertexShader   = mmCreateShader("./res/MM_Text.vs", GL_VERTEX_SHADER);
     GLuint fragmentShader = mmCreateShader("./res/MM_Text.fs", GL_FRAGMENT_SHADER);
 
-    glAttachShader(mmTextShaderProgram, vertexShader);
-    glAttachShader(mmTextShaderProgram, fragmentShader);
+    glAttachShader(shaderProgram, vertexShader);
+    glAttachShader(shaderProgram, fragmentShader);
 
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
 
-    glBindAttribLocation(mmTextShaderProgram, 0, "position");
-    glBindAttribLocation(mmTextShaderProgram, 1, "textCoord");
+    glBindAttribLocation(shaderProgram, 0, "position");
+    glBindAttribLocation(shaderProgram, 1, "textCoord");
 
-    glLinkProgram(mmTextShaderProgram);
-    glValidateProgram(mmTextShaderProgram);
+    glLinkProgram(shaderProgram);
+    glValidateProgram(shaderProgram);
+    mmValidateShaderProgram(shaderProgram);
 
     // ******************************************
     // CHARACTER SETUP
@@ -122,15 +123,15 @@ struct MMTextBuffer
   }
 };
 
-static void mmDrawText(const char* text, float x, float y)
+static void mmDrawText(const char* text = "mmDrawText", float x = 0, float y = 0)
 {
   if (MMDefaultTextBuffer == NULL)
     MMDefaultTextBuffer = new MMTextBuffer();
 
-  glUseProgram(mmTextShaderProgram);
   glDisable(GL_DEPTH_TEST);
+  glUseProgram(MMDefaultTextBuffer->shaderProgram);
   MMDefaultTextBuffer->texture.bind(0);
-  const GLuint loc = glGetUniformLocation(mmTextShaderProgram, "pos");
+  const GLuint loc = glGetUniformLocation(MMDefaultTextBuffer->shaderProgram, "pos");
 
   const size_t numChars = strlen(text);
   for (size_t i = 0; i < numChars; ++i)
