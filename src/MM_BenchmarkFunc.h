@@ -12,11 +12,17 @@
 static void  MM_benchmarkFuncs()
 {
   double timeStart{glfwGetTime()};
-  for (int i = 0; i < 1e7; ++i){}
+  for (int i = 0; i < 1e7; ++i)
+  {
+
+  }
   double newFuncTime{glfwGetTime()-timeStart};
 
   timeStart = glfwGetTime();
-  for (int i = 0; i < 1e7; ++i){}
+  for (int i = 0; i < 1e7; ++i)
+  {
+
+  }
   double oldFuncTime{glfwGetTime()-timeStart};
 
 

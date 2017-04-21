@@ -4,7 +4,6 @@
 /* INCLUDES */
 #include "MM_Utility.h"
 #include "MM_Shader.h"
-#include "MM_Window.h"
 #include "MM_App.h"
 #include "MM_BenchmarkFunc.h"
 

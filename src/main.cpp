@@ -1,22 +1,31 @@
 
 #include "MM.h"
-#include <thread>
 
-void loop();
-
-MM_App *app;
+MM_App app;
 GLuint shaderProgram;
 GLuint VAO, VBO;
 
+static int hue{0};
+void draw()
+{
+  if (hue++ > 360) hue = 0;
+  glm::vec3 color = MM_HSVtoRGB(hue, 1.0f, 1.0f);
+  glClearColor(color.r,color.g,color.b, 1.0f);
+  glClear(GL_COLOR_BUFFER_BIT);
+
+  glBindVertexArray(VAO);
+  glUseProgram(shaderProgram);
+  glDrawArrays(GL_TRIANGLES, 0, 3);
+}
+
 int main()
 {
-  app = new MM_App();
-  app->width = 512;
-  app->height = 512;
-  app->title = "App";
-  app->glVersion = 4.1f;
-  app->fixedFramerate = 60;
-  MM_initApp(*app);
+  app.width = 512;
+  app.height = 512;
+  app.title = "App";
+  app.glVersion = 4.1f;
+  app.fixedFramerate = 60;
+  MM_initApp(app);
 
   shaderProgram  = glCreateProgram();
   GLuint vertexShader   = MM_createShader("./res/basic.vs", GL_VERTEX_SHADER);
@@ -54,23 +63,5 @@ int main()
   glEnableVertexAttribArray(0);
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), NULL);
 
-  loop();
-
-  delete app;
-}
-
-void loop()
-{
-  uint16_t hue{0};
-  while (app->running())
-  {
-    if (hue++ > 360) hue = 0;
-    glm::vec3 color = MM_HSVtoRGB(hue, 1.0f, 1.0f);
-    glClearColor(color.r,color.g,color.b, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
-
-    glBindVertexArray(VAO);
-    glUseProgram(shaderProgram);
-    glDrawArrays(GL_TRIANGLES, 0, 3);
-  }
+  MM_startApp(app);
 }

@@ -13,7 +13,7 @@
 #include <glm/glm.hpp>
 
 #ifdef _WIN32
-  //#include "window.h"
+  #include <windows.h>
 #elif __APPLE__
   #include <ctime>
   #include <unistd.h>
@@ -24,20 +24,34 @@
 static void MM_limitFPS(uint32_t framesPerSecond, double timeStartFrame);
 static void MM_readFile(const char *file, char **buffer);
 static glm::vec3 MM_HSVtoRGB(uint16_t h, float s, float v);
+static void MM_sleepForMS(float ms);
 
 
 /* Definitions */
+static void MM_sleepForMS(float ms)
+{
+  #ifdef _WIN32
+    Sleep((DWORD)ms);
+  #elif __APPLE__
+    nanosleep((const struct timespec[]){{0, static_cast<long>(ms*1e6)}}, NULL);
+  #endif
+}
 static void MM_limitFPS(uint32_t framesPerSecond, double timeStartFrame)
 {
   double frametime = (double)(1000.0/framesPerSecond);
 
   // Frame limiter
   double timeSpentFrame{(glfwGetTime() - timeStartFrame) * 1000.0};
-  double sleepTime{(frametime-1.1) - timeSpentFrame};
+  #ifdef _WIN32
+    #define SLEEP_TIME_OFFSET 0.1
+  #elif __APPLE__
+    #define SLEEP_TIME_OFFSET 0.1
+  #endif
+  double sleepTime{(frametime-SLEEP_TIME_OFFSET) - timeSpentFrame};
   if (sleepTime > 0)
   {
   #ifdef _WIN32
-    //Sleep(timeRemainingMS);
+    Sleep((DWORD)sleepTime);
   #elif __APPLE__
     nanosleep((const struct timespec[]){{0, static_cast<long>(sleepTime*1e6)}}, NULL);
   #endif
