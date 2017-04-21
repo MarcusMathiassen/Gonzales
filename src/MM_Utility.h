@@ -21,14 +21,14 @@
 
 
 /* Declarations */
-static void MM_limitFPS(uint32_t framesPerSecond, double timeStartFrame);
-static void MM_readFile(const char *file, char **buffer);
-static glm::vec3 MM_HSVtoRGB(uint16_t h, float s, float v);
-static void MM_sleepForMS(float ms);
+static void mmLimitFPS(uint32_t framesPerSecond, double timeStartFrame);
+static void mmReadFile(const char *file, char **buffer);
+static glm::vec3 mmHSVtoRGB(uint16_t h, float s, float v);
+static void mmSleepForMS(float ms);
 
 
 /* Definitions */
-static void MM_sleepForMS(float ms)
+static void mmSleepForMS(float ms)
 {
   #ifdef _WIN32
     Sleep((DWORD)ms);
@@ -36,7 +36,7 @@ static void MM_sleepForMS(float ms)
     nanosleep((const struct timespec[]){{0, static_cast<long>(ms*1e6)}}, NULL);
   #endif
 }
-static void MM_limitFPS(uint32_t framesPerSecond, double timeStartFrame)
+static void mmLimitFPS(uint32_t framesPerSecond, double timeStartFrame)
 {
   const double frametime = (double)(1000.0/framesPerSecond);
   double timeSpentFrame{(glfwGetTime() - timeStartFrame) * 1000.0};
@@ -61,7 +61,7 @@ static void MM_limitFPS(uint32_t framesPerSecond, double timeStartFrame)
   }
 }
 
-static void MM_readFile(const char *file, char **buffer)
+static void mmReadFile(const char *file, char **buffer)
 {
   if (*buffer != NULL)
     return;
@@ -79,13 +79,14 @@ static void MM_readFile(const char *file, char **buffer)
       long buffer_size = ftell(fp);
       *buffer = (char*)calloc(buffer_size, sizeof(char));
       fseek(fp, 0L, SEEK_SET);
-      fread(*buffer, sizeof(char), buffer_size, fp);
+      size_t len = fread(*buffer, sizeof(char), buffer_size, fp);
+      buffer[len] = '\0';
     }
     fclose(fp);
   }
 }
 
-static glm::vec3 MM_HSVtoRGB(uint16_t h, float s, float v)
+static glm::vec3 mmHSVtoRGB(uint16_t h, float s, float v)
 {
   h = (h >= 360) ? 0 : h;
   const float hue{ (float)h * 0.016666f };

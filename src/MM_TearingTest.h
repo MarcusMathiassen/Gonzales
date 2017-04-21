@@ -17,8 +17,8 @@ struct TearingTest
   TearingTest()
   {
     shaderProgram  = glCreateProgram();
-    GLuint vertexShader   = MM_createShader("./res/basic.vs", GL_VERTEX_SHADER);
-    GLuint fragmentShader = MM_createShader("./res/basic.fs", GL_FRAGMENT_SHADER);
+    GLuint vertexShader   = mmCreateShader("./res/basic.vs", GL_VERTEX_SHADER);
+    GLuint fragmentShader = mmCreateShader("./res/basic.fs", GL_FRAGMENT_SHADER);
 
     glAttachShader(shaderProgram, vertexShader);
     glAttachShader(shaderProgram, fragmentShader);
@@ -57,7 +57,7 @@ struct TearingTest
   void draw()
   {
     if (hue++ > 360) hue = 0;
-    glm::vec3 color = MM_HSVtoRGB(hue, 1.0f, 1.0f);
+    glm::vec3 color = mmHSVtoRGB(hue, 1.0f, 1.0f);
     glClearColor(color.r,color.g,color.b, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 

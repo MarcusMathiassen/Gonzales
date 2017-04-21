@@ -9,13 +9,12 @@
 #include <cstdlib>
 
 /* Declarations */
-static void MM_validateShader(const char *type, GLuint shader);
-static void MM_validateShaderProgram(GLuint shaderProgram);
-static GLuint MM_createShader(const char *file, const GLenum type);
-
+static void mmValidateShader(const char *file, const char *type, GLuint shader);
+static void mmValidateShaderProgram(GLuint shaderProgram);
+static GLuint mmCreateShader(const char *file, const GLenum type);
 
 /* Definitions */
-static void MM_validateShader(const char *type, GLuint shader)
+static void mmValidateShader(const char *file, const char *type, GLuint shader)
 {
   GLchar  infoLog[512] = {0};
   GLint   success;
@@ -23,11 +22,12 @@ static void MM_validateShader(const char *type, GLuint shader)
   if (!success)
   {
     glGetShaderInfoLog(shader, sizeof(infoLog), NULL, infoLog);
+    printf("\nERROR::FILE %s\n", file);
     printf("ERROR::SHADER::%s::COMPILATION::FAILED\n\n%s", type, infoLog);
   }
 }
 
-static void MM_validateShaderProgram(GLuint shaderProgram)
+static void mmValidateShaderProgram(GLuint shaderProgram)
 {
   GLchar  infoLog[512] = {0};
   GLint   success;
@@ -39,26 +39,24 @@ static void MM_validateShaderProgram(GLuint shaderProgram)
   }
 }
 
-static GLuint MM_createShader(const char *file, const GLenum type)
+static GLuint mmCreateShader(const char *file, const GLenum type)
 {
   GLchar *source = NULL;
-  MM_readFile(file, &source);
+  mmReadFile(file, &source);
 
   GLuint shader = glCreateShader(type);
-
+  glShaderSource(shader, 1, &source, NULL);
   if (source != NULL)
     free(source);
-
-  glShaderSource(shader, 1, &source, NULL);
   glCompileShader(shader);
 
   switch (type)
   {
-    case GL_VERTEX_SHADER:    MM_validateShader("VERTEX",    shader); break;
-    case GL_FRAGMENT_SHADER:  MM_validateShader("FRAGMENT",  shader); break;
-    case GL_GEOMETRY_SHADER:  MM_validateShader("GEOMETRY",  shader); break;
+    case GL_VERTEX_SHADER:    mmValidateShader(file, "VERTEX",    shader); break;
+    case GL_FRAGMENT_SHADER:  mmValidateShader(file, "FRAGMENT",  shader); break;
+    case GL_GEOMETRY_SHADER:  mmValidateShader(file, "GEOMETRY",  shader); break;
   }
-
+  printf("Shader loaded: %s\n", file);
   return shader;
 }
 

@@ -15,10 +15,13 @@
 #define MM_DEFAULT_APP_CLEAR true
 
 /* INCLUDES */
+#include "MM_App.h"
+#include "MM_Texture.h"
 #include "MM_Utility.h"
 #include "MM_Shader.h"
 #include "MM_App.h"
 #include "MM_BenchmarkFunc.h"
 #include "MM_TearingTest.h"
+#include "MM_Text.h"
 
 #endif

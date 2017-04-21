@@ -80,6 +80,13 @@ static void mmInit(MMApp &app)
 
   glClearColor(1.0f, 0.3f, 0.3f, 1.0f);
 
+  glEnable(GL_DEPTH_TEST);
+  glEnable(GL_CULL_FACE);
+  glEnable(GL_BACK);
+
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
   if (app.framerate == 0)
     glfwSwapInterval(app.vsync);
   else
@@ -110,7 +117,7 @@ static void mmStart(const MMApp &app)
       numFrames = 0;
       ++timeSinceStart;
     }
-    MM_sleepForMS(app.refreshRateInMS);
+    mmSleepForMS(app.refreshRateInMS);
   }
 
   isRunning = false;
@@ -132,7 +139,7 @@ static void mmInternalDrawLoop(const MMApp &app)
     ++numFrames;
     draw();
     if (app.framerate > 0)
-      MM_limitFPS(app.framerate, timeStartFrame-timeSpentSwapBuffer);
+      mmLimitFPS(app.framerate, timeStartFrame-timeSpentSwapBuffer);
 
     double timeStartSwapBuffer{glfwGetTime()};
     glfwSwapBuffers(app.window);
