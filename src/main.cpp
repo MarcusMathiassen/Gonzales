@@ -10,13 +10,14 @@ int main()
   mmInit(app);
 
   test = new TearingTest();
-
+  
   mmStart(app);
+
   delete test;
 }
 
 void draw()
 {
-  test->draw();
+  //test->draw();
   mmDrawText();
 }

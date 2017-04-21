@@ -10,7 +10,7 @@
 
 /* Declarations */
 static void mmValidateShader(const char *file, const char *type, GLuint shader);
-static void mmValidateShaderProgram(GLuint shaderProgram);
+static void mmValidateShaderProgram(const char* name, GLuint shaderProgram);
 static GLuint mmCreateShader(const char *file, const GLenum type);
 
 /* Definitions */
@@ -27,15 +27,16 @@ static void mmValidateShader(const char *file, const char *type, GLuint shader)
   }
 }
 
-static void mmValidateShaderProgram(GLuint shaderProgram)
+static void mmValidateShaderProgram(const char* name, GLuint shaderProgram)
 {
   GLchar  infoLog[512] = {0};
   GLint   success;
-  glGetShaderiv(shaderProgram, GL_LINK_STATUS, &success);
+  glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
   if (!success)
   {
     glGetShaderInfoLog(shaderProgram, sizeof(infoLog), NULL, infoLog);
-    printf("ERROR::SHADER::PROGRAM::LINKING::FAILED\n\n%s", infoLog);
+    printf("\nERROR::SHADER::PROGRAM::%s::LINKING::FAILED\n\n%s",name, infoLog);
+
   }
 }
 

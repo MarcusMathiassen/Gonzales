@@ -30,7 +30,7 @@ struct TearingTest
 
     glLinkProgram(shaderProgram);
     glValidateProgram(shaderProgram);
-    mmValidateShaderProgram(shaderProgram);
+    mmValidateShaderProgram("TearingTest",shaderProgram);
 
 
     GLfloat vertices[] =

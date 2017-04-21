@@ -11,6 +11,8 @@
 #include "MM_Shader.h"
 #include "MM_Texture.h"
 
+#include <cstring>
+
 #define MM_DIST_BETW_CHAR 0.030f
 #define MM_CHAR_SIZE 0.0625f
 
@@ -25,63 +27,46 @@ static void mmDrawText(const char* text, float x, float y);
 struct MMCharacter
 {
   enum { POSITION, UV, INDEX, NUM_BUFFERS };
-  GLuint VAO, VBO[NUM_BUFFERS];
+  GLuint VAO{0}, VBO[NUM_BUFFERS]{0};
   void draw() const
   {
     glBindVertexArray(VAO);
-    glDrawElements( GL_TRIANGLES,     // type
-                    4,                // num vertices
-                    GL_UNSIGNED_BYTE, // indicies type
-                    indices);         // pointer to indices
+    glDrawElements( GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, NULL);
   }
 
   MMCharacter(float x = 0, float y = 0)
   {
-    constexpr GLfloat positions[] = { 0.0f,         0.0f,         // lower left
-                                      0.0f,         MM_CHAR_SIZE, // upper left
-                                      MM_CHAR_SIZE, MM_CHAR_SIZE, // upper right
-                                      0.0f,         MM_CHAR_SIZE  // lower right
+    constexpr GLfloat positions[] = { 0.0f,         0.0f,
+                                      0.0f,         MM_CHAR_SIZE,
+                                      MM_CHAR_SIZE, MM_CHAR_SIZE,
+                                      0.0f,         MM_CHAR_SIZE
                                     };
-
     const GLfloat uv[] =  { x,                y,
                             x,                y + MM_CHAR_SIZE,
                             x + MM_CHAR_SIZE, y + MM_CHAR_SIZE,
                             x + MM_CHAR_SIZE, y
                           };
-
+    
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
-
+    
     glGenBuffers(NUM_BUFFERS, VBO);
 
     // POSITION
     glBindBuffer( GL_ARRAY_BUFFER, VBO[POSITION] );
-    glBufferData( GL_ARRAY_BUFFER,
-                  4*sizeof(GLfloat),
-                  &positions[0],
-                  GL_STATIC_DRAW
-                );
-
+    glBufferData( GL_ARRAY_BUFFER, 4*sizeof(GLfloat), positions, GL_STATIC_DRAW );
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0);
-
+  
     // UV
     glBindBuffer( GL_ARRAY_BUFFER, VBO[UV] );
-    glBufferData( GL_ARRAY_BUFFER,
-                  4*sizeof(GLfloat),
-                  &uv[0],
-                  GL_STATIC_DRAW
-                );
-
+    glBufferData( GL_ARRAY_BUFFER, 4*sizeof(GLfloat), uv, GL_STATIC_DRAW );
     glEnableVertexAttribArray(1);
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
     // INDEX
     glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, VBO[INDEX] );
-    glBufferData( GL_ELEMENT_ARRAY_BUFFER,
-                  6*sizeof(GLubyte),
-                  &indices[0],
-                  GL_STATIC_DRAW);
+    glBufferData( GL_ELEMENT_ARRAY_BUFFER, 6*sizeof(GLubyte), indices, GL_STATIC_DRAW);
   }
 };
 
@@ -107,16 +92,10 @@ struct MMTextBuffer
 
     glLinkProgram(shaderProgram);
     glValidateProgram(shaderProgram);
-    mmValidateShaderProgram(shaderProgram);
+    mmValidateShaderProgram("MMText", shaderProgram);
 
-    // ******************************************
-    // CHARACTER SETUP
     // Using the ASCII code of each character up to 126
     // lets us do this: character['A' - 32] = 'A'
-    // ******************************************
-    // @CLEANUP: if it start with [32 + 16 * y*x] you'll get a cleaner syntax
-    //        ala character['A'] = 'A'. Spares us a magic number.
-    //        Need a bigger characterbuffer tho.
     for (uint8_t y = 0; y < 16; ++y)
       for (uint8_t x = 0; x < 16; ++x)
         character[16 * y+x] = MMCharacter(x*MM_CHAR_SIZE, y*MM_CHAR_SIZE);
@@ -128,7 +107,7 @@ static void mmDrawText(const char* text = "mmDrawText", float x = 0, float y = 0
   if (MMDefaultTextBuffer == NULL)
     MMDefaultTextBuffer = new MMTextBuffer();
 
-  glDisable(GL_DEPTH_TEST);
+  //glDisable(GL_DEPTH_TEST);
   glUseProgram(MMDefaultTextBuffer->shaderProgram);
   MMDefaultTextBuffer->texture.bind(0);
   const GLuint loc = glGetUniformLocation(MMDefaultTextBuffer->shaderProgram, "pos");
