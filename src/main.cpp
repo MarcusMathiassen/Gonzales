@@ -5,6 +5,7 @@ int main()
 {
   MMApp app;
   mmInit(app);
+  
   mmStart(app);
 }
 

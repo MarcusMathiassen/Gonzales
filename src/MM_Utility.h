@@ -79,8 +79,7 @@ static void mmReadFile(const char *file, char **buffer)
       long buffer_size = ftell(fp);
       *buffer = (char*)calloc(buffer_size, sizeof(char));
       fseek(fp, 0L, SEEK_SET);
-      size_t len = fread(*buffer, sizeof(char), buffer_size, fp);
-      buffer[len] = '\0';
+      fread(*buffer, sizeof(char), buffer_size, fp);
     }
     fclose(fp);
   }

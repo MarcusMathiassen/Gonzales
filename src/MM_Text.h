@@ -20,13 +20,13 @@ struct MMTextBuffer;
 
 static MMTextBuffer *MMDefaultTextBuffer = NULL;
 static GLuint shaderProgram;
+constexpr static GLubyte indices[]{0,1,2, 0,2,3};
 
 static void mmDrawText(const char* text, float x, float y);
 
 struct MMCharacter
 {
-  constexpr static GLubyte indices[] = {0,1,2, 0,2,3};
-  constexpr enum { POSITION, UV, INDEX, NUM_BUFFERS };
+  enum { POSITION, UV, INDEX, NUM_BUFFERS };
   GLuint VAO, VBO[NUM_BUFFERS];
   void draw() const
   {
