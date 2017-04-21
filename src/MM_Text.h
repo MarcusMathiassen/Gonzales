@@ -11,7 +11,6 @@
 #include "MM_Shader.h"
 #include "MM_Texture.h"
 
-
 #define MM_DIST_BETW_CHAR 0.030f
 #define MM_CHAR_SIZE 0.0625f
 
@@ -19,7 +18,7 @@ struct MMCharacter;
 struct MMTextBuffer;
 
 static MMTextBuffer *MMDefaultTextBuffer = NULL;
-static GLuint shaderProgram;
+static GLuint mmTextShaderProgram;
 constexpr static GLubyte indices[]{0,1,2, 0,2,3};
 
 static void mmDrawText(const char* text, float x, float y);
@@ -93,21 +92,21 @@ struct MMTextBuffer
   MMCharacter         character[256];
   MMTextBuffer()
   {
-    shaderProgram = glCreateProgram();
+    mmTextShaderProgram = glCreateProgram();
     GLuint vertexShader   = mmCreateShader("./res/MM_Text.vs", GL_VERTEX_SHADER);
     GLuint fragmentShader = mmCreateShader("./res/MM_Text.fs", GL_FRAGMENT_SHADER);
 
-    glAttachShader(shaderProgram, vertexShader);
-    glAttachShader(shaderProgram, fragmentShader);
+    glAttachShader(mmTextShaderProgram, vertexShader);
+    glAttachShader(mmTextShaderProgram, fragmentShader);
 
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
 
-    glBindAttribLocation(shaderProgram, 0, "position");
-    glBindAttribLocation(shaderProgram, 1, "textCoord");
+    glBindAttribLocation(mmTextShaderProgram, 0, "position");
+    glBindAttribLocation(mmTextShaderProgram, 1, "textCoord");
 
-    glLinkProgram(shaderProgram);
-    glValidateProgram(shaderProgram);
+    glLinkProgram(mmTextShaderProgram);
+    glValidateProgram(mmTextShaderProgram);
 
     // ******************************************
     // CHARACTER SETUP
@@ -128,10 +127,10 @@ static void mmDrawText(const char* text, float x, float y)
   if (MMDefaultTextBuffer == NULL)
     MMDefaultTextBuffer = new MMTextBuffer();
 
-  glUseProgram(shaderProgram);
+  glUseProgram(mmTextShaderProgram);
   glDisable(GL_DEPTH_TEST);
   MMDefaultTextBuffer->texture.bind(0);
-  const GLuint loc = glGetUniformLocation(shaderProgram, "pos");
+  const GLuint loc = glGetUniformLocation(mmTextShaderProgram, "pos");
 
   const size_t numChars = strlen(text);
   for (size_t i = 0; i < numChars; ++i)

@@ -12,7 +12,6 @@ in Vertex
 
 void main()
 {
-  vec4 text = texture(diffuse, frag.textCoord, 0);
-
-  fragColor = vec4(1,1,1,1); // frag.color;
+  vec4 character = texture(diffuse, frag.textCoord, 0);
+  fragColor = character * vec4(1,1,1,1);
 }

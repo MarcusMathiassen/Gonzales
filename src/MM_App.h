@@ -17,10 +17,11 @@
 
 /* Declarations */
 struct MMApp;
+
+void draw(); // users drawloop
 static void mmInit(MMApp &app);
 static void mmStart(const MMApp &app);
 static void mmInternalDrawLoop(const MMApp &app);
-void draw();
 
 static std::atomic<bool> isRunning{true};
 static double timeSinceStart{0.0};

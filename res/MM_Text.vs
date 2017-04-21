@@ -15,6 +15,7 @@ out Vertex
 void main()
 {
   float inverseAspectRatio = 1.0 / (viewport.x / viewport.y);
-  gl_Position = vec4(position.x * inverseAspectRatio, position.y, 0.0, 1.0);
+  vec2 fPos = vec2(position.x * inverseAspectRatio, position.y);
+  gl_Position =  vec4(fPos+pos, -1.0, 1.0);
   vertex.textCoord = textCoord;
 }
