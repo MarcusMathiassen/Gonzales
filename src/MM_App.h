@@ -16,10 +16,10 @@
 #include <GLFW/glfw3.h>
 
 /* Declarations */
-struct MM_App;
-static void MM_initApp(MM_App &app);
-static void MM_startApp(const MM_App &app);
-static void drawLoop(const MM_App &app);
+struct MMApp;
+static void mmInit(MMApp &app);
+static void mmStart(const MMApp &app);
+static void mmInternalDrawLoop(const MMApp &app);
 void draw();
 
 static std::atomic<bool> isRunning{true};
@@ -30,26 +30,33 @@ static std::atomic<uint32_t> numFrames{0};
 static std::atomic<double> deltaTime{16.666666f};
 
 /* Definitions */
-struct MM_App
+struct MMApp
 {
   GLFWwindow *window{NULL};
-  uint16_t width{512}, height{512};
-  std::string title{"Default title"};
-  float glVersion{2.1f};
 
-  uint32_t fixedFramerate{60};
-  float refreshRateInMS{60.0f};
-  float fixedFrametime{1000.0f/fixedFramerate};
+  uint16_t width                    { MM_DEFAULT_APP_WIDTH };
+  uint16_t height                   { MM_DEFAULT_APP_HEIGHT };
+
+  std::string   title               { MM_DEFAULT_APP_TITLE }; // @TODO: change to const char*
+  float         openGLVersion       { MM_DEFAULT_GL_VERSION };
+
+  uint32_t      framerate           { 0 };
+  float         refreshRateInMS     { 60.0f };
+  float         fixedFrametime      { 0.0f };
+  uint8_t       vsync               { MM_VSYNC_ON };
+
+  bool          noClear             { MM_DEFAULT_APP_CLEAR };
 };
 
-static void MM_initApp(MM_App &app)
+static void mmInit(MMApp &app)
 {
-  app.fixedFrametime = 1000.0f/app.fixedFramerate;
+  if (app.framerate > 0)
+    app.fixedFrametime = 1000.0f/app.framerate;
 
   glfwInit();
 
-  const int gl_major = (int)std::floor(app.glVersion);
-  const int gl_minor = (int)((app.glVersion - gl_major)*10.00001f);
+  const int gl_major = (int)std::floor(app.openGLVersion);
+  const int gl_minor = (int)((app.openGLVersion - gl_major)*10.00001f);
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, gl_major);
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, gl_minor);
 
@@ -64,7 +71,7 @@ static void MM_initApp(MM_App &app)
 
   int count;
   const GLFWvidmode* modes = glfwGetVideoModes( glfwGetPrimaryMonitor(), &count);
-  app.refreshRateInMS = 1000.0f/(modes->refreshRate*2);
+  app.refreshRateInMS = 1000.0f/(modes->refreshRate);
 
   if (gl_major > 2)
     glewExperimental = GL_TRUE;
@@ -73,7 +80,10 @@ static void MM_initApp(MM_App &app)
 
   glClearColor(1.0f, 0.3f, 0.3f, 1.0f);
 
-  glfwSwapInterval(0);
+  if (app.framerate == 0)
+    glfwSwapInterval(app.vsync);
+  else
+    glfwSwapInterval(0);
 
 #ifdef MM_DEBUG
   std::cout << glGetString(GL_VERSION) << '\n';
@@ -82,10 +92,10 @@ static void MM_initApp(MM_App &app)
 #endif
 }
 
-static void MM_startApp(const MM_App &app)
+static void mmStart(const MMApp &app)
 {
   glfwMakeContextCurrent(NULL);
-  std::thread drawThread(drawLoop, app);
+  std::thread drawThread(mmInternalDrawLoop, app);
 
   timeSinceStart = glfwGetTime();
   while(!glfwWindowShouldClose(app.window) &&
@@ -109,17 +119,25 @@ static void MM_startApp(const MM_App &app)
   glfwTerminate();
 }
 
-static void drawLoop(const MM_App &app)
+static void mmInternalDrawLoop(const MMApp &app)
 {
+  double timeSpentSwapBuffer{0.0};
   glfwSetTime(0.0);
   glfwMakeContextCurrent(app.window);
   while(isRunning)
   {
     double timeStartFrame{ glfwGetTime() };
+    if (app.noClear)
+      glClear(GL_COLOR_BUFFER_BIT);
     ++numFrames;
     draw();
-    MM_limitFPS(app.fixedFramerate, timeStartFrame);
+    if (app.framerate > 0)
+      MM_limitFPS(app.framerate, timeStartFrame-timeSpentSwapBuffer);
+
+    double timeStartSwapBuffer{glfwGetTime()};
     glfwSwapBuffers(app.window);
+    timeSpentSwapBuffer = glfwGetTime() - timeStartSwapBuffer;
+
     deltaTime = (glfwGetTime() - timeStartFrame)*1000.0;
   }
   glfwMakeContextCurrent(NULL);
