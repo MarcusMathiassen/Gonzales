@@ -39,17 +39,19 @@ static void MM_sleepForMS(float ms)
 static void MM_limitFPS(uint32_t framesPerSecond, double timeStartFrame)
 {
   double frametime = (double)(1000.0/framesPerSecond);
+  int s=0,b=0;
 
   // Frame limiter
   double timeSpentFrame{(glfwGetTime() - timeStartFrame) * 1000.0};
   #ifdef _WIN32
-    #define SLEEP_TIME_OFFSET 0.1
+    #define SLEEP_TIME_OFFSET 2.0
   #elif __APPLE__
-    #define SLEEP_TIME_OFFSET 0.1
+    #define SLEEP_TIME_OFFSET 1.0
   #endif
   double sleepTime{(frametime-SLEEP_TIME_OFFSET) - timeSpentFrame};
   if (sleepTime > 0)
   {
+    s++;
   #ifdef _WIN32
     Sleep((DWORD)sleepTime);
   #elif __APPLE__
@@ -57,10 +59,12 @@ static void MM_limitFPS(uint32_t framesPerSecond, double timeStartFrame)
   #endif
     while (timeSpentFrame < frametime)
     {
+      b++;
       /* Spinlock the leftovers */
       timeSpentFrame = (glfwGetTime() - timeStartFrame) * 1000.0;
     }
   }
+  //printf("s: %d b: %d\n",s,b );
 }
 
 static void MM_readFile(const char *file, char **buffer)

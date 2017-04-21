@@ -19,7 +19,7 @@
 struct MM_App;
 static void MM_initApp(MM_App &app);
 static void MM_startApp(const MM_App &app);
-static void drawLoop(MM_App &app);
+static void drawLoop(const MM_App &app);
 void draw();
 
 static std::atomic<bool> isRunning{true};
@@ -27,7 +27,7 @@ static double timeSinceStart{0.0};
 
 static uint32_t currentFPS{60};
 static std::atomic<uint32_t> numFrames{0};
-static std::atomic<float> deltaTime{16.666666f};
+static std::atomic<double> deltaTime{16.666666f};
 
 /* Definitions */
 struct MM_App
@@ -85,11 +85,11 @@ static void MM_initApp(MM_App &app)
 static void MM_startApp(const MM_App &app)
 {
   glfwMakeContextCurrent(NULL);
-  std::thread drawThread = std::thread(drawLoop, app);
+  std::thread drawThread(drawLoop, app);
 
   timeSinceStart = glfwGetTime();
   while(!glfwWindowShouldClose(app.window) &&
-        !glfwGetKey(app.window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+        !(glfwGetKey(app.window, GLFW_KEY_ESCAPE) == GLFW_PRESS))
   {
     glfwPollEvents();
     double timeStartFrame{ glfwGetTime() };
@@ -109,8 +109,9 @@ static void MM_startApp(const MM_App &app)
   glfwTerminate();
 }
 
-static void drawLoop(MM_App &app)
+static void drawLoop(const MM_App &app)
 {
+  glfwSetTime(0.0);
   glfwMakeContextCurrent(app.window);
   while(isRunning)
   {
@@ -118,8 +119,8 @@ static void drawLoop(MM_App &app)
     ++numFrames;
     draw();
     MM_limitFPS(app.fixedFramerate, timeStartFrame);
-    deltaTime = (float)((glfwGetTime() - timeStartFrame)*1000.0f);
     glfwSwapBuffers(app.window);
+    deltaTime = (glfwGetTime() - timeStartFrame)*1000.0;
   }
   glfwMakeContextCurrent(NULL);
 }

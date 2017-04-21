@@ -13,9 +13,12 @@ void draw()
   glClearColor(color.r,color.g,color.b, 1.0f);
   glClear(GL_COLOR_BUFFER_BIT);
 
+  float x = sin(glfwGetTime());
+
   glBindVertexArray(VAO);
   glUseProgram(shaderProgram);
-  glDrawArrays(GL_TRIANGLES, 0, 3);
+  glUniform2f(glGetUniformLocation(shaderProgram, "pos"),x,0);
+  glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 }
 
 int main()
@@ -44,9 +47,10 @@ int main()
 
   GLfloat vertices[] =
   {
-    -0.5f, -0.5f,
-     0.0f,  0.5f,
-     0.5f, -0.5f,
+    -0.02f,    -1.0f,
+    -0.02f,     1.0f,
+     0.02f,     1.0f,
+     0.02f,    -1.0f,
   };
 
   glGenVertexArrays(1, &VAO);
@@ -61,7 +65,7 @@ int main()
               );
 
   glEnableVertexAttribArray(0);
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), NULL);
+  glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), NULL);
 
   MM_startApp(app);
 }
