@@ -52,7 +52,7 @@ static void drop_callback(GLFWwindow* window, int count, const char** paths)
 
 static void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
-  glViewport(0,0,width,height);
+
   std::cout << "screen: " << width << "x" << height << '\n';
 }
 

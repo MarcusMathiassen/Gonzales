@@ -14,18 +14,16 @@
 #include <cstring>
 
 #define MM_DIST_BETW_CHAR 0.030f
-#define MM_CHAR_SIZE 0.0625f
+#define MM_FONT_CHAR_SIZE 0.0625f
 
 struct MMCharacter;
 struct MMTextBuffer;
-
 static MMTextBuffer *MMDefaultTextBuffer = NULL;
-
 static void mmDrawText(const char* text, float x, float y);
 
 struct MMCharacter
 {
-  static GLubyte indices[];
+  static constexpr GLubyte indices[]{0,1,2, 0,2,3};
   enum { POSITION, UV, INDEX, NUM_BUFFERS };
   GLuint VAO{0}, VBO[NUM_BUFFERS]{0};
   void draw() const
@@ -36,17 +34,21 @@ struct MMCharacter
 
   MMCharacter(float x = 0, float y = 0)
   {
-    constexpr GLfloat positions[] = { 0.0f,             MM_CHAR_SIZE,
-                                      0.0f,             0.0f,
-                                      MM_CHAR_SIZE,     0.0f,
-                                      MM_CHAR_SIZE,     MM_CHAR_SIZE,
-                                    };
+    constexpr GLfloat positions[] =
+    {
+      0.0f,                 MM_FONT_CHAR_SIZE,
+      0.0f,                 0.0f,
+      MM_FONT_CHAR_SIZE,    0.0f,
+      MM_FONT_CHAR_SIZE,    MM_FONT_CHAR_SIZE,
+    };
 
-    const GLfloat uv[] =            { x,                y,
-                                      x,                y + MM_CHAR_SIZE,
-                                      x + MM_CHAR_SIZE, y + MM_CHAR_SIZE,
-                                      x + MM_CHAR_SIZE, y,
-                                    };
+    const GLfloat uv[] =
+    {
+      x,                     y,
+      x,                     y + MM_FONT_CHAR_SIZE,
+      x + MM_FONT_CHAR_SIZE, y + MM_FONT_CHAR_SIZE,
+      x + MM_FONT_CHAR_SIZE, y,
+    };
 
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
@@ -70,14 +72,13 @@ struct MMCharacter
     glBufferData( GL_ELEMENT_ARRAY_BUFFER, 6*sizeof(GLubyte), indices, GL_STATIC_DRAW);
   }
 };
-GLubyte MMCharacter::indices[]{0,1,2, 0,2,3};
 
 struct MMTextBuffer
 {
   GLuint              shaderProgram;
-  MMTexture           texture{"./res/MM_TextAtlas.png", GL_LINEAR};
-  MMCharacter         character[256];
-  MMTextBuffer()
+  MMTexture           texture;
+  MMCharacter         character[256]; 
+  MMTextBuffer(const char* fontAtlas, GLfloat filtering) : texture{fontAtlas, filtering}
   {
     shaderProgram = glCreateProgram();
     GLuint vertexShader   = mmCreateShader("./res/MM_Text.vs", GL_VERTEX_SHADER);
@@ -100,14 +101,18 @@ struct MMTextBuffer
     // lets us do this: character['A' - 32] = 'A'
     for (uint8_t y = 0; y < 16; ++y)
       for (uint8_t x = 0; x < 16; ++x)
-        character[16 * y+x] = MMCharacter(x*MM_CHAR_SIZE, y*MM_CHAR_SIZE);
+        character[16 * y+x] = MMCharacter(x*MM_FONT_CHAR_SIZE, y*MM_FONT_CHAR_SIZE);
+  }
+  ~MMTextBuffer()
+  {
+    glDeleteProgram(shaderProgram);
   }
 };
 
 static void mmDrawText(const char* text = "mmDrawText", float x = 0, float y = 0)
 {
   if (MMDefaultTextBuffer == NULL)
-    MMDefaultTextBuffer = new MMTextBuffer();
+    MMDefaultTextBuffer = new MMTextBuffer("./res/MM_fontAtlas.png", GL_LINEAR);
 
   glDisable(GL_DEPTH_TEST);
   glUseProgram(MMDefaultTextBuffer->shaderProgram);

@@ -42,15 +42,15 @@ struct MMApp
 
   bool          noClear             { MM_DEFAULT_APP_CLEAR };
 
-  static std::atomic<bool> isRunning;
-  static double timeSinceStart;
-  static uint32_t currentFPS;
-  static std::atomic<double> deltaTime;
+  static std::atomic<bool>    isRunning;
+  static double               timeSinceStart;
+  static uint32_t             currentFPS;
+  static std::atomic<double>  deltaTime;
 };
 
-uint32_t MMApp::currentFPS{60};
-double MMApp::timeSinceStart{0.0};
-std::atomic<bool> MMApp::isRunning{true};
+uint32_t            MMApp::currentFPS{60};
+double              MMApp::timeSinceStart{0.0};
+std::atomic<bool>   MMApp::isRunning{true};
 std::atomic<double> MMApp::deltaTime{16.666666f};
 
 static void mmInit(MMApp &app)
@@ -85,10 +85,6 @@ static void mmInit(MMApp &app)
 
   glClearColor(1.0f, 0.3f, 0.3f, 1.0f);
 
-  //glEnable(GL_DEPTH_TEST);
-  //glEnable(GL_CULL_FACE);
-  //glEnable(GL_BACK);
-
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -116,9 +112,10 @@ static void mmStart(const MMApp &app)
         !(glfwGetKey(app.window, GLFW_KEY_ESCAPE) == GLFW_PRESS))
   {
     glfwPollEvents();
-    double timeStartFrame{ glfwGetTime() };
+    const double timeStartFrame{ glfwGetTime() };
     if (timeStartFrame - app.timeSinceStart >= 1.0)
     {
+      app.currentFPS = (uint32_t)(1000.0f/(float)app.deltaTime);
       printf("%dfps %0.03fms\n", app.currentFPS, (float)app.deltaTime);
       ++app.timeSinceStart;
     }
@@ -138,19 +135,18 @@ static void mmInternalDrawLoop(const MMApp &app)
   glfwMakeContextCurrent(app.window);
   while(app.isRunning)
   {
-    double timeStartFrame{ glfwGetTime() };
+    const double timeStartFrame{ glfwGetTime() };
     if (app.noClear)
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     draw();
     if (app.framerate > 0)
       mmLimitFPS(app.framerate, timeStartFrame-timeSpentSwapBuffer);
 
-    double timeStartSwapBuffer{glfwGetTime()};
+    const double timeStartSwapBuffer{glfwGetTime()};
     glfwSwapBuffers(app.window);
     timeSpentSwapBuffer = glfwGetTime() - timeStartSwapBuffer;
 
     app.deltaTime = (glfwGetTime() - timeStartFrame)*1000.0;
-    app.currentFPS = (1000.0f/(float)app.deltaTime)+0.1;
   }
   glfwMakeContextCurrent(NULL);
 }

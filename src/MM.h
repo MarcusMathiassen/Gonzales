@@ -1,9 +1,6 @@
 #ifndef _MM_H_
 #define _MM_H_
 
-#define STB_IMAGE_IMPLEMENTATION
-
-
 #define MM_DEBUG
 
 /*  APP MACROS   */
