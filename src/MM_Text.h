@@ -23,7 +23,7 @@ struct MMTextBuffer;
 static MMTextBuffer *MMDefaultTextBuffer = NULL;
 
 template<typename T>
-static void mmDrawText(const T& t, float x = 0, float y = 0);
+static void mmDrawText(const T& t, float x, float y);
 
 struct MMCharacter
 {
@@ -125,18 +125,14 @@ static void mmDrawText(const T& t, float x, float y)
   const GLuint loc = glGetUniformLocation(MMDefaultTextBuffer->shaderProgram, "pos");
 
   std::string text;
-  if constexpr (std::is_same<std::string, T>::value)
-    text = t;
-  else if constexpr (std::is_same<char*, T>::value)
-    text = t;
-  else
-    text = std::to_string(t);
+  if constexpr (std::is_same<std::string, T>::value)  text = t;
+  else if constexpr (std::is_array<T>::value)   text = t;
+  else                                                text = std::to_string(t);
 
   const auto numChars = text.length();
   for (size_t i = 0; i < numChars; ++i)
   {
-    if (text[i] == ' ') // dont draw space
-      continue;
+    if (text[i] == ' ') continue;
     glUniform2f(loc, x+MM_DIST_BETW_CHAR*i, y);
     MMDefaultTextBuffer->character[(int)text[i] - 32].draw();
   }
