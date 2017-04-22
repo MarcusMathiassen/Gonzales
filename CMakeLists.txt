@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.6.2)
 project(app)
 
 # Compiler flags
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 
 SET(CMAKE_CXX_FLAGS "-O3 -Wall -Wextra -Wno-unused-function")
 

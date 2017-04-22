@@ -2,6 +2,8 @@
 #include "MM.h"
 
 #include <cstring>
+#include <string>
+#include <sstream>
 
 TearingTest *test;
 MMApp app;
@@ -9,8 +11,8 @@ MMApp app;
 int main()
 {
   app.openGLVersion = 4.1f;
-  app.width = 1024;
-  app.height = 1024;
+  app.width = 512;
+  app.height = 512;
   mmInit(app);
 
   test = new TearingTest;
@@ -24,8 +26,8 @@ void draw()
 {
   test->draw();
 
-  mmDrawText("@Marcus Mathiassen", -1, -1);
-
+  std::stringstream ss;
+  ss << app.currentFPS << "fps " << (float)app.deltaTime << "ms";
   sprintf (buffer, "%dfps %0.3fms", app.currentFPS, (float)app.deltaTime);
-  mmDrawText(buffer, -1.0f, 0.9f);
+  mmDrawText(ss.str(), -1.0f, 0.9f);
 }

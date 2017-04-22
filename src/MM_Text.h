@@ -11,6 +11,8 @@
 #include "MM_Shader.h"
 #include "MM_Texture.h"
 
+#include <type_traits>
+#include <iostream>
 #include <cstring>
 
 #define MM_DIST_BETW_CHAR 0.030f
@@ -19,7 +21,9 @@
 struct MMCharacter;
 struct MMTextBuffer;
 static MMTextBuffer *MMDefaultTextBuffer = NULL;
-static void mmDrawText(const char* text, float x, float y);
+
+template<typename T>
+static void mmDrawText(const T& t, float x = 0, float y = 0);
 
 struct MMCharacter
 {
@@ -77,7 +81,7 @@ struct MMTextBuffer
 {
   GLuint              shaderProgram;
   MMTexture           texture;
-  MMCharacter         character[256]; 
+  MMCharacter         character[256];
   MMTextBuffer(const char* fontAtlas, GLfloat filtering) : texture{fontAtlas, filtering}
   {
     shaderProgram = glCreateProgram();
@@ -109,7 +113,8 @@ struct MMTextBuffer
   }
 };
 
-static void mmDrawText(const char* text = "mmDrawText", float x = 0, float y = 0)
+template<typename T>
+static void mmDrawText(const T& t, float x, float y)
 {
   if (MMDefaultTextBuffer == NULL)
     MMDefaultTextBuffer = new MMTextBuffer("./res/MM_fontAtlas.png", GL_LINEAR);
@@ -119,7 +124,15 @@ static void mmDrawText(const char* text = "mmDrawText", float x = 0, float y = 0
   MMDefaultTextBuffer->texture.bind(0);
   const GLuint loc = glGetUniformLocation(MMDefaultTextBuffer->shaderProgram, "pos");
 
-  const size_t numChars = strlen(text);
+  std::string text;
+  if constexpr (std::is_same<std::string, T>::value)
+    text = t;
+  else if constexpr (std::is_same<char*, T>::value)
+    text = t;
+  else
+    text = std::to_string(t);
+
+  const auto numChars = text.length();
   for (size_t i = 0; i < numChars; ++i)
   {
     if (text[i] == ' ') // dont draw space
