@@ -55,3 +55,7 @@ endif()
 add_executable(${PROJECT_NAME} ${SOURCES})
 target_link_libraries(${PROJECT_NAME} glew ${CMAKE_CURRENT_SOURCE_DIR}/lib/GL/libGLEW.a)
 target_link_libraries(${PROJECT_NAME} glfw ${CMAKE_CURRENT_SOURCE_DIR}/lib/GLFW/libglfw3.a)
+
+# add_library(mm STATIC ${SOURCES})
+# target_link_libraries(mm glew ${CMAKE_CURRENT_SOURCE_DIR}/lib/GL/libGLEW.a)
+# target_link_libraries(mm glfw ${CMAKE_CURRENT_SOURCE_DIR}/lib/GLFW/libglfw3.a)

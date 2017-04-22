@@ -94,7 +94,7 @@ static void mmReadFile(const char *file, char **buffer)
 
   FILE *fp;
   #ifdef _WIN32
-  if (fopen_s(&fp, file, "rb") == 0)
+    if (fopen_s(&fp, file, "rb") == 0)
   #else
     fp = fopen(file, "rb");
     if (fp != NULL)
@@ -111,7 +111,11 @@ static void mmReadFile(const char *file, char **buffer)
   }
 }
 
-static constexpr glm::vec3 mmHSVtoRGB(uint16_t h, float s, float v)
+#ifdef _WIN32 // visual studio didnt like constexpr here
+  static glm::vec3 mmHSVtoRGB(uint16_t h, float s, float v)
+#else // everyone else likes it
+  static constexpr glm::vec3 mmHSVtoRGB(uint16_t h, float s, float v)
+#endif
 {
   h = (h >= 360) ? 0 : h;
   const float hue{ (float)h * 0.016666f };
