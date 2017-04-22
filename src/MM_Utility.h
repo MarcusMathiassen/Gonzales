@@ -19,15 +19,31 @@
   #include <unistd.h>
 #endif
 
-
 /* Declarations */
 static void mmLimitFPS(uint32_t framesPerSecond, double timeStartFrame);
 static void mmReadFile(const char *file, char **buffer);
 static glm::vec3 mmHSVtoRGB(uint16_t h, float s, float v);
+static void mmSleepForSec(float sec);
 static void mmSleepForMS(float ms);
-
+static bool mmWaitForSec(float sec);
 
 /* Definitions */
+static float timeToWait;
+static bool waited{false};
+static bool mmWaitForSec(float timeSinceStart, float sec)
+{
+  if (!waited)
+  {
+    waited = true;
+    timeToWait = timeSinceStart + sec;
+  }
+  if (glfwGetTime() < timeToWait)
+    return false;
+
+  waited=false;
+  return true;
+}
+
 static void mmSleepForMS(float ms)
 {
   #ifdef _WIN32
@@ -36,6 +52,16 @@ static void mmSleepForMS(float ms)
     nanosleep((const struct timespec[]){{0, static_cast<long>(ms*1e6)}}, NULL);
   #endif
 }
+
+static void mmSleepForSec(float sec)
+{
+  #ifdef _WIN32
+    Sleep((DWORD)(1000.0/sec));
+  #elif __APPLE__
+    nanosleep((const struct timespec[]){{0, static_cast<long>((1000.0/sec)*1e6)}}, NULL);
+  #endif
+}
+
 static void mmLimitFPS(uint32_t framesPerSecond, double timeStartFrame)
 {
   const double frametime = (double)(1000.0/framesPerSecond);
@@ -43,14 +69,14 @@ static void mmLimitFPS(uint32_t framesPerSecond, double timeStartFrame)
   #ifdef _WIN32
     #define SLEEP_TIME_OFFSET 1.0
   #elif __APPLE__
-    #define SLEEP_TIME_OFFSET 1.0
+    #define SLEEP_TIME_OFFSET 2.0
   #endif
   const double sleepTime{(frametime-SLEEP_TIME_OFFSET) - timeSpentFrame};
   if (sleepTime > 0)
   {
   #ifdef _WIN32
     Sleep((DWORD)sleepTime);
-  #elif __APPLE__
+  #elif __APPLE__ // @TODO: fix unix sleep. Very unstable compared to WIN32
     nanosleep((const struct timespec[]){{0, static_cast<long>(sleepTime*1e6)}}, NULL);
   #endif
     while (timeSpentFrame < frametime)

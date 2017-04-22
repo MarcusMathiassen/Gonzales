@@ -20,12 +20,12 @@ struct MMCharacter;
 struct MMTextBuffer;
 
 static MMTextBuffer *MMDefaultTextBuffer = NULL;
-constexpr static GLubyte indices[]{0,1,2, 0,2,3};
 
 static void mmDrawText(const char* text, float x, float y);
 
 struct MMCharacter
 {
+  static GLubyte indices[];
   enum { POSITION, UV, INDEX, NUM_BUFFERS };
   GLuint VAO{0}, VBO[NUM_BUFFERS]{0};
   void draw() const
@@ -70,6 +70,7 @@ struct MMCharacter
     glBufferData( GL_ELEMENT_ARRAY_BUFFER, 6*sizeof(GLubyte), indices, GL_STATIC_DRAW);
   }
 };
+GLubyte MMCharacter::indices[]{0,1,2, 0,2,3};
 
 struct MMTextBuffer
 {

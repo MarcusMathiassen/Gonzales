@@ -24,8 +24,6 @@ static void mmInit(MMApp &app);
 static void mmStart(const MMApp &app);
 static void mmInternalDrawLoop(const MMApp &app);
 
-static std::atomic<uint32_t> numFrames{0};
-
 /* Definitions */
 struct MMApp
 {
@@ -121,9 +119,7 @@ static void mmStart(const MMApp &app)
     double timeStartFrame{ glfwGetTime() };
     if (timeStartFrame - app.timeSinceStart >= 1.0)
     {
-      app.currentFPS = numFrames;
       printf("%dfps %0.03fms\n", app.currentFPS, (float)app.deltaTime);
-      numFrames = 0;
       ++app.timeSinceStart;
     }
     mmSleepForMS(app.refreshRateInMS);
@@ -145,7 +141,6 @@ static void mmInternalDrawLoop(const MMApp &app)
     double timeStartFrame{ glfwGetTime() };
     if (app.noClear)
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    ++numFrames;
     draw();
     if (app.framerate > 0)
       mmLimitFPS(app.framerate, timeStartFrame-timeSpentSwapBuffer);
@@ -155,6 +150,7 @@ static void mmInternalDrawLoop(const MMApp &app)
     timeSpentSwapBuffer = glfwGetTime() - timeStartSwapBuffer;
 
     app.deltaTime = (glfwGetTime() - timeStartFrame)*1000.0;
+    app.currentFPS = (1000.0f/(float)app.deltaTime)+0.1;
   }
   glfwMakeContextCurrent(NULL);
 }
