@@ -18,6 +18,7 @@
 #define MM_DIST_BETW_CHAR 0.030f
 #define MM_FONT_CHAR_SIZE 0.0625f
 
+/* Declarations */
 struct MMCharacter;
 struct MMTextBuffer;
 static MMTextBuffer *MMDefaultTextBuffer = NULL;
@@ -25,6 +26,7 @@ static MMTextBuffer *MMDefaultTextBuffer = NULL;
 template<typename T>
 static void mmDrawText(const T& t, float x, float y);
 
+/* Definitions */
 struct MMCharacter
 {
   static constexpr GLubyte indices[]{0,1,2, 0,2,3};
@@ -126,7 +128,7 @@ static void mmDrawText(const T& t, float x, float y)
 
   std::string text;
   if constexpr (std::is_same<std::string, T>::value)  text = t;
-  else if constexpr (std::is_array<T>::value)   text = t;
+  else if constexpr (std::is_array<T>::value)         text = t;
   else                                                text = std::to_string(t);
 
   const auto numChars = text.length();
