@@ -36,31 +36,32 @@ struct MMCharacter
 
   MMCharacter(float x = 0, float y = 0)
   {
-    constexpr GLfloat positions[] = { 0.0f,         0.0f,
-                                      0.0f,         MM_CHAR_SIZE,
-                                      MM_CHAR_SIZE, MM_CHAR_SIZE,
-                                      0.0f,         MM_CHAR_SIZE
+    constexpr GLfloat positions[] = { 0.0f,             MM_CHAR_SIZE,
+                                      0.0f,             0.0f,
+                                      MM_CHAR_SIZE,     0.0f,
+                                      MM_CHAR_SIZE,     MM_CHAR_SIZE,
                                     };
-    const GLfloat uv[] =  { x,                y,
-                            x,                y + MM_CHAR_SIZE,
-                            x + MM_CHAR_SIZE, y + MM_CHAR_SIZE,
-                            x + MM_CHAR_SIZE, y
-                          };
-    
+
+    const GLfloat uv[] =            { x,                y,
+                                      x,                y + MM_CHAR_SIZE,
+                                      x + MM_CHAR_SIZE, y + MM_CHAR_SIZE,
+                                      x + MM_CHAR_SIZE, y,
+                                    };
+
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
-    
+
     glGenBuffers(NUM_BUFFERS, VBO);
 
     // POSITION
     glBindBuffer( GL_ARRAY_BUFFER, VBO[POSITION] );
-    glBufferData( GL_ARRAY_BUFFER, 4*sizeof(GLfloat), positions, GL_STATIC_DRAW );
+    glBufferData( GL_ARRAY_BUFFER, 4*sizeof(GLfloat)*2, positions, GL_STATIC_DRAW );
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0);
-  
+
     // UV
     glBindBuffer( GL_ARRAY_BUFFER, VBO[UV] );
-    glBufferData( GL_ARRAY_BUFFER, 4*sizeof(GLfloat), uv, GL_STATIC_DRAW );
+    glBufferData( GL_ARRAY_BUFFER, 4*sizeof(GLfloat)*2, uv, GL_STATIC_DRAW );
     glEnableVertexAttribArray(1);
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
@@ -73,7 +74,7 @@ struct MMCharacter
 struct MMTextBuffer
 {
   GLuint              shaderProgram;
-  MMTexture           texture{"./res/MM_TextAtlas.png"};
+  MMTexture           texture{"./res/MM_TextAtlas.png", GL_LINEAR};
   MMCharacter         character[256];
   MMTextBuffer()
   {
@@ -107,7 +108,7 @@ static void mmDrawText(const char* text = "mmDrawText", float x = 0, float y = 0
   if (MMDefaultTextBuffer == NULL)
     MMDefaultTextBuffer = new MMTextBuffer();
 
-  //glDisable(GL_DEPTH_TEST);
+  glDisable(GL_DEPTH_TEST);
   glUseProgram(MMDefaultTextBuffer->shaderProgram);
   MMDefaultTextBuffer->texture.bind(0);
   const GLuint loc = glGetUniformLocation(MMDefaultTextBuffer->shaderProgram, "pos");

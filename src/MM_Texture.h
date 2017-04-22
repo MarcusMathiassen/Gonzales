@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 
-#define STB_IMAGE_IMPLEMENTATION
+//#define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
 #define GLEW_STATIC
@@ -12,7 +12,7 @@
 struct MMTexture
 {
   GLuint texId;
-  MMTexture(const char* file)
+  MMTexture(const char* file, GLfloat filtering)
   {
     GLint width, height, num_comp;
     GLubyte *image_data = stbi_load(file, &width, &height, &num_comp, 4);
@@ -22,8 +22,8 @@ struct MMTexture
     glBindTexture(GL_TEXTURE_2D, texId);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filtering);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filtering);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA,
                  GL_UNSIGNED_BYTE, image_data);
     stbi_image_free(image_data);

@@ -1,6 +1,8 @@
 #ifndef _MM_H_
 #define _MM_H_
 
+#define STB_IMAGE_IMPLEMENTATION
+
 
 #define MM_DEBUG
 
@@ -23,5 +25,6 @@
 #include "MM_BenchmarkFunc.h"
 #include "MM_TearingTest.h"
 #include "MM_Text.h"
+#include "MM_Window.h"
 
 #endif

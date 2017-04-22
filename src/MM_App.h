@@ -9,6 +9,7 @@
 #include <cstdio>
 #include <atomic>
 #include "MM_Utility.h"
+#include "MM_Window.h"
 
 #define GLEW_STATIC
 #include <GL/glew.h>
@@ -23,12 +24,7 @@ static void mmInit(MMApp &app);
 static void mmStart(const MMApp &app);
 static void mmInternalDrawLoop(const MMApp &app);
 
-static std::atomic<bool> isRunning{true};
-static double timeSinceStart{0.0};
-
-static uint32_t currentFPS{60};
 static std::atomic<uint32_t> numFrames{0};
-static std::atomic<double> deltaTime{16.666666f};
 
 /* Definitions */
 struct MMApp
@@ -47,7 +43,17 @@ struct MMApp
   uint8_t       vsync               { MM_VSYNC_ON };
 
   bool          noClear             { MM_DEFAULT_APP_CLEAR };
+
+  static std::atomic<bool> isRunning;
+  static double timeSinceStart;
+  static uint32_t currentFPS;
+  static std::atomic<double> deltaTime;
 };
+
+uint32_t MMApp::currentFPS{60};
+double MMApp::timeSinceStart{0.0};
+std::atomic<bool> MMApp::isRunning{true};
+std::atomic<double> MMApp::deltaTime{16.666666f};
 
 static void mmInit(MMApp &app)
 {
@@ -88,6 +94,8 @@ static void mmInit(MMApp &app)
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+  initWindowCallbacks(app.window);
+
   if (app.framerate == 0)
     glfwSwapInterval(app.vsync);
   else
@@ -105,23 +113,23 @@ static void mmStart(const MMApp &app)
   glfwMakeContextCurrent(NULL);
   std::thread drawThread(mmInternalDrawLoop, app);
 
-  timeSinceStart = glfwGetTime();
+  app.timeSinceStart = glfwGetTime();
   while(!glfwWindowShouldClose(app.window) &&
         !(glfwGetKey(app.window, GLFW_KEY_ESCAPE) == GLFW_PRESS))
   {
     glfwPollEvents();
     double timeStartFrame{ glfwGetTime() };
-    if (timeStartFrame - timeSinceStart >= 1.0)
+    if (timeStartFrame - app.timeSinceStart >= 1.0)
     {
-      currentFPS = numFrames;
-      printf("%dfps %0.03fms\n", currentFPS, (float)deltaTime);
+      app.currentFPS = numFrames;
+      printf("%dfps %0.03fms\n", app.currentFPS, (float)app.deltaTime);
       numFrames = 0;
-      ++timeSinceStart;
+      ++app.timeSinceStart;
     }
     mmSleepForMS(app.refreshRateInMS);
   }
 
-  isRunning = false;
+  app.isRunning = false;
   drawThread.join();
 
   glfwTerminate();
@@ -132,7 +140,7 @@ static void mmInternalDrawLoop(const MMApp &app)
   double timeSpentSwapBuffer{0.0};
   glfwSetTime(0.0);
   glfwMakeContextCurrent(app.window);
-  while(isRunning)
+  while(app.isRunning)
   {
     double timeStartFrame{ glfwGetTime() };
     if (app.noClear)
@@ -146,7 +154,7 @@ static void mmInternalDrawLoop(const MMApp &app)
     glfwSwapBuffers(app.window);
     timeSpentSwapBuffer = glfwGetTime() - timeStartSwapBuffer;
 
-    deltaTime = (glfwGetTime() - timeStartFrame)*1000.0;
+    app.deltaTime = (glfwGetTime() - timeStartFrame)*1000.0;
   }
   glfwMakeContextCurrent(NULL);
 }
