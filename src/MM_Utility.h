@@ -22,7 +22,7 @@
 /* Declarations */
 static void mmLimitFPS(uint32_t framesPerSecond, double timeStartFrame);
 static void mmReadFile(const char *file, char **buffer);
-static glm::vec3 mmHSVtoRGB(uint16_t h, float s, float v);
+static constexpr glm::vec3 mmHSVtoRGB(uint16_t h, float s, float v);
 static void mmSleepForSec(float sec);
 static void mmSleepForMS(float ms);
 static bool mmWaitForSec(float sec);
@@ -111,7 +111,7 @@ static void mmReadFile(const char *file, char **buffer)
   }
 }
 
-static glm::vec3 mmHSVtoRGB(uint16_t h, float s, float v)
+static constexpr glm::vec3 mmHSVtoRGB(uint16_t h, float s, float v)
 {
   h = (h >= 360) ? 0 : h;
   const float hue{ (float)h * 0.016666f };
