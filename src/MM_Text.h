@@ -28,7 +28,7 @@ static void mmDrawText(const T& t, float x, float y);
 struct MMCharacter
 {
   static constexpr GLubyte indices[]{0,1,2, 0,2,3};
-  const enum { POSITION, UV, INDEX, NUM_BUFFERS };
+  enum { POSITION, UV, INDEX, NUM_BUFFERS };
   GLuint VAO{0}, VBO[NUM_BUFFERS]{0};
   void draw() const
   {
@@ -79,11 +79,11 @@ struct MMCharacter
 
 struct MMTextBuffer
 {
-  const enum {POSITION, TEXTCOORD, NUM_UNIFORMS};
+  enum {POSITION, TEXTCOORD, NUM_UNIFORMS};
   GLuint              shaderProgram;
   MMTexture           texture;
   MMCharacter         character[256];
-  GLuint              uniform[NUM_UNIFORMS];
+  GLint               uniform[NUM_UNIFORMS];
 
   MMTextBuffer(const char* fontAtlas, GLfloat filtering) : texture{fontAtlas, filtering}
   {

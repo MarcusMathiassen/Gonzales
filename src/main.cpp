@@ -17,11 +17,11 @@ int main()
   app.height = 1024;
   mmInit(app);
 
-  icosphere = new MMGameObject( "./res/monkey.obj",
+  icosphere = new MMGameObject( "./res/cube.obj",
                                 "./res/MM_BasicGameObject.vs",
                                 "./res/MM_BasicGameObject.fs");
-
   mmStart(app);
+  delete icosphere;
 }
 
 char buffer[50];
@@ -33,6 +33,7 @@ void draw()
   icosphere->transform.pos.z = sin(glfwGetTime());
 
   icosphere->draw();
+
   mmDrawText("Hello, this is a string literal", -1.0f, 0.9f);
   sprintf (buffer, "Hello, this is a char[]: %dfps %0.3fms", app.currentFPS, (float)app.deltaTime);
   mmDrawText(buffer, -1.0f, 0.8f);

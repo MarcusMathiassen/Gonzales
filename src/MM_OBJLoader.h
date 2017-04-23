@@ -67,7 +67,7 @@ static void mmOBJLoader(
 		}
 		else if (line[0] == 'f')
 		{
-			unsigned int v_i[3]{0.0f}, vn_i[3]{0.0f}, vt_i[3]{0.0f};
+			unsigned int v_i[3]{0}, vn_i[3]{0}, vt_i[3]{0};
 
 			// find number of slashes
 			uint8_t numOfSlashes{0};
@@ -134,12 +134,16 @@ static void mmOBJLoader(
     vertices->emplace_back(temp_vertices[vert_i-1]);
 
   if (hasNormal)
+  {
     for (const auto& norm_i: norm_indices)
       normals->emplace_back(temp_normals[norm_i-1]);
+  }
 
   if (hasUV)
+  {
     for (const auto& uv_i: norm_indices)
       uvs->emplace_back(temp_uvs[uv_i-1]);
+  }
 
     printf("loaded gameobject: %s\n", file);
 }

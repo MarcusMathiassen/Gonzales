@@ -34,9 +34,8 @@ static void mmValidateShaderProgram(const char* name, GLuint shaderProgram)
   glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
   if (!success)
   {
-    glGetShaderInfoLog(shaderProgram, sizeof(infoLog), NULL, infoLog);
+    glGetProgramInfoLog(shaderProgram, sizeof(infoLog), NULL, infoLog);
     printf("\nERROR::SHADER::PROGRAM::%s::LINKING::FAILED\n\n%s",name, infoLog);
-
   }
 }
 

@@ -10,14 +10,15 @@
 #include "MM_Camera.h"
 
 #include <glm/glm.hpp>
+#include <iostream>
 
 struct MMGameObject
 {
   enum {POSITION, TRANSFORM, NUM_UNIFORMS};
   MMMesh        mesh;
   MMTransform   transform;
-  GLuint        shaderProgram;
-  GLuint        uniform[NUM_UNIFORMS]{0};
+  GLuint        shaderProgram{0};
+  GLint         uniform[NUM_UNIFORMS]{0};
 
   void draw()
   {
@@ -31,7 +32,7 @@ struct MMGameObject
     const char* file_vertexShader,
     const char* file_fragmentShader) : mesh(file)
   {
-    shaderProgram = glCreateProgram();
+    shaderProgram         = glCreateProgram();
     GLuint vertexShader   = mmCreateShader(file_vertexShader, GL_VERTEX_SHADER);
     GLuint fragmentShader = mmCreateShader(file_fragmentShader, GL_FRAGMENT_SHADER);
 

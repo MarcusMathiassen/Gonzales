@@ -5,17 +5,18 @@
 #include <GL/glew.h>
 
 #include <cstdint>
+#include <iostream>
 
 struct MMMesh
 {
   enum {POSITION, NORMAL, UV, INDEX, NUM_BUFFERS};
   GLuint VAO{0}, VBO[NUM_BUFFERS]{0};
-  uint32_t drawCount{0};
+  GLsizei drawCount{0};
 
   void draw()
   {
     glEnable(GL_DEPTH_TEST);
-    //glEnable(GL_CULL_FACE);
+    glEnable(GL_CULL_FACE);
     glDisable(GL_BLEND);
     glBindVertexArray(VAO);
   //glDrawElements(type, drawCount, GL_UNSIGNED_INT, 0);
@@ -31,13 +32,13 @@ struct MMMesh
     std::vector<glm::vec2> uvs;
     mmOBJLoader(file, &vertices, &normals, &uvs);
 
-    drawCount = vertices.size();
+    drawCount = (GLsizei)vertices.size();
 
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
 
     // Generate buffers
-    glGenBuffers(NUM_BUFFERS, VBO);
+    glGenBuffers(3, VBO);
 
     // POSITION
     glBindBuffer(GL_ARRAY_BUFFER, VBO[POSITION]);
