@@ -14,4 +14,3 @@ void main()
 {
   fragColor = texture(diffuse, frag.textCoord, 0.0) * vec4(1,1,1,1);
 }
-

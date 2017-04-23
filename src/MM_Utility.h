@@ -6,9 +6,12 @@
 #define GLFW_DLL
 #include <GLFW/glfw3.h>
 
+#include <string>
+#include <cstring>
 #include <cstdlib>
 #include <cstdio>
 #include <cstdint>
+#include <fstream>
 
 #include <glm/glm.hpp>
 
@@ -22,10 +25,14 @@
 /* Declarations */
 static void mmLimitFPS(uint32_t framesPerSecond, double timeStartFrame);
 static void mmReadFile(const char *file, char **buffer);
-static constexpr glm::vec3 mmHSVtoRGB(uint16_t h, float s, float v);
+#ifdef _WIN32 // visual studio didnt like constexpr here
+  static glm::vec3 mmHSVtoRGB(uint16_t h, float s, float v);
+#else // everyone else likes it
+  static constexpr glm::vec3 mmHSVtoRGB(uint16_t h, float s, float v);
+#endif
 static void mmSleepForSec(float sec);
 static void mmSleepForMS(float ms);
-static bool mmWaitForSec(float sec);
+static bool mmWaitForSec(float timeSinceStart, float sec);
 
 /* Definitions */
 static float timeToWait;
@@ -89,26 +96,12 @@ static void mmLimitFPS(uint32_t framesPerSecond, double timeStartFrame)
 
 static void mmReadFile(const char *file, char **buffer)
 {
-  if (*buffer != NULL)
-    return;
-
-  FILE *fp;
-  #ifdef _WIN32
-    if (fopen_s(&fp, file, "rb") == 0)
-  #else
-    fp = fopen(file, "rb");
-    if (fp != NULL)
-  #endif
-  {
-    if (fseek(fp, 0L, SEEK_END) == 0)
-    {
-      long buffer_size = ftell(fp);
-      *buffer = (char*)calloc(buffer_size, sizeof(char));
-      fseek(fp, 0L, SEEK_SET);
-      fread(*buffer, sizeof(char), buffer_size, fp);
-    }
-    fclose(fp);
-  }
+  std::string buff, line;
+  std::ifstream fileIn(file);
+  while (std::getline(fileIn, line)) buff += line+'\n';
+  *buffer = (char*)malloc((buff.length()+1) * sizeof(char));
+  strcpy(*buffer, buff.c_str());
+  printf("START|\n%s|END\n",*buffer);
 }
 
 #ifdef _WIN32 // visual studio didnt like constexpr here

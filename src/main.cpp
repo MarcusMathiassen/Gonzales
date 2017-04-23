@@ -11,8 +11,8 @@ MMApp app;
 int main()
 {
   app.openGLVersion = 4.1f;
-  app.width = 512;
-  app.height = 512;
+  app.width = 1024;
+  app.height = 1024;
   mmInit(app);
 
   test = new TearingTest;
@@ -26,11 +26,12 @@ void draw()
 {
   test->draw();
 
+  // commented above does not work under WIN32
   mmDrawText(3, -1.0f, 0.8f);
   mmDrawText(3.0, -1.0f, 0.7f);
   mmDrawText(3.0f, -1.0f, 0.6f);
-  mmDrawText(app.currentFPS, -1.0f, 0.5f);
-  mmDrawText(app.deltaTime, -1.0f, 0.4f);
+  mmDrawText(app.currentFPS, -1.0f, 0.5f); //
+  mmDrawText(app.deltaTime, -1.0f, 0.4f); //
   mmDrawText("Hello, this is a string literal", -1.0f, 0.3f);
   sprintf (buffer, "Hello, this is a char[]: %dfps %0.3fms", app.currentFPS, (float)app.deltaTime);
   mmDrawText(buffer, -1.0f, 0.2f);

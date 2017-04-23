@@ -127,14 +127,14 @@ static void mmDrawText(const T& t, float x, float y)
   const GLuint loc = glGetUniformLocation(MMDefaultTextBuffer->shaderProgram, "pos");
 
   std::string text;
-#ifdef _WIN32 // win32 doesnt support if constexpr yet
+#ifdef _WIN32 // win32 doesnt support if constexpr yet. Also doesnt support the needed overloads for std::to_string
     if (std::is_same<std::string, T>::value)            text = t;
     else if (std::is_array<T>::value)                   text = t;
 #else // everyone else supports it
     if constexpr (std::is_same<std::string, T>::value)  text = t;
     else if constexpr (std::is_array<T>::value)         text = t;
+	else												text = std::to_string(t);
 #endif
-  else                                                  text = std::to_string(t);
 
   const auto numChars = text.length();
   for (size_t i = 0; i < numChars; ++i)

@@ -16,4 +16,3 @@ void main()
   gl_Position =  vec4(position+pos, 0.0, 1.0);
   vertex.textCoord = textCoord;
 }
-

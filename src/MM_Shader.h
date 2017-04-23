@@ -46,9 +46,12 @@ static GLuint mmCreateShader(const char *file, const GLenum type)
   mmReadFile(file, &source);
 
   GLuint shader = glCreateShader(type);
-  glShaderSource(shader, 1, &source, NULL);
-  if (source != NULL)
-    free(source);
+  if (NULL != source)
+  {
+	  glShaderSource(shader, 1, &source, NULL);
+	  free(source);
+  }
+	
   glCompileShader(shader);
 
   switch (type)

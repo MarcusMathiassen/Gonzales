@@ -107,7 +107,7 @@ static void mmStart(const MMApp &app)
     if (timeStartFrame - app.timeSinceStart >= 1.0)
     {
       app.currentFPS = (uint32_t)(1000.0f/(float)app.deltaTime);
-      printf("%dfps %0.03fms\n", app.currentFPS, (float)app.deltaTime);
+      //printf("%dfps %0.03fms\n", app.currentFPS, (float)app.deltaTime);
       ++app.timeSinceStart;
     }
     mmSleepForMS(app.refreshRateInMS);
