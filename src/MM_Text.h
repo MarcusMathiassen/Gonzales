@@ -125,8 +125,8 @@ static void mmDrawText(const T& t, float x, float y)
     MMDefaultTextBuffer = new MMTextBuffer("./res/MM_fontAtlas.png", GL_LINEAR);
 
   glDisable(GL_DEPTH_TEST);
-  glUseProgram(MMDefaultTextBuffer->shaderProgram);
   MMDefaultTextBuffer->texture.bind(0);
+  glUseProgram(MMDefaultTextBuffer->shaderProgram);
 
   std::string text;
 #ifdef _WIN32 // win32 doesnt support if constexpr yet. Also doesnt support the needed overloads for std::to_string

@@ -5,6 +5,7 @@
 #include <GL/glew.h>
 
 #include "MM_Shader.h"
+#include "MM_Texture.h"
 #include "MM_Mesh.h"
 #include "MM_Transform.h"
 #include "MM_Camera.h"
@@ -15,6 +16,7 @@
 struct MMGameObject
 {
   enum {POSITION, TRANSFORM, NUM_UNIFORMS};
+  MMTexture     texture;
   MMMesh        mesh;
   MMTransform   transform;
   GLuint        shaderProgram{0};
@@ -22,6 +24,7 @@ struct MMGameObject
 
   void draw()
   {
+    texture.bind(0);
     glUseProgram(shaderProgram);
     glm::mat4 model = mmGetCamera().getViewProjection() * transform.getModel();
     glUniformMatrix4fv(uniform[TRANSFORM], 1, GL_FALSE, &model[0][0]);
@@ -29,9 +32,11 @@ struct MMGameObject
   }
 
   MMGameObject(const char* file,
+    const char* file_texture,
     const char* file_vertexShader,
     const char* file_fragmentShader) : mesh(file)
   {
+    texture = MMTexture(file_texture, GL_LINEAR);
     shaderProgram         = glCreateProgram();
     GLuint vertexShader   = mmCreateShader(file_vertexShader, GL_VERTEX_SHADER);
     GLuint fragmentShader = mmCreateShader(file_fragmentShader, GL_FRAGMENT_SHADER);

@@ -15,9 +15,11 @@
 #define GLEW_STATIC
 #include <GL/glew.h>
 
+#include <iostream>
+
 struct MMTexture
 {
-  GLuint texId;
+  GLuint texId{0};
   MMTexture(const char* file, GLfloat filtering)
   {
     GLint width, height, num_comp;
@@ -25,6 +27,7 @@ struct MMTexture
     if (NULL == image_data)
       printf("Texture loading failed: %s\n",file);
     glGenTextures(1, &texId);
+    glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, texId);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
@@ -36,6 +39,7 @@ struct MMTexture
     printf("Texture loaded: %s\n",file);
   }
 
+  MMTexture() = default;
   ~MMTexture()
   {
     glDeleteTextures(1, &texId);

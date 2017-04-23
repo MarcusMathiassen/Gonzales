@@ -19,7 +19,7 @@ struct MMMesh
     glEnable(GL_CULL_FACE);
     glDisable(GL_BLEND);
     glBindVertexArray(VAO);
-  //glDrawElements(type, drawCount, GL_UNSIGNED_INT, 0);
+    //glDrawElements(GL_TRIANGLES, drawCount, GL_UNSIGNED_INT, 0);
     glDrawArrays(GL_TRIANGLES, 0, drawCount);
     glEnable(GL_BLEND);
   }
@@ -30,37 +30,41 @@ struct MMMesh
     std::vector<glm::vec3> vertices;
     std::vector<glm::vec3> normals;
     std::vector<glm::vec2> uvs;
-    mmOBJLoader(file, &vertices, &normals, &uvs);
+    std::vector<uint16_t>  indices;
+    mmOBJLoader(file, &vertices, &normals, &uvs, &indices);
 
-    drawCount = (GLsizei)vertices.size();
+    drawCount = (uint16_t)vertices.size();
+
+    for (const auto& uv: uvs)
+      printf("vt %f %f\n",uv.x, uv.y);
 
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
 
     // Generate buffers
-    glGenBuffers(3, VBO);
+    glGenBuffers(NUM_BUFFERS, VBO);
 
     // POSITION
     glBindBuffer(GL_ARRAY_BUFFER, VBO[POSITION]);
-    glBufferData(GL_ARRAY_BUFFER, 3*vertices.size() * sizeof(GLfloat), &vertices[0], GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(vertices[0]), &vertices[0], GL_STATIC_DRAW);
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
     // TEXTCOORD
     glBindBuffer(GL_ARRAY_BUFFER, VBO[UV]);
-    glBufferData(GL_ARRAY_BUFFER, 2*uvs.size() * sizeof(GLfloat), &uvs[0], GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(uvs[0]), &uvs[0], GL_STATIC_DRAW);
     glEnableVertexAttribArray(1);
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
     // NORMAL
     glBindBuffer(GL_ARRAY_BUFFER, VBO[NORMAL]);
-    glBufferData(GL_ARRAY_BUFFER, 3*normals.size() * sizeof(GLfloat), &normals[0], GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(normals[0]), &normals[0], GL_STATIC_DRAW);
     glEnableVertexAttribArray(2);
     glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
     // INDEX
-    // glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, VBO[INDEX]);
-    // glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(indices[0]), &indices[0], GL_STATIC_DRAW);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, VBO[INDEX]);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(indices[0]), &indices[0], GL_STATIC_DRAW);
   }
   ~MMMesh()
   {

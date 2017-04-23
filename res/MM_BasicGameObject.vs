@@ -14,7 +14,7 @@ out Vertex
 
 void main()
 {
-    gl_Position = vec4(position, 1.0) * transform;
+    gl_Position = transform * vec4(position, 1.0);
     vertex.textCoord = textCoord;
     vertex.normal = (transform * vec4(normal, 0.0)).xyz;
 }
