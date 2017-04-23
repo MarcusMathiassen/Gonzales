@@ -61,19 +61,19 @@ struct MMCharacter
 
     glGenBuffers(NUM_BUFFERS, VBO);
 
-    // POSITION
+    // positions
     glBindBuffer( GL_ARRAY_BUFFER, VBO[POSITION] );
     glBufferData( GL_ARRAY_BUFFER, 4*sizeof(GLfloat)*2, positions, GL_STATIC_DRAW );
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
-    // UV
+    // texture coordinates
     glBindBuffer( GL_ARRAY_BUFFER, VBO[UV] );
     glBufferData( GL_ARRAY_BUFFER, 4*sizeof(GLfloat)*2, uv, GL_STATIC_DRAW );
     glEnableVertexAttribArray(1);
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
-    // INDEX
+    // indices
     glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, VBO[INDEX] );
     glBufferData( GL_ELEMENT_ARRAY_BUFFER, 6*sizeof(GLubyte), indices, GL_STATIC_DRAW);
   }
@@ -108,8 +108,6 @@ struct MMTextBuffer
 
     uniform[MODEL] = glGetUniformLocation(shaderProgram, "model");
 
-    // Using the ASCII code of each character up to 126
-    // lets us do this: character['A' - 32] = 'A'
     for (uint8_t y = 0; y < 16; ++y)
       for (uint8_t x = 0; x < 16; ++x)
         character[16 * y+x] = MMCharacter(x*MM_FONT_CHAR_SIZE, y*MM_FONT_CHAR_SIZE);
@@ -146,7 +144,6 @@ static void mmDrawText(const T& t, float x, float y)
   transform.scale = glm::vec3(inverseAspectRatio, 1, 0);
 
   const auto numChars = text.length();
-  //const GLuint position_loc = MMDefaultTextBuffer->uniform[0]; // 0 should be POSITION. For some reason it doesnt see it.
   for (size_t i = 0; i < numChars; ++i)
   {
     if (text[i] == ' ') continue;
@@ -154,6 +151,7 @@ static void mmDrawText(const T& t, float x, float y)
     transform.pos.x = x+MM_DIST_BETW_CHAR*i*inverseAspectRatio;
     glm::mat4 model = transform.getModel();
     glUniformMatrix4fv(MMDefaultTextBuffer->uniform[0], 1, GL_FALSE, &model[0][0]);
+
     MMDefaultTextBuffer->character[(int)text[i] - 32].draw();
   }
 }

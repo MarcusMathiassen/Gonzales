@@ -3,7 +3,6 @@
 in vec2 position;
 in vec2 textCoord;
 
-uniform vec2 pos;
 uniform mat4 model;
 
 out Vertex

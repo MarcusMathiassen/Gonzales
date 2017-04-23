@@ -98,7 +98,13 @@ static void mmInit(MMApp &app)
   std::cout << glGetString(GL_VENDOR) << '\n';
   std::cout << glGetString(GL_RENDERER) << '\n';
 
+  int width, height;
+  glfwGetFramebufferSize(app.window, &width, &height);
+  glViewport(0, 0, width, height);
+
   mmMainCamera = new MMCamera;
+  mmMainCamera->aspectRatio = (float)width/(float)height;
+  mmMainCamera->updatePerspective();
 }
 
 static void mmStart(const MMApp &app)
