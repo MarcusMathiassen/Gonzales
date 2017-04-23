@@ -1,4 +1,3 @@
-
 #include "MM.h"
 
 #include <cstring>
@@ -10,6 +9,7 @@
 
 MMApp app;
 MMGameObject *cube;
+
 int main()
 {
   app.openGLVersion = 4.1f;
@@ -17,10 +17,10 @@ int main()
   app.height = 1024;
   mmInit(app);
 
-  cube = new MMGameObject(      "./res/cubeUV.obj",
-                                "./res/marble.jpg",
-                                "./res/MM_BasicGameObject.vs",
-                                "./res/MM_BasicGameObject.fs");
+  cube = new MMGameObject("./res/cubeUV.obj",
+                          "./res/marble.jpg",
+                          "./res/MM_BasicGameObject.vs",
+                          "./res/MM_BasicGameObject.fs");
   mmStart(app);
   delete cube;
 }

@@ -152,10 +152,16 @@
     <ClInclude Include="..\..\src\MM.h" />
     <ClInclude Include="..\..\src\MM_App.h" />
     <ClInclude Include="..\..\src\MM_BenchmarkFunc.h" />
+    <ClInclude Include="..\..\src\MM_Camera.h" />
+    <ClInclude Include="..\..\src\MM_GameObject.h" />
+    <ClInclude Include="..\..\src\MM_GameObjectManager.h" />
+    <ClInclude Include="..\..\src\MM_Mesh.h" />
+    <ClInclude Include="..\..\src\MM_OBJLoader.h" />
     <ClInclude Include="..\..\src\MM_Shader.h" />
     <ClInclude Include="..\..\src\MM_TearingTest.h" />
     <ClInclude Include="..\..\src\MM_Text.h" />
     <ClInclude Include="..\..\src\MM_Texture.h" />
+    <ClInclude Include="..\..\src\MM_Transform.h" />
     <ClInclude Include="..\..\src\MM_Utility.h" />
     <ClInclude Include="..\..\src\MM_Window.h" />
     <ClInclude Include="..\..\src\stb_image.h" />

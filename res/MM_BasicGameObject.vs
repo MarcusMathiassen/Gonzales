@@ -4,7 +4,7 @@ in vec3 position;
 in vec2 textCoord;
 in vec3 normal;
 
-uniform mat4 transform;
+uniform mat4 MVP;
 
 out Vertex
 {
@@ -14,7 +14,8 @@ out Vertex
 
 void main()
 {
-    gl_Position = transform * vec4(position, 1.0);
-    vertex.textCoord = textCoord;
-    vertex.normal = (transform * vec4(normal, 0.0)).xyz;
+  gl_Position = MVP * vec4(position, 1.0);
+
+  vertex.textCoord = textCoord;
+  vertex.normal = (MVP * vec4(normal, 0.0)).xyz;
 }

@@ -4,8 +4,12 @@
 #define GLEW_STATIC
 #include <GL/glew.h>
 
+
+#include <glm/glm.hpp>
 #include <cstdint>
 #include <iostream>
+#include <vector>
+#include "MM_OBJLoader.h"
 
 struct MMMesh
 {
@@ -35,14 +39,11 @@ struct MMMesh
 
     drawCount = (uint16_t)vertices.size();
 
-    for (const auto& uv: uvs)
-      printf("vt %f %f\n",uv.x, uv.y);
-
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
 
     // Generate buffers
-    glGenBuffers(NUM_BUFFERS, VBO);
+    glGenBuffers(3, VBO);
 
     // POSITION
     glBindBuffer(GL_ARRAY_BUFFER, VBO[POSITION]);
@@ -52,7 +53,7 @@ struct MMMesh
 
     // TEXTCOORD
     glBindBuffer(GL_ARRAY_BUFFER, VBO[UV]);
-    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(uvs[0]), &uvs[0], GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, uvs.size() * sizeof(uvs[0]), &uvs[0], GL_STATIC_DRAW);
     glEnableVertexAttribArray(1);
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
@@ -63,8 +64,8 @@ struct MMMesh
     glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
     // INDEX
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, VBO[INDEX]);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(indices[0]), &indices[0], GL_STATIC_DRAW);
+    //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, VBO[INDEX]);
+    //glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(indices[0]), &indices[0], GL_STATIC_DRAW);
   }
   ~MMMesh()
   {

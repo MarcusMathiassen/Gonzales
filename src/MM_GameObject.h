@@ -15,7 +15,7 @@
 
 struct MMGameObject
 {
-  enum {POSITION, TRANSFORM, NUM_UNIFORMS};
+  enum {MVP, NUM_UNIFORMS};
   MMTexture     texture;
   MMMesh        mesh;
   MMTransform   transform;
@@ -26,8 +26,10 @@ struct MMGameObject
   {
     texture.bind(0);
     glUseProgram(shaderProgram);
-    glm::mat4 model = mmGetCamera().getViewProjection() * transform.getModel();
-    glUniformMatrix4fv(uniform[TRANSFORM], 1, GL_FALSE, &model[0][0]);
+
+    glm::mat4 mvp = mmGetCamera().getViewProjection() * transform.getModel();
+    glUniformMatrix4fv(uniform[MVP], 1, GL_FALSE, &mvp[0][0]);
+
     mesh.draw();
   }
 
@@ -37,6 +39,7 @@ struct MMGameObject
     const char* file_fragmentShader) : mesh(file)
   {
     texture = MMTexture(file_texture, GL_LINEAR);
+
     shaderProgram         = glCreateProgram();
     GLuint vertexShader   = mmCreateShader(file_vertexShader, GL_VERTEX_SHADER);
     GLuint fragmentShader = mmCreateShader(file_fragmentShader, GL_FRAGMENT_SHADER);
@@ -55,7 +58,7 @@ struct MMGameObject
     glValidateProgram(shaderProgram);
     mmValidateShaderProgram("MMGameObject", shaderProgram);
 
-    uniform[TRANSFORM] = glGetUniformLocation(shaderProgram, "transform");
+    uniform[MVP] = glGetUniformLocation(shaderProgram, "MVP");
   }
 };
 

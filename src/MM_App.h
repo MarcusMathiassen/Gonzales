@@ -10,6 +10,8 @@
 #include <atomic>
 #include "MM_Utility.h"
 #include "MM_Window.h"
+#include "MM_GameObject.h"
+//#include "MM_GameObjectManager.h"
 
 #define GLEW_STATIC
 #include <GL/glew.h>
@@ -27,7 +29,9 @@ static void mmInternalDrawLoop(const MMApp &app);
 /* Definitions */
 struct MMApp
 {
-  GLFWwindow *window{NULL};
+  GLFWwindow           *window{NULL};
+
+  //MMGameObjectManager  *mmGameObjectManager{NULL};
 
   uint16_t      width               { MM_DEFAULT_APP_WIDTH };
   uint16_t      height              { MM_DEFAULT_APP_HEIGHT };
@@ -125,13 +129,26 @@ static void mmInternalDrawLoop(const MMApp &app)
   glfwMakeContextCurrent(app.window);
   while(app.isRunning)
   {
+
     const double timeStartFrame{ glfwGetTime() };
     if (!app.noClear) glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+
+    // if (app.mmGameObjectManager != NULL)
+    // {
+    //   app.mmGameObjectManager->update();
+    //   app.mmGameObjectManager->draw();
+
+    // }
+
+
     draw(); // users draw is called
     if (app.framerate > 0) mmLimitFPS(app.framerate, timeStartFrame-timeSpentSwapBuffer);
+
     const double timeStartSwapBuffer{glfwGetTime()};
     glfwSwapBuffers(app.window);
     timeSpentSwapBuffer = glfwGetTime() - timeStartSwapBuffer;
+
     app.deltaTime = (glfwGetTime() - timeStartFrame)*1000.0;
   }
   glfwMakeContextCurrent(NULL);
