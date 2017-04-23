@@ -43,7 +43,7 @@ struct MMMesh
     glBindVertexArray(VAO);
 
     // Generate buffers
-    glGenBuffers(3, VBO);
+    glGenBuffers(NUM_BUFFERS, VBO);
 
     // POSITION
     glBindBuffer(GL_ARRAY_BUFFER, VBO[POSITION]);
@@ -69,8 +69,8 @@ struct MMMesh
   }
   ~MMMesh()
   {
-    //glDeleteBuffers(NUM_BUFFERS, VBO);
-    //glDeleteVertexArrays(1, &VAO);
+    glDeleteBuffers(NUM_BUFFERS, VBO);
+    glDeleteVertexArrays(1, &VAO);
   }
 };
 

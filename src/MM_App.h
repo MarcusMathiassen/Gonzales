@@ -98,7 +98,6 @@ static void mmInit(MMApp &app)
   std::cout << glGetString(GL_VENDOR) << '\n';
   std::cout << glGetString(GL_RENDERER) << '\n';
 
-
   mmMainCamera = new MMCamera;
 }
 
@@ -125,6 +124,15 @@ static void mmStart(const MMApp &app)
   glfwTerminate();
 }
 
+
+// @Cleanup: this is horrible. we're updating the viewport each frame.
+static void internalChecks(GLFWwindow *window)
+{
+  int width, height;
+  glfwGetFramebufferSize(window, &width, &height);
+  glViewport(0, 0, width, height);
+}
+
 static void mmInternalDrawLoop(const MMApp &app)
 {
   double timeSpentSwapBuffer{0.0};
@@ -134,16 +142,10 @@ static void mmInternalDrawLoop(const MMApp &app)
   {
     const double timeStartFrame{ glfwGetTime() };
     if (!app.noClear) glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    // if (app.mmGameObjectManager != NULL)
-    // {
-    //   app.mmGameObjectManager->update();
-    //   app.mmGameObjectManager->draw();
-
-    // }
-
+    internalChecks(app.window);
 
     draw(); // users draw is called
+
     if (app.framerate > 0) mmLimitFPS(app.framerate, timeStartFrame-timeSpentSwapBuffer);
 
     const double timeStartSwapBuffer{glfwGetTime()};

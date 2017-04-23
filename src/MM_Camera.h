@@ -22,6 +22,11 @@ struct MMCamera
   {
     return perspective * glm::lookAt(position, position + forward, up);
   }
+
+  void updatePerspective()
+  {
+    perspective = glm::perspective(fov, aspectRatio, zNear, zFar);
+  }
 };
 MMCamera *mmMainCamera;
 

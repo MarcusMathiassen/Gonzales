@@ -55,8 +55,8 @@ static void drop_callback(GLFWwindow* window, int count, const char** paths)
 static void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
   mmMainCamera->aspectRatio = (float)width / (float)height;
-  glViewport(0,0,width,height);
-  std::cout << "screen: " << width << "x" << height << '\n';
+  mmMainCamera->updatePerspective();
+  std::cout << "SCREEN RESIZE: " << width << "x" << height << '\n';
 }
 
 #endif

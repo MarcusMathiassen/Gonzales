@@ -4,6 +4,7 @@ in vec2 position;
 in vec2 textCoord;
 
 uniform vec2 pos;
+uniform mat4 model;
 
 out Vertex
 {
@@ -13,6 +14,6 @@ out Vertex
 
 void main()
 {
-  gl_Position =  vec4(position+pos, 0, 1.0);
+  gl_Position =  model * vec4(position, 0, 1.0);
   vertex.textCoord = textCoord;
 }

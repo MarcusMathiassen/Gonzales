@@ -9,6 +9,7 @@
 #include "MM_Shader.h"
 #include "MM_Texture.h"
 #include "MM_Camera.h"
+#include "MM_Transform.h"
 
 #include <type_traits>
 #include <iostream>
@@ -80,7 +81,7 @@ struct MMCharacter
 
 struct MMTextBuffer
 {
-  enum {POSITION, TEXTCOORD, NUM_UNIFORMS};
+  enum {MODEL, NUM_UNIFORMS};
   GLuint              shaderProgram;
   MMTexture           texture;
   MMCharacter         character[256];
@@ -105,7 +106,7 @@ struct MMTextBuffer
     glValidateProgram(shaderProgram);
     mmValidateShaderProgram("MMText", shaderProgram);
 
-    uniform[POSITION] = glGetUniformLocation(shaderProgram, "pos");
+    uniform[MODEL] = glGetUniformLocation(shaderProgram, "model");
 
     // Using the ASCII code of each character up to 126
     // lets us do this: character['A' - 32] = 'A'
@@ -139,13 +140,20 @@ static void mmDrawText(const T& t, float x, float y)
 	  else text = std::to_string(t);
 #endif
 
+
   const float inverseAspectRatio = 1.0f/(float)mmMainCamera->aspectRatio;
+  MMTransform transform{glm::vec3(x,y,0), glm::vec3(), glm::vec3(1,1,1)};
+  transform.scale = glm::vec3(inverseAspectRatio, 1, 0);
+
   const auto numChars = text.length();
-  const GLuint position_loc = MMDefaultTextBuffer->uniform[0]; // 0 should be POSITION. For some reason it doesnt see it.
+  //const GLuint position_loc = MMDefaultTextBuffer->uniform[0]; // 0 should be POSITION. For some reason it doesnt see it.
   for (size_t i = 0; i < numChars; ++i)
   {
     if (text[i] == ' ') continue;
-    glUniform2f(position_loc, x+MM_DIST_BETW_CHAR*i*inverseAspectRatio, y);
+
+    transform.pos.x = x+MM_DIST_BETW_CHAR*i*inverseAspectRatio;
+    glm::mat4 model = transform.getModel();
+    glUniformMatrix4fv(MMDefaultTextBuffer->uniform[0], 1, GL_FALSE, &model[0][0]);
     MMDefaultTextBuffer->character[(int)text[i] - 32].draw();
   }
 }
