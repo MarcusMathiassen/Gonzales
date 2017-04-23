@@ -123,7 +123,7 @@ static void mmStart(const MMApp &app)
       app.currentFPS = (uint32_t)(1000.0f/(float)app.deltaTime);
       ++app.timeSinceStart;
     }
-    mmSleepForMS(app.refreshRateInMS);
+    mmSleepForMS(app.refreshRateInMS*0.5); // update twice each screen refresh
   }
   app.isRunning = false;
   drawThread.join();
