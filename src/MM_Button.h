@@ -80,10 +80,11 @@ struct MMButton
 
     uniform[MODEL_U] = glGetUniformLocation(shaderProgram, "model");
   }
-  void draw() const
+  void draw()
   {
     glDisable(GL_DEPTH_TEST);
     glUseProgram(shaderProgram);
+    texture.bind(0);
     glm::mat4 model = transform.getModel();
     glUniformMatrix4fv(uniform[MODEL_U], 1, GL_FALSE, &model[0][0]);
     glBindVertexArray(VAO);

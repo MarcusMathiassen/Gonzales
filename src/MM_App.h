@@ -64,7 +64,13 @@ static void mmInit(MMApp &app)
   const int gl_minor = (int)((app.openGLVersion - gl_major)*10.00001f);
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, gl_major);
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, gl_minor);
-
+  glfwWindowHint(GL_RED_BITS, 8);
+  glfwWindowHint(GL_GREEN_BITS, 8);
+  glfwWindowHint(GL_BLUE_BITS, 8);
+  glfwWindowHint(GL_ALPHA_BITS, 8);
+  glfwWindowHint(GL_BUFFER_SIZE, 32);
+  glfwWindowHint(GL_DEPTH_BITS, 16);
+  glfwWindowHint(GL_DOUBLEBUFFER, 1);
   if (gl_major > 2)
   {
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);

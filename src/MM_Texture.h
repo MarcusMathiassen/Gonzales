@@ -40,10 +40,6 @@ struct MMTexture
   }
 
   MMTexture() = default;
-  ~MMTexture()
-  {
-    glDeleteTextures(1, &texId);
-  }
 
   void bind(GLuint unit)
   {
