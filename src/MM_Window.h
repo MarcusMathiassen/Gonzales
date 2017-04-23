@@ -6,6 +6,8 @@
 #define GLFW_DLL
 #include <GLFW/glfw3.h>
 
+#include "MM_Camera.h"
+
 static void window_iconify_callback(GLFWwindow* window, int iconified);
 static void window_focus_callback(GLFWwindow* window, int focused);
 static void drop_callback(GLFWwindow* window, int count, const char** paths);
@@ -52,7 +54,8 @@ static void drop_callback(GLFWwindow* window, int count, const char** paths)
 
 static void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
-
+  mmMainCamera->aspectRatio = (float)width / (float)height;
+  glViewport(0,0,width,height);
   std::cout << "screen: " << width << "x" << height << '\n';
 }
 

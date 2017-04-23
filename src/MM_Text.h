@@ -8,6 +8,7 @@
 
 #include "MM_Shader.h"
 #include "MM_Texture.h"
+#include "MM_Camera.h"
 
 #include <type_traits>
 #include <iostream>
@@ -138,12 +139,13 @@ static void mmDrawText(const T& t, float x, float y)
 	  else text = std::to_string(t);
 #endif
 
+  const float inverseAspectRatio = 1.0f/(float)mmMainCamera->aspectRatio;
   const auto numChars = text.length();
   const GLuint position_loc = MMDefaultTextBuffer->uniform[0]; // 0 should be POSITION. For some reason it doesnt see it.
   for (size_t i = 0; i < numChars; ++i)
   {
     if (text[i] == ' ') continue;
-    glUniform2f(position_loc, x+MM_DIST_BETW_CHAR*i, y);
+    glUniform2f(position_loc, x+MM_DIST_BETW_CHAR*i*inverseAspectRatio, y);
     MMDefaultTextBuffer->character[(int)text[i] - 32].draw();
   }
 }

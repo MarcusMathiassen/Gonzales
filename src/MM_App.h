@@ -11,6 +11,7 @@
 #include "MM_Utility.h"
 #include "MM_Window.h"
 #include "MM_GameObject.h"
+#include "MM_Camera.h"
 //#include "MM_GameObjectManager.h"
 
 #define GLEW_STATIC
@@ -30,7 +31,6 @@ static void mmInternalDrawLoop(const MMApp &app);
 struct MMApp
 {
   GLFWwindow           *window{NULL};
-
   //MMGameObjectManager  *mmGameObjectManager{NULL};
 
   uint16_t      width               { MM_DEFAULT_APP_WIDTH };
@@ -97,6 +97,9 @@ static void mmInit(MMApp &app)
   std::cout << glGetString(GL_VERSION) << '\n';
   std::cout << glGetString(GL_VENDOR) << '\n';
   std::cout << glGetString(GL_RENDERER) << '\n';
+
+
+  mmMainCamera = new MMCamera;
 }
 
 static void mmStart(const MMApp &app)
@@ -129,10 +132,8 @@ static void mmInternalDrawLoop(const MMApp &app)
   glfwMakeContextCurrent(app.window);
   while(app.isRunning)
   {
-
     const double timeStartFrame{ glfwGetTime() };
     if (!app.noClear) glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 
     // if (app.mmGameObjectManager != NULL)
     // {

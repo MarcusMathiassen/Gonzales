@@ -27,7 +27,7 @@ struct MMGameObject
     texture.bind(0);
     glUseProgram(shaderProgram);
 
-    glm::mat4 mvp = mmGetCamera().getViewProjection() * transform.getModel();
+    glm::mat4 mvp = mmMainCamera->getViewProjection() * transform.getModel();
     glUniformMatrix4fv(uniform[MVP], 1, GL_FALSE, &mvp[0][0]);
 
     mesh.draw();

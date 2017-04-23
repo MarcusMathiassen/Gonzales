@@ -17,7 +17,7 @@ int main()
   app.height = 1024;
   mmInit(app);
 
-  cube = new MMGameObject("./res/cubeUV.obj",
+  cube = new MMGameObject("./res/icosphere.obj",
                           "./res/marble.jpg",
                           "./res/MM_BasicGameObject.vs",
                           "./res/MM_BasicGameObject.fs");
@@ -32,12 +32,12 @@ void draw()
   cube->transform.rot.y = glfwGetTime()*0.3;
   cube->transform.rot.x = glfwGetTime();
 
-  cube->draw();
-
   mmDrawText("Hello, this is a string literal", -1.0f, 0.9f);
   sprintf (buffer, "Hello, this is a char[]: %dfps %0.3fms", app.currentFPS, (float)app.deltaTime);
   mmDrawText(buffer, -1.0f, 0.8f);
   std::stringstream ss;
   ss << "Hello, this is a std::string: " << app.currentFPS << "fps " << (float)app.deltaTime << "ms";
   mmDrawText(ss.str(), -1.0f, 0.7f);
+
+  cube->draw();
 }

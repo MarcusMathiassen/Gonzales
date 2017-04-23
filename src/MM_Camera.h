@@ -11,10 +11,10 @@ struct MMCamera
   glm::vec3 up{0, 1, 0};
 
   float fov{70.0f};
-  float aspect{1.0f};
+  float aspectRatio{1.0f};
   float zNear{0.01f};
   float zFar{1000.0f};
-  glm::mat4 perspective{glm::perspective(fov, aspect, zNear, zFar)};
+  glm::mat4 perspective{glm::perspective(fov, aspectRatio, zNear, zFar)};
 
   float moveSpeed{0.02f};
   MMCamera() = default;
@@ -23,12 +23,11 @@ struct MMCamera
     return perspective * glm::lookAt(position, position + forward, up);
   }
 };
-
-MMCamera MMDefaultCamera;
+MMCamera *mmMainCamera;
 
 static MMCamera& mmGetCamera()
 {
-  return MMDefaultCamera;
+  return *mmMainCamera;
 }
 
 #endif

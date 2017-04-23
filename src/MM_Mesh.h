@@ -53,7 +53,7 @@ struct MMMesh
 
     // TEXTCOORD
     glBindBuffer(GL_ARRAY_BUFFER, VBO[UV]);
-    glBufferData(GL_ARRAY_BUFFER, uvs.size() * sizeof(uvs[0]), &uvs[0], GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(uvs[0]), &uvs[0], GL_STATIC_DRAW);
     glEnableVertexAttribArray(1);
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
