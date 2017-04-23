@@ -37,7 +37,7 @@ struct MMApp
   float         refreshRateInMS     { 60.0f };
   float         fixedFrametime      { 0.0f };
   uint8_t       vsync               { MM_VSYNC_ON };
-  bool          noClear             { MM_DEFAULT_APP_CLEAR };
+  bool          noClear             { MM_DEFAULT_APP_NO_CLEAR };
 
   static std::atomic<bool>    isRunning;
   static double               timeSinceStart;
@@ -80,6 +80,10 @@ static void mmInit(MMApp &app)
 
   glClearColor(1.0f, 0.3f, 0.3f, 1.0f);
 
+  glEnable(GL_DEPTH_TEST);
+  glEnable(GL_CULL_FACE);
+  glEnable(GL_BACK);
+
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -107,7 +111,6 @@ static void mmStart(const MMApp &app)
     if (timeStartFrame - app.timeSinceStart >= 1.0)
     {
       app.currentFPS = (uint32_t)(1000.0f/(float)app.deltaTime);
-      //printf("%dfps %0.03fms\n", app.currentFPS, (float)app.deltaTime);
       ++app.timeSinceStart;
     }
     mmSleepForMS(app.refreshRateInMS);
@@ -125,7 +128,7 @@ static void mmInternalDrawLoop(const MMApp &app)
   while(app.isRunning)
   {
     const double timeStartFrame{ glfwGetTime() };
-    if (app.noClear) glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    if (!app.noClear) glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     draw(); // users draw is called
     if (app.framerate > 0) mmLimitFPS(app.framerate, timeStartFrame-timeSpentSwapBuffer);
     const double timeStartSwapBuffer{glfwGetTime()};

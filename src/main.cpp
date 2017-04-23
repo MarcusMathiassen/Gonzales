@@ -4,10 +4,12 @@
 #include <cstring>
 #include <string>
 #include <sstream>
+#include <vector>
+#include <glm/glm.hpp>
+#include <cmath>
 
-TearingTest *test;
 MMApp app;
-
+MMGameObject *icosphere;
 int main()
 {
   app.openGLVersion = 4.1f;
@@ -15,27 +17,26 @@ int main()
   app.height = 1024;
   mmInit(app);
 
-  test = new TearingTest;
+  icosphere = new MMGameObject( "./res/monkey.obj",
+                                "./res/MM_BasicGameObject.vs",
+                                "./res/MM_BasicGameObject.fs");
 
   mmStart(app);
-  delete test;
 }
 
 char buffer[50];
 void draw()
 {
-  test->draw();
+  icosphere->transform.rot.z = glfwGetTime()*0.5;
+  icosphere->transform.rot.y = glfwGetTime()*0.1;
+  icosphere->transform.rot.x = glfwGetTime();
+  icosphere->transform.pos.z = sin(glfwGetTime());
 
-  // commented above does not work under WIN32
-  mmDrawText(3, -1.0f, 0.8f);
-  mmDrawText(3.0, -1.0f, 0.7f);
-  mmDrawText(3.0f, -1.0f, 0.6f);
-  mmDrawText(app.currentFPS, -1.0f, 0.5f); //
-  mmDrawText(app.deltaTime, -1.0f, 0.4f); //
-  mmDrawText("Hello, this is a string literal", -1.0f, 0.3f);
+  icosphere->draw();
+  mmDrawText("Hello, this is a string literal", -1.0f, 0.9f);
   sprintf (buffer, "Hello, this is a char[]: %dfps %0.3fms", app.currentFPS, (float)app.deltaTime);
-  mmDrawText(buffer, -1.0f, 0.2f);
+  mmDrawText(buffer, -1.0f, 0.8f);
   std::stringstream ss;
   ss << "Hello, this is a std::string: " << app.currentFPS << "fps " << (float)app.deltaTime << "ms";
-  mmDrawText(ss.str(), -1.0f, 0.1f);
+  mmDrawText(ss.str(), -1.0f, 0.7f);
 }

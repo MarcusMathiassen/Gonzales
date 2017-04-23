@@ -9,7 +9,7 @@
 #define MM_DEFAULT_APP_TITLE      "APP"
 #define MM_DEFAULT_APP_WIDTH      512
 #define MM_DEFAULT_APP_HEIGHT     512
-#define MM_DEFAULT_APP_CLEAR      true
+#define MM_DEFAULT_APP_NO_CLEAR   false
 
 /* INCLUDES */
 #include "MM_App.h"
@@ -21,5 +21,10 @@
 #include "MM_TearingTest.h"
 #include "MM_Text.h"
 #include "MM_Window.h"
+#include "MM_OBJLoader.h"
+#include "MM_Mesh.h"
+#include "MM_GameObject.h"
+#include "MM_Transform.h"
+#include "MM_Camera.h"
 
 #endif

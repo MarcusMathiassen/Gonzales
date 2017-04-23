@@ -59,11 +59,11 @@ struct TearingTest
   void draw()
   {
     if (hue++ > 360) hue = 0;
-    glm::vec3 color = mmHSVtoRGB(hue, 0.7f, 1.0f);
+    const glm::vec3 color = mmHSVtoRGB(hue, 0.7f, 1.0f);
     glClearColor(color.r,color.g,color.b, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    float x = (float)sin(glfwGetTime());
+    const float x = (float)sin(glfwGetTime());
 
     glBindVertexArray(VAO);
     glUseProgram(shaderProgram);

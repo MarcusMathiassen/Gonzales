@@ -101,7 +101,6 @@ static void mmReadFile(const char *file, char **buffer)
   while (std::getline(fileIn, line)) buff += line+'\n';
   *buffer = (char*)malloc((buff.length()+1) * sizeof(char));
   strcpy(*buffer, buff.c_str());
-  printf("START|\n%s|END\n",*buffer);
 }
 
 #ifdef _WIN32 // visual studio didnt like constexpr here

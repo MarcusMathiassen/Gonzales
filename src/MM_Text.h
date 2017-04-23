@@ -3,8 +3,6 @@
 
 #define GLEW_STATIC
 #include <GL/glew.h>
-#define GLFW_DLL
-#include <GLFW/glfw3.h>
 
 #include <glm/glm.hpp>
 
@@ -30,7 +28,7 @@ static void mmDrawText(const T& t, float x, float y);
 struct MMCharacter
 {
   static constexpr GLubyte indices[]{0,1,2, 0,2,3};
-  enum { POSITION, UV, INDEX, NUM_BUFFERS };
+  const enum { POSITION, UV, INDEX, NUM_BUFFERS };
   GLuint VAO{0}, VBO[NUM_BUFFERS]{0};
   void draw() const
   {
@@ -81,9 +79,12 @@ struct MMCharacter
 
 struct MMTextBuffer
 {
+  const enum {POSITION, TEXTCOORD, NUM_UNIFORMS};
   GLuint              shaderProgram;
   MMTexture           texture;
   MMCharacter         character[256];
+  GLuint              uniform[NUM_UNIFORMS];
+
   MMTextBuffer(const char* fontAtlas, GLfloat filtering) : texture{fontAtlas, filtering}
   {
     shaderProgram = glCreateProgram();
@@ -102,6 +103,8 @@ struct MMTextBuffer
     glLinkProgram(shaderProgram);
     glValidateProgram(shaderProgram);
     mmValidateShaderProgram("MMText", shaderProgram);
+
+    uniform[POSITION] = glGetUniformLocation(shaderProgram, "pos");
 
     // Using the ASCII code of each character up to 126
     // lets us do this: character['A' - 32] = 'A'
@@ -124,7 +127,6 @@ static void mmDrawText(const T& t, float x, float y)
   glDisable(GL_DEPTH_TEST);
   glUseProgram(MMDefaultTextBuffer->shaderProgram);
   MMDefaultTextBuffer->texture.bind(0);
-  const GLuint loc = glGetUniformLocation(MMDefaultTextBuffer->shaderProgram, "pos");
 
   std::string text;
 #ifdef _WIN32 // win32 doesnt support if constexpr yet. Also doesnt support the needed overloads for std::to_string
@@ -133,14 +135,15 @@ static void mmDrawText(const T& t, float x, float y)
 #else // everyone else supports it
     if constexpr (std::is_same<std::string, T>::value)  text = t;
     else if constexpr (std::is_array<T>::value)         text = t;
-	else												text = std::to_string(t);
+	  else text = std::to_string(t);
 #endif
 
   const auto numChars = text.length();
+  const GLuint position_loc = MMDefaultTextBuffer->uniform[0]; // 0 should be POSITION. For some reason it doesnt see it.
   for (size_t i = 0; i < numChars; ++i)
   {
     if (text[i] == ' ') continue;
-    glUniform2f(loc, x+MM_DIST_BETW_CHAR*i, y);
+    glUniform2f(position_loc, x+MM_DIST_BETW_CHAR*i, y);
     MMDefaultTextBuffer->character[(int)text[i] - 32].draw();
   }
 }

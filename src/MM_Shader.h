@@ -51,7 +51,7 @@ static GLuint mmCreateShader(const char *file, const GLenum type)
 	  glShaderSource(shader, 1, &source, NULL);
 	  free(source);
   }
-	
+
   glCompileShader(shader);
 
   switch (type)
