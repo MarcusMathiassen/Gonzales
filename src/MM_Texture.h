@@ -34,7 +34,7 @@ struct Texture
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filtering);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA,
                  GL_UNSIGNED_BYTE, image_data);
-    glBindTexture(GL_TEXTURE0, NULL);
+    glBindTexture(GL_TEXTURE0, 0);
     stbi_image_free(image_data);
     printf("Texture loaded: %s\n",file);
   }

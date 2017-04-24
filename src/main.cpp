@@ -11,7 +11,7 @@ int main()
   GameObject cube("./res/cubeUV_2.obj", "./res/cubeUV_num_2.png", "./res/MM_BasicGameObject.vs", "./res/MM_BasicGameObject.fs");
   engine.addGameObject(cube);
 
-  UIButton button(-1.0f, -0.9f, 0.5f, 0.1f, "./res/marble.jpg");
+  UIButton button(-1.0f, -0.9f, 0.5f, 0.2f, "./res/marble.jpg");
   engine.addUI(button);
 
 	engine.start();

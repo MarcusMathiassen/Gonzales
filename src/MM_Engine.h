@@ -33,11 +33,13 @@ public:
   float         fixedFrametime      { 0.0f };
   u8			      vsync               { 1 };
 
-
-  bool                 isRunning{ true };
-  double               timeSinceStart{ 0.0 };
-  u32                  currentFPS{ 0 };
-  double               deltaTime{ 0.0 };
+  u16         viewportWidth         {512};
+  u16         viewportHeight        {512};
+  bool        viewportChanged       {false};
+  bool        isRunning             {true};
+  u32         currentFPS            {0};
+  double      deltaTime             {0.0};
+  double      timeSinceStart        { 0.0 };
 
   void init();
   void start();

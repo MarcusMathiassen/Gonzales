@@ -86,10 +86,11 @@ void Engine::start()
 
 void Engine::update()
 {
-  int width, height;
-  glfwGetFramebufferSize(window, &width, &height);
-  glViewport(0, 0, width, height);
-  mainCamera.aspectRatio = (float)width / (float)height;
+  if (viewportChanged)
+  {
+    glViewport(0,0,viewportWidth, viewportHeight);
+    mainCamera.aspectRatio = (float)viewportWidth / (float)viewportHeight;
+  }
 
   gameObjectManager.update();
 	uiManager.update(mainCamera);
@@ -136,3 +137,4 @@ void Engine::addGameObject(GameObject &gameobject)
 	gameobject.id = gameObjectManager.gameObjects.size();
 	gameObjectManager.gameObjects.emplace_back(std::make_unique<GameObject>(gameobject));
 }
+
