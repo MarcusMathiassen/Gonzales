@@ -55,9 +55,8 @@ void Engine::init()
   glfwGetFramebufferSize(window, &width, &height);
   glViewport(0, 0, width, height);
 
-  mmMainCamera = new Camera;
-  mmMainCamera->aspectRatio = (float)width/(float)height;
-  mmMainCamera->updatePerspective();
+  mainCamera.aspectRatio = (float)width / height;
+  mainCamera.updatePerspective();
 }
 
 
@@ -77,7 +76,7 @@ void Engine::start()
 			currentFPS = (u32)(1000.0f / (float)deltaTime);
 			++timeSinceStart;
 		}
-		sleepForMs(refreshRateInMS*0.2f); // update twice each screen refresh
+		sleepForMs(refreshRateInMS*0.2f);
 	}
 	isRunning = false;
 	drawThread.join();
@@ -86,19 +85,13 @@ void Engine::start()
 
 void Engine::update()
 {
-  if (viewportChanged)
-  {
-    glViewport(0,0,viewportWidth, viewportHeight);
-    mainCamera.aspectRatio = (float)viewportWidth / (float)viewportHeight;
-  }
-
   gameObjectManager.update();
 	uiManager.update(mainCamera);
 }
 
 void Engine::draw()
 {
-  gameObjectManager.draw();
+  gameObjectManager.draw(mainCamera);
   uiManager.draw();
 }
 
@@ -117,7 +110,7 @@ void Engine::gameLoop()
 		update();
 		draw();
 
-    mmDrawText(std::to_string(currentFPS)+"fps "+std::to_string(deltaTime)+"ms", -1.0, -1.0);
+    mmDrawText(std::to_string(currentFPS)+"fps "+std::to_string(deltaTime)+"ms", -1.0, -1.0, mainCamera.aspectRatio);
 
 		// FRAME END
 		if (framerate > 0)

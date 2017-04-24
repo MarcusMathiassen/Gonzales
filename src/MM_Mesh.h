@@ -49,7 +49,7 @@ struct Mesh
     glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(vertices[0]), &vertices[0], GL_STATIC_DRAW);
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
-     
+
     if (uvs.size() > 0)
     {
       // TEXTCOORD

@@ -18,14 +18,16 @@
 
 class Engine
 {
+
 public:
-  GLFWwindow                        *window{NULL};
+
+  GLFWwindow                        *window{nullptr};
   Camera                             mainCamera;
   UIManager                          uiManager;
   GameObjectManager					         gameObjectManager;
 
-  u16			      width               { 512 };
-  u16			      height              { 512 };
+  u16			      width               { 640 };
+  u16			      height              { 400 };
   std::string   title               { "Engine" };
   double        openGLVersion       { 4.1 };
   u32			      framerate           { 0 };
@@ -33,12 +35,9 @@ public:
   float         fixedFrametime      { 0.0f };
   u8			      vsync               { 1 };
 
-  u16         viewportWidth         {512};
-  u16         viewportHeight        {512};
-  bool        viewportChanged       {false};
-  bool        isRunning             {true};
-  u32         currentFPS            {0};
-  double      deltaTime             {0.0};
+  bool        isRunning             { true };
+  u32         currentFPS            { 0 };
+  double      deltaTime             { 0.0 };
   double      timeSinceStart        { 0.0 };
 
   void init();
@@ -51,6 +50,7 @@ public:
   template<typename T>
   void addUI(T &ui);
   void addGameObject(GameObject &gameobject);
+
 };
 
 template<typename T>

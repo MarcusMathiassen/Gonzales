@@ -24,7 +24,7 @@ struct MMTextBuffer;
 static MMTextBuffer *MMDefaultTextBuffer = NULL;
 
 template<typename T>
-static void mmDrawText(const T& t, float x, float y);
+static void mmDrawText(const T& t, float x, float y, float aspectRatio);
 
 /* Definitions */
 struct MMCharacter
@@ -128,7 +128,7 @@ struct MMTextBuffer
 };
 
 template<typename T>
-static void mmDrawText(const T& t, float x, float y)
+static void mmDrawText(const T& t, float x, float y, float aspectRatio)
 {
   if (MMDefaultTextBuffer == NULL)
     MMDefaultTextBuffer = new MMTextBuffer("./res/MM_fontAtlas.png", GL_LINEAR);
@@ -146,8 +146,7 @@ static void mmDrawText(const T& t, float x, float y)
 	  else text = std::to_string(t);
 #endif
 
-
-  const float inverseAspectRatio = 1.0f/(float)mmMainCamera->aspectRatio;
+  const float inverseAspectRatio = 1.0f/aspectRatio;
   Transform transform{glm::vec3(x,y,0), glm::vec3(), glm::vec3(1,1,1)};
   transform.scale = glm::vec3(inverseAspectRatio, 1, 0);
 

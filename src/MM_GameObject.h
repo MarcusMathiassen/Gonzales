@@ -23,18 +23,18 @@ struct GameObject
   Transform   transform;
   u32         shaderProgram{0};
   s32         uniform[NUM_UNIFORMS]{0};
-	
+
   void update()
   {
     transform.rot.y = glfwGetTime()*0.3;
     transform.rot.z = glfwGetTime()*0.5;
   }
-  void draw()
+  void draw(const glm::mat4 &viewProjection)
   {
     glUseProgram(shaderProgram);
     texture.bind(0);
 
-    glm::mat4 mvp = mmMainCamera->getViewProjection() * transform.getModel();
+    glm::mat4 mvp = viewProjection * transform.getModel();
     glUniformMatrix4fv(uniform[MVP], 1, GL_FALSE, &mvp[0][0]);
 
     mesh.draw();
@@ -48,7 +48,7 @@ struct GameObject
   {
     texture = Texture(file_texture, GL_LINEAR);
 
-    shaderProgram         = glCreateProgram();
+    shaderProgram      = glCreateProgram();
     u32 vertexShader   = createShader(file_vertexShader, GL_VERTEX_SHADER);
     u32 fragmentShader = createShader(file_fragmentShader, GL_FRAGMENT_SHADER);
 

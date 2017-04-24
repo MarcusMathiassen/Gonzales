@@ -8,21 +8,30 @@
 
 class UI
 {
+
 public:
-  u32 id{0};
-  static float aspectRatio;
+
+  u32           id{0};
+  static float  aspectRatio;
 
   virtual void update(){};
   virtual void draw(){};
+
+  virtual ~UI() = default;
+  UI() = default;
+
 };
 
 class UIManager
 {
+
 public:
+
   std::vector<std::unique_ptr<UI> > uiObjects;
 
   void update(const Camera &camera);
   void draw();
 
   UIManager() = default;
+
 };

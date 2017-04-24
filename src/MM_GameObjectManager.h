@@ -13,12 +13,13 @@
 
      void update()
      {
-       for (auto& gameobject : gameObjects)
-         gameobject->update();
+        for (auto& gameobject : gameObjects)
+          gameobject->update();
      }
-     void draw()
+     void draw(const Camera &camera)
      {
-       for (auto& gameobject: gameObjects)
-         gameobject->draw();
+        const glm::mat4 viewProjection = camera.getViewProjection();
+        for (auto& gameobject: gameObjects)
+          gameobject->draw(viewProjection);
      }
  };

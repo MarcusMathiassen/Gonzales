@@ -22,18 +22,10 @@ struct Camera
   {
     return perspective * glm::lookAt(position, position + forward, up);
   }
-
   void updatePerspective()
   {
     perspective = glm::perspective(fov, aspectRatio, zNear, zFar);
   }
 };
-
-static Camera *mmMainCamera;
-
-static Camera& mmGetCamera()
-{
-  return *mmMainCamera;
-}
 
 #endif
