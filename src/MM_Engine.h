@@ -46,6 +46,15 @@ public:
   void update();
   void draw();
 
-  void addUI(UI &ui);
+  template<typename T>
+  void addUI(T &ui);
   void addGameObject(GameObject &gameobject);
 };
+
+template<typename T>
+void Engine::addUI(T &ui)
+{
+  ui.id = uiManager.uiObjects.size();
+  uiManager.uiObjects.emplace_back(std::make_unique<T>(ui));
+}
+

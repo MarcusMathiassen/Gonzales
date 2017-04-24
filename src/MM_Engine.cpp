@@ -77,7 +77,7 @@ void Engine::start()
 			currentFPS = (u32)(1000.0f / (float)deltaTime);
 			++timeSinceStart;
 		}
-		sleepForMs(refreshRateInMS*0.5f); // update twice each screen refresh
+		sleepForMs(refreshRateInMS*0.2f); // update twice each screen refresh
 	}
 	isRunning = false;
 	drawThread.join();
@@ -116,6 +116,8 @@ void Engine::gameLoop()
 		update();
 		draw();
 
+    mmDrawText(std::to_string(currentFPS)+"fps "+std::to_string(deltaTime)+"ms", -1.0, -1.0);
+
 		// FRAME END
 		if (framerate > 0)
       limitFPS(framerate, timeStartFrame - timeSpentSwapBuffer);
@@ -127,12 +129,6 @@ void Engine::gameLoop()
 		deltaTime = (glfwGetTime() - timeStartFrame)*1000.0;
 	}
 	glfwMakeContextCurrent(NULL);
-}
-
-void Engine::addUI(UI &ui)
-{
-  ui.id = uiManager.uiObjects.size();
-  uiManager.uiObjects.emplace_back(std::make_unique<UI>(ui));
 }
 
 void Engine::addGameObject(GameObject &gameobject)

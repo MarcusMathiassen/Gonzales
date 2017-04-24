@@ -4,7 +4,6 @@
 #define GLEW_STATIC
 #include <GL/glew.h>
 
-
 #include <glm/glm.hpp>
 #include <cstdint>
 #include <iostream>
@@ -50,19 +49,24 @@ struct Mesh
     glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(vertices[0]), &vertices[0], GL_STATIC_DRAW);
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+     
+    if (uvs.size() > 0)
+    {
+      // TEXTCOORD
+      glBindBuffer(GL_ARRAY_BUFFER, VBO[UV]);
+      glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(uvs[0]), &uvs[0], GL_STATIC_DRAW);
+      glEnableVertexAttribArray(1);
+      glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
+    }
 
-    // TEXTCOORD
-    glBindBuffer(GL_ARRAY_BUFFER, VBO[UV]);
-    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(uvs[0]), &uvs[0], GL_STATIC_DRAW);
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
-
+    if (normals.size() > 0)
+    {
     // NORMAL
     glBindBuffer(GL_ARRAY_BUFFER, VBO[NORMAL]);
     glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(normals[0]), &normals[0], GL_STATIC_DRAW);
     glEnableVertexAttribArray(2);
     glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
+    }
     // INDEX
     //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, VBO[INDEX]);
     //glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(indices[0]), &indices[0], GL_STATIC_DRAW);

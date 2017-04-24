@@ -2,6 +2,8 @@
 
 #define GLEW_STATIC
 #include <GL/glew.h>
+#define GLFW_DLL
+#include <GLFW/glfw3.h>
 
 #include "MM_Shader.h"
 #include "MM_Texture.h"
@@ -22,7 +24,11 @@ struct GameObject
   u32         shaderProgram{0};
   s32         uniform[NUM_UNIFORMS]{0};
 	
-  void update() {}
+  void update()
+  {
+    transform.rot.y = glfwGetTime()*0.3;
+    transform.rot.z = glfwGetTime()*0.5;
+  }
   void draw()
   {
     glUseProgram(shaderProgram);

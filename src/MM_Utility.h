@@ -36,14 +36,14 @@ static void readFile(const char *file, char **buffer);
 #else // everyone else likes it
   static constexpr glm::vec3 getHSV(uint16_t h, float s, float v);
 #endif
-static void mmSleepForSec(float sec);
+static void sleepForSec(float sec);
 static void sleepForMs(float ms);
-static bool mmWaitForSec(float timeSinceStart, float sec);
+static bool waitForSec(float timeSinceStart, float sec);
 
 /* Definitions */
 static float timeToWait;
 static bool waited{false};
-static bool mmWaitForSec(float timeSinceStart, float sec)
+static bool waitForSec(float timeSinceStart, float sec)
 {
   if (!waited)
   {
@@ -66,7 +66,7 @@ static void sleepForMs(float ms)
   #endif
 }
 
-static void mmSleepForSec(float sec)
+static void sleepForSec(float sec)
 {
   #ifdef _WIN32
     Sleep((DWORD)(1000.0/sec));
@@ -143,7 +143,7 @@ static void loadOBJ(
 	std::vector<glm::vec3> *vertices,
 	std::vector<glm::vec3> *normals,
 	std::vector<glm::vec2> *uvs,
-	std::vector<u16>  *indices)
+	std::vector<u16>       *indices)
 {
 	char *buffer;
 	readFile(file, &buffer);

@@ -32,6 +32,6 @@ public:
   void draw();
 
   UIButton() = default;
-  UIButton(float x, float y, float width, float height);
+  UIButton(float x, float y, float width, float height, const char* file_texture);
 
 };

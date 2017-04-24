@@ -1,6 +1,6 @@
 #include "MM_UIButton.h"
 
-UIButton::UIButton(float x, float y, float width, float height)
+UIButton::UIButton(float x, float y, float width, float height, const char* file_texture) : texture(file_texture, GL_LINEAR)
 {
   transform.pos.x = x;
   transform.pos.y = y;
@@ -72,6 +72,7 @@ void UIButton::update()
 void UIButton::draw()
 {
   glDisable(GL_DEPTH_TEST);
+  glEnable(GL_BLEND);
 
   glUseProgram(shaderProgram);
   texture.bind(0);
