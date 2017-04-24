@@ -10,7 +10,7 @@ struct Camera
   glm::vec3 forward{0, 0, 1};
   glm::vec3 up{0, 1, 0};
 
-  float fov{70.0f};
+  float fov{120.0f};
   float aspectRatio{1.0f};
   float zNear{0.01f};
   float zFar{1000.0f};

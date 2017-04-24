@@ -26,8 +26,8 @@ struct GameObject
 
   void update()
   {
-    transform.rot.y = glfwGetTime()*0.3;
-    transform.rot.z = glfwGetTime()*0.5;
+    transform.rot.y = glfwGetTime()*0.05;
+    transform.rot.z = glfwGetTime()*0.07;
   }
   void draw(const glm::mat4 &viewProjection)
   {

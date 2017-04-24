@@ -13,6 +13,7 @@
 #include <cstdlib>
 #include <cstdio>
 #include <fstream>
+#include <iostream>
 
 #include <vector>
 #include <sstream>
@@ -281,6 +282,11 @@ static void loadOBJ(
 		for (const auto& uv_i : uv_indices)
 			uvs->emplace_back(temp_uvs[uv_i - 1]);
 	}
+
+  std::cout << "loaded obj: " << file << '\n';
+  std::cout << "            v:   " << vertices->size() << '\n';
+  std::cout << "            vt:  " << uvs->size() << '\n';
+  std::cout << "            vn:  " << normals->size() << '\n';
 }
 
 #endif

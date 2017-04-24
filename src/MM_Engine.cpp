@@ -24,7 +24,7 @@ void Engine::init()
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
   }
 
-  window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
+  window = glfwCreateWindow(width, height, title.c_str(), fullscreen ? glfwGetPrimaryMonitor() : NULL, NULL);
   glfwMakeContextCurrent(window);
 
   int count;
@@ -35,7 +35,7 @@ void Engine::init()
 
   glewInit();
 
-  glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+  glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
   glEnable(GL_DEPTH_TEST);
   glEnable(GL_CULL_FACE);
@@ -76,7 +76,7 @@ void Engine::start()
 			currentFPS = (u32)(1000.0f / (float)deltaTime);
 			++timeSinceStart;
 		}
-		sleepForMs(refreshRateInMS*0.2f);
+		//sleepForMs(refreshRateInMS*0.2f);
 	}
 	isRunning = false;
 	drawThread.join();
@@ -85,6 +85,16 @@ void Engine::start()
 
 void Engine::update()
 {
+  // @Hack: please for the love of god fix this
+  int width, height;
+  glfwGetFramebufferSize(window, &width, &height);
+  glViewport(0, 0, width, height);
+  width = width;
+  height = height;
+
+  mainCamera.aspectRatio = (float)width / height;
+  mainCamera.updatePerspective();
+
   gameObjectManager.update();
 	uiManager.update(mainCamera);
 }
@@ -110,7 +120,7 @@ void Engine::gameLoop()
 		update();
 		draw();
 
-    mmDrawText(std::to_string(currentFPS)+"fps "+std::to_string(deltaTime)+"ms", -1.0, -1.0, mainCamera.aspectRatio);
+    drawText(std::to_string(currentFPS)+"fps "+std::to_string(deltaTime)+"ms", -1.0, -1.0, mainCamera.aspectRatio);
 
 		// FRAME END
 		if (framerate > 0)

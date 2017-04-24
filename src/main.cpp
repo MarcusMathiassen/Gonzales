@@ -4,9 +4,12 @@ int main()
 {
 	Engine engine;
   engine.vsync = 0;
+  engine.width = 1920*2;
+  engine.height = 1080*2;
+  engine.fullscreen = true;
 	engine.init();
 
-  GameObject cube("./res/monkey.obj", "./res/marble.jpg", "./res/MM_BasicGameObject.vs", "./res/MM_BasicGameObject.fs");
+  GameObject cube("./res/sphereUV.obj", "./res/earth.jpg", "./res/MM_BasicGameObject.vs", "./res/MM_BasicGameObject.fs");
   engine.addGameObject(cube);
 
   UIButton button(-1.0f, -0.9f, 0.5f, 0.2f, "./res/marble.jpg");

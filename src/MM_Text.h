@@ -24,7 +24,7 @@ struct MMTextBuffer;
 static MMTextBuffer *MMDefaultTextBuffer = NULL;
 
 template<typename T>
-static void mmDrawText(const T& t, float x, float y, float aspectRatio);
+static void drawText(const T& t, float x, float y, float aspectRatio);
 
 /* Definitions */
 struct MMCharacter
@@ -128,7 +128,7 @@ struct MMTextBuffer
 };
 
 template<typename T>
-static void mmDrawText(const T& t, float x, float y, float aspectRatio)
+static void drawText(const T& t, float x, float y, float aspectRatio)
 {
   if (MMDefaultTextBuffer == NULL)
     MMDefaultTextBuffer = new MMTextBuffer("./res/MM_fontAtlas.png", GL_LINEAR);

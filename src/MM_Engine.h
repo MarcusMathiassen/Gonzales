@@ -35,6 +35,7 @@ public:
   float         fixedFrametime      { 0.0f };
   u8			      vsync               { 1 };
 
+  bool        fullscreen            { false };
   bool        isRunning             { true };
   u32         currentFPS            { 0 };
   double      deltaTime             { 0.0 };
