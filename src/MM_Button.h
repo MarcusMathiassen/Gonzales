@@ -22,8 +22,11 @@ struct MMButton
 
   MMButton( float x = 0, float y = 0,
             float buttonWidth = 0.2, float buttonHeight = 0.1,
-            const char* file_texture = "./res/marble.jpg") : texture(file_texture, GL_LINEAR)
+            const char* file_texture = "./res/MM_fontAtlas.png") : texture(file_texture, GL_LINEAR)
   {
+    transform.pos.x = x;
+    transform.pos.y = y;
+
     const GLfloat positions[] =
     {
       0.0f,                 buttonHeight,
@@ -83,10 +86,15 @@ struct MMButton
   void draw()
   {
     glDisable(GL_DEPTH_TEST);
-    glUseProgram(shaderProgram);
+
     texture.bind(0);
+    glUseProgram(shaderProgram);
+
+    const float inverseAspectRatio = 1.0f/(float)mmMainCamera->aspectRatio;
+    transform.scale = glm::vec3(inverseAspectRatio, 1, 0);
     glm::mat4 model = transform.getModel();
     glUniformMatrix4fv(uniform[MODEL_U], 1, GL_FALSE, &model[0][0]);
+
     glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, NULL);
   }

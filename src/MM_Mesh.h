@@ -69,8 +69,8 @@ struct MMMesh
   }
   ~MMMesh()
   {
-    glDeleteBuffers(NUM_BUFFERS, VBO);
-    glDeleteVertexArrays(1, &VAO);
+    //glDeleteBuffers(NUM_BUFFERS, VBO);
+    //glDeleteVertexArrays(1, &VAO);
   }
 };
 

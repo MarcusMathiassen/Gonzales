@@ -23,8 +23,7 @@ int main()
                           "./res/MM_BasicGameObject.vs",
                           "./res/MM_BasicGameObject.fs");
 
-  button = new MMButton();
-
+  button = new MMButton(-1,-1,0.5,0.1,"./res/marble.jpg");
 
   mmStart(app);
   delete cube;
