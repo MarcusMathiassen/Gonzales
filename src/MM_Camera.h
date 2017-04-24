@@ -4,7 +4,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/transform.hpp>
 
-struct MMCamera
+struct Camera
 {
   glm::vec3 position{0, 0, -5};
   glm::vec3 forward{0, 0, 1};
@@ -17,7 +17,7 @@ struct MMCamera
   glm::mat4 perspective{glm::perspective(fov, aspectRatio, zNear, zFar)};
 
   float moveSpeed{0.02f};
-  MMCamera() = default;
+  Camera() = default;
   glm::mat4 getViewProjection() const
   {
     return perspective * glm::lookAt(position, position + forward, up);
@@ -28,9 +28,10 @@ struct MMCamera
     perspective = glm::perspective(fov, aspectRatio, zNear, zFar);
   }
 };
-MMCamera *mmMainCamera;
 
-static MMCamera& mmGetCamera()
+static Camera *mmMainCamera;
+
+static Camera& mmGetCamera()
 {
   return *mmMainCamera;
 }

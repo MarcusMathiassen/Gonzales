@@ -2,6 +2,8 @@
 #define _MM_TEARINGTEST_H_
 
 #include "MM_Shader.h"
+#include "MM_Typedefs.h"
+
 
 #define GLEW_STATIC
 #include <GL/glew.h>
@@ -10,15 +12,15 @@
 
 struct TearingTest
 {
-  GLuint shaderProgram;
-  GLuint VAO, VBO;
+  u32 shaderProgram;
+  u32 VAO, VBO;
   int hue {0};
 
   TearingTest()
   {
     shaderProgram  = glCreateProgram();
-    GLuint vertexShader   = mmCreateShader("./res/basic.vs", GL_VERTEX_SHADER);
-    GLuint fragmentShader = mmCreateShader("./res/basic.fs", GL_FRAGMENT_SHADER);
+    u32 vertexShader   = createShader("./res/basic.vs", GL_VERTEX_SHADER);
+    u32 fragmentShader = createShader("./res/basic.fs", GL_FRAGMENT_SHADER);
 
     glAttachShader(shaderProgram, vertexShader);
     glAttachShader(shaderProgram, fragmentShader);
@@ -30,7 +32,7 @@ struct TearingTest
 
     glLinkProgram(shaderProgram);
     glValidateProgram(shaderProgram);
-    mmValidateShaderProgram("TearingTest",shaderProgram);
+    validateShaderProgram("TearingTest",shaderProgram);
 
 
     GLfloat vertices[] =
@@ -59,7 +61,7 @@ struct TearingTest
   void draw()
   {
     if (hue++ > 360) hue = 0;
-    const glm::vec3 color = mmHSVtoRGB(hue, 0.7f, 1.0f);
+    const glm::vec3 color = getHSV(hue, 0.7f, 1.0f);
     glClearColor(color.r,color.g,color.b, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 

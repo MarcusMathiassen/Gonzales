@@ -31,7 +31,7 @@ struct MMCharacter
 {
   static constexpr GLubyte indices[]{0,1,2, 0,2,3};
   enum { POSITION, UV, INDEX, NUM_BUFFERS };
-  GLuint VAO{0}, VBO[NUM_BUFFERS]{0};
+  u32 VAO{0}, VBO[NUM_BUFFERS]{0};
   void draw() const
   {
     glBindVertexArray(VAO);
@@ -79,19 +79,28 @@ struct MMCharacter
   }
 };
 
+class Text
+{
+private:
+public:
+  float x, y;
+  std::string txt;
+  Text() = default;
+};
+
 struct MMTextBuffer
 {
   enum {MODEL, NUM_UNIFORMS};
-  GLuint              shaderProgram;
-  MMTexture           texture;
+  u32              shaderProgram;
+  Texture           texture;
   MMCharacter         character[256];
-  GLint               uniform[NUM_UNIFORMS];
+  s32               uniform[NUM_UNIFORMS];
 
   MMTextBuffer(const char* fontAtlas, GLfloat filtering) : texture{fontAtlas, filtering}
   {
     shaderProgram = glCreateProgram();
-    GLuint vertexShader   = mmCreateShader("./res/MM_Text.vs", GL_VERTEX_SHADER);
-    GLuint fragmentShader = mmCreateShader("./res/MM_Text.fs", GL_FRAGMENT_SHADER);
+    u32 vertexShader   = createShader("./res/MM_Text.vs", GL_VERTEX_SHADER);
+    u32 fragmentShader = createShader("./res/MM_Text.fs", GL_FRAGMENT_SHADER);
 
     glAttachShader(shaderProgram, vertexShader);
     glAttachShader(shaderProgram, fragmentShader);
@@ -104,12 +113,12 @@ struct MMTextBuffer
 
     glLinkProgram(shaderProgram);
     glValidateProgram(shaderProgram);
-    mmValidateShaderProgram("MMText", shaderProgram);
+    validateShaderProgram("MMText", shaderProgram);
 
     uniform[MODEL] = glGetUniformLocation(shaderProgram, "model");
 
-    for (uint8_t y = 0; y < 16; ++y)
-      for (uint8_t x = 0; x < 16; ++x)
+    for (u8 y = 0; y < 16; ++y)
+      for (u8 x = 0; x < 16; ++x)
         character[16 * y+x] = MMCharacter(x*MM_FONT_CHAR_SIZE, y*MM_FONT_CHAR_SIZE);
   }
   ~MMTextBuffer()
@@ -125,9 +134,8 @@ static void mmDrawText(const T& t, float x, float y)
     MMDefaultTextBuffer = new MMTextBuffer("./res/MM_fontAtlas.png", GL_LINEAR);
 
   glDisable(GL_DEPTH_TEST);
-  MMDefaultTextBuffer->texture.bind(0);
   glUseProgram(MMDefaultTextBuffer->shaderProgram);
-
+  MMDefaultTextBuffer->texture.bind(0);
   std::string text;
 #ifdef _WIN32 // win32 doesnt support if constexpr yet. Also doesnt support the needed overloads for std::to_string
     if (std::is_same<std::string, T>::value)            text = t;
@@ -140,7 +148,7 @@ static void mmDrawText(const T& t, float x, float y)
 
 
   const float inverseAspectRatio = 1.0f/(float)mmMainCamera->aspectRatio;
-  MMTransform transform{glm::vec3(x,y,0), glm::vec3(), glm::vec3(1,1,1)};
+  Transform transform{glm::vec3(x,y,0), glm::vec3(), glm::vec3(1,1,1)};
   transform.scale = glm::vec3(inverseAspectRatio, 1, 0);
 
   const auto numChars = text.length();

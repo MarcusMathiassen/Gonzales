@@ -6,23 +6,23 @@
 #include "MM_Camera.h"
 #include "MM_Texture.h"
 
-struct MMButton
+struct Button
 {
   static constexpr GLubyte indices[]{0,1,2, 0,2,3};
 
   enum { POSITION_VB, UV_VB, INDEX_VB, NUM_BUFFERS };
-  enum { MODEL_U, NUM_UNIFORMS};
+  enum { MODEL_U, NUM_UNIFORMS };
 
-  MMTexture           texture;
-  GLuint              shaderProgram;
-  MMTransform         transform;
-  GLuint              VAO{0}, VBO[NUM_BUFFERS]{0};
-  GLint               uniform[NUM_UNIFORMS];
+  Texture           texture;
+  u32               shaderProgram;
+  Transform         transform;
+  u32               VAO{0}, VBO[NUM_BUFFERS]{0};
+  s32               uniform[NUM_UNIFORMS];
 
 
-  MMButton( float x = 0, float y = 0,
+  Button( float x = 0, float y = 0,
             float buttonWidth = 0.2, float buttonHeight = 0.1,
-            const char* file_texture = "./res/MM_fontAtlas.png") : texture(file_texture, GL_LINEAR)
+            const char* file_texture = "./res/marble.jpg") : texture(file_texture, GL_LINEAR)
   {
     transform.pos.x = x;
     transform.pos.y = y;
@@ -65,8 +65,8 @@ struct MMButton
     glBufferData( GL_ELEMENT_ARRAY_BUFFER, 6*sizeof(GLubyte), indices, GL_STATIC_DRAW);
 
     shaderProgram = glCreateProgram();
-    GLuint vertexShader   = mmCreateShader("./res/MM_Text.vs", GL_VERTEX_SHADER);
-    GLuint fragmentShader = mmCreateShader("./res/MM_Text.fs", GL_FRAGMENT_SHADER);
+    u32 vertexShader   = createShader("./res/MM_Text.vs", GL_VERTEX_SHADER);
+    u32 fragmentShader = createShader("./res/MM_Text.fs", GL_FRAGMENT_SHADER);
 
     glAttachShader(shaderProgram, vertexShader);
     glAttachShader(shaderProgram, fragmentShader);
@@ -79,7 +79,7 @@ struct MMButton
 
     glLinkProgram(shaderProgram);
     glValidateProgram(shaderProgram);
-    mmValidateShaderProgram("MMButton", shaderProgram);
+    validateShaderProgram("MMButton", shaderProgram);
 
     uniform[MODEL_U] = glGetUniformLocation(shaderProgram, "model");
   }
@@ -87,8 +87,8 @@ struct MMButton
   {
     glDisable(GL_DEPTH_TEST);
 
-    texture.bind(0);
     glUseProgram(shaderProgram);
+    texture.bind(0);
 
     const float inverseAspectRatio = 1.0f/(float)mmMainCamera->aspectRatio;
     transform.scale = glm::vec3(inverseAspectRatio, 1, 0);

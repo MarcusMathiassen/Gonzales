@@ -4,7 +4,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/transform.hpp>
 
-struct MMTransform
+struct Transform
 {
   glm::vec3 pos{0, 0, 0};
   glm::vec3 rot{0, 0, 0};
@@ -21,7 +21,7 @@ struct MMTransform
     return posMatrix * rotMatrix * scaleMatrix;
   }
 
-  MMTransform() = default;
+  Transform() = default;
 };
 
 #endif

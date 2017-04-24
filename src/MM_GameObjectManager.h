@@ -1,25 +1,24 @@
-#ifndef _MM_GAMEOBJECTMANAGER_H_
-#define _MM_GAMEOBJECTMANAGER_H_
+#pragma once
 
-//#include "MM_GameObject.h"
-//#include <vector>
-//#include <memory>
+#include "MM_GameObject.h"
+#include <vector>
+#include <memory>
 
-// class MMGameObjectManager
-// {
-//   public:
-//     //std::vector<std::unique_ptr<MMGameObject> > mmGameObjects;
+#include "MM_Typedefs.h"
 
-//     void update()
-//     {
+ class GameObjectManager
+ {
+   public:
+     std::vector<std::unique_ptr<GameObject> > gameObjects;
 
-//     }
-//     void draw() const
-//     {
-
-//     }
-// };
-
-
-
-#endif
+     void update()
+     {
+       for (auto& gameobject : gameObjects)
+         gameobject->update();
+     }
+     void draw()
+     {
+       for (auto& gameobject: gameObjects)
+         gameobject->draw();
+     }
+ };

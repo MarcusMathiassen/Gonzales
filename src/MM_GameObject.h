@@ -1,5 +1,4 @@
-#ifndef _MM_GAMEOBJECT_H_
-#define _MM_GAMEOBJECT_H_
+#pragma once
 
 #define GLEW_STATIC
 #include <GL/glew.h>
@@ -13,19 +12,21 @@
 #include <glm/glm.hpp>
 #include <iostream>
 
-struct MMGameObject
+struct GameObject
 {
-  enum {MVP, NUM_UNIFORMS};
-  MMTexture     texture;
-  MMMesh        mesh;
-  MMTransform   transform;
-  GLuint        shaderProgram{0};
-  GLint         uniform[NUM_UNIFORMS]{0};
-
+  u32 id      { 0 };
+  enum        {MVP, NUM_UNIFORMS};
+  Texture     texture;
+  Mesh        mesh;
+  Transform   transform;
+  u32         shaderProgram{0};
+  s32         uniform[NUM_UNIFORMS]{0};
+	
+  void update() {}
   void draw()
   {
-    texture.bind(0);
     glUseProgram(shaderProgram);
+    texture.bind(0);
 
     glm::mat4 mvp = mmMainCamera->getViewProjection() * transform.getModel();
     glUniformMatrix4fv(uniform[MVP], 1, GL_FALSE, &mvp[0][0]);
@@ -33,16 +34,17 @@ struct MMGameObject
     mesh.draw();
   }
 
-  MMGameObject(const char* file,
+  GameObject() = default;
+  GameObject(const char* file,
     const char* file_texture,
     const char* file_vertexShader,
     const char* file_fragmentShader) : mesh(file)
   {
-    texture = MMTexture(file_texture, GL_LINEAR);
+    texture = Texture(file_texture, GL_LINEAR);
 
     shaderProgram         = glCreateProgram();
-    GLuint vertexShader   = mmCreateShader(file_vertexShader, GL_VERTEX_SHADER);
-    GLuint fragmentShader = mmCreateShader(file_fragmentShader, GL_FRAGMENT_SHADER);
+    u32 vertexShader   = createShader(file_vertexShader, GL_VERTEX_SHADER);
+    u32 fragmentShader = createShader(file_fragmentShader, GL_FRAGMENT_SHADER);
 
     glAttachShader(shaderProgram, vertexShader);
     glAttachShader(shaderProgram, fragmentShader);
@@ -56,10 +58,8 @@ struct MMGameObject
 
     glLinkProgram(shaderProgram);
     glValidateProgram(shaderProgram);
-    mmValidateShaderProgram("MMGameObject", shaderProgram);
+    validateShaderProgram("MMGameObject", shaderProgram);
 
     uniform[MVP] = glGetUniformLocation(shaderProgram, "MVP");
   }
 };
-
-#endif

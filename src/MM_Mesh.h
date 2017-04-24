@@ -9,13 +9,13 @@
 #include <cstdint>
 #include <iostream>
 #include <vector>
-#include "MM_OBJLoader.h"
+#include "MM_Utility.h"
 
-struct MMMesh
+struct Mesh
 {
   enum {POSITION, NORMAL, UV, INDEX, NUM_BUFFERS};
-  GLuint VAO{0}, VBO[NUM_BUFFERS]{0};
-  GLsizei drawCount{0};
+  u32 VAO{0}, VBO[NUM_BUFFERS]{0};
+  s16 drawCount{0};
 
   void draw()
   {
@@ -28,16 +28,16 @@ struct MMMesh
     glEnable(GL_BLEND);
   }
 
-  MMMesh() = default;
-  MMMesh(const char* file)
+  Mesh() = default;
+  Mesh(const char* file)
   {
     std::vector<glm::vec3> vertices;
     std::vector<glm::vec3> normals;
     std::vector<glm::vec2> uvs;
-    std::vector<uint16_t>  indices;
-    mmOBJLoader(file, &vertices, &normals, &uvs, &indices);
+    std::vector<u16>  indices;
+    loadOBJ(file, &vertices, &normals, &uvs, &indices);
 
-    drawCount = (uint16_t)vertices.size();
+    drawCount = (u16)vertices.size();
 
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
@@ -67,7 +67,7 @@ struct MMMesh
     //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, VBO[INDEX]);
     //glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(indices[0]), &indices[0], GL_STATIC_DRAW);
   }
-  ~MMMesh()
+  ~Mesh()
   {
     //glDeleteBuffers(NUM_BUFFERS, VBO);
     //glDeleteVertexArrays(1, &VAO);
