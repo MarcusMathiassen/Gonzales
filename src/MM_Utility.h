@@ -1,16 +1,13 @@
-#ifndef _MM_UTILITY_H_
-#define _MM_UTILITY_H_
+#pragma once
 
 #include "MM_Typedefs.h"
 
 #define GLEW_STATIC
 #include <GL/glew.h>
-#define GLFW_DLL
 #include <GLFW/glfw3.h>
 
 #include <string>
 #include <cstring>
-// #include <cstdlib>
 #include <cstdio>
 #include <fstream>
 #include <iostream>
@@ -28,35 +25,17 @@
   #include <unistd.h>
 #endif
 
-/* Declarations */
 static void loadOBJ(const char* file, std::vector<glm::vec3> *vertices, std::vector<glm::vec3> *normals, std::vector<glm::vec2> *uvs, std::vector<u16>  *indices);
 static void limitFPS(u32 framesPerSecond, f64 timeStartFrame);
 static void readFile(const char *file, char **buffer);
-#ifdef _WIN32 // visual studio didnt like constexpr here
+#ifdef _WIN32
   static glm::vec3 getHSV(u16 h, f32 s, f32 v);
-#else // everyone else likes it
-  static constexpr glm::vec3 getHSV(uint16_t h, f32 s, f32 v);
+#else
+  static constexpr glm::vec3 getHSV(u16 h, f32 s, f32 v);
 #endif
 static void sleepForSec(f32 sec);
 static void sleepForMs(f32 ms);
 static bool waitForSec(f32 timeSinceStart, f32 sec);
-
-/* Definitions */
-static f32 timeToWait;
-static bool waited{false};
-static bool waitForSec(f32 timeSinceStart, f32 sec)
-{
-  if (!waited)
-  {
-    waited = true;
-    timeToWait = timeSinceStart + sec;
-  }
-  if (glfwGetTime() < timeToWait)
-    return false;
-
-  waited=false;
-  return true;
-}
 
 static void sleepForMs(f32 ms)
 {
@@ -95,7 +74,6 @@ static void limitFPS(u32 framesPerSecond, f64 timeStartFrame)
   #endif
     while (timeSpentFrame < frametime)
     {
-      /* Spinlock the leftovers */
       timeSpentFrame = (glfwGetTime() - timeStartFrame) * 1000.0;
     }
   }
@@ -110,24 +88,25 @@ static void readFile(const char *file, char **buffer)
   strcpy(*buffer, buff.c_str());
 }
 
-#ifdef _WIN32 // visual studio didnt like constexpr here
+#ifdef _WIN32
   static glm::vec3 getHSV(u16 h, f32 s, f32 v)
-#else // everyone else likes it
-  static constexpr glm::vec3 getHSV(uint16_t h, f32 s, f32 v)
+#else
+  static constexpr glm::vec3 getHSV(u16 h, f32 s, f32 v)
 #endif
 {
   h = (h >= 360) ? 0 : h;
-  const f32 hue{ (f32)h * 0.016666f };
+  const f32 hue { (f32)h * 0.016666f };
 
-  const u8 i { (u8)hue };
+  const u8 i    { (u8)hue };
   const f32 f   { hue - i };
   const f32 p   { v * (1.0f - s) };
   const f32 q   { v * (1.0f - s*f) };
-  const f32 t   { v * (1.0f - s*(1.0f-f)) };
+  const f32 t   { v * (1.0f - s*( 1.0f-f )) };
 
   f32 r{0.0f}, g{0.0f}, b{0.0f};
 
-  switch(i) {
+  switch(i)
+  {
     case 0: r = v; g = t; b = p; break;
     case 1: r = q; g = v; b = p; break;
     case 2: r = p; g = v; b = t; break;
@@ -282,11 +261,4 @@ static void loadOBJ(
 		for (const auto& uv_i : uv_indices)
 			uvs->emplace_back(temp_uvs[uv_i - 1]);
 	}
-
-  std::cout << "loaded obj: " << file << '\n';
-  std::cout << "            v:   " << vertices->size() << '\n';
-  std::cout << "            vt:  " << uvs->size() << '\n';
-  std::cout << "            vn:  " << normals->size() << '\n';
 }
-
-#endif

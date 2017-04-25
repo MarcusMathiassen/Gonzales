@@ -6,8 +6,8 @@ int main()
   engine.vsync = 0;
 	engine.init();
 
-  GameObject cube("./res/sphereUV.obj",
-                  "./res/earth.jpg",
+  GameObject cube("./res/monkeyUV.obj",
+                  "./res/marble.jpg",
                   "./res/MM_BasicGameObject.vs",
                   "./res/MM_BasicGameObject.fs");
 

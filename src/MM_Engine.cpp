@@ -14,7 +14,7 @@ void Engine::init()
   glfwInit();
 
   const u8 gl_major = (u8)std::floor(openGLVersion);
-  const u8 gl_minor = (u8)((openGLVersion - gl_major)*10.00001f);
+  const u8 gl_minor = (u8)((openGLVersion - gl_major)*10.0001f);
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, gl_major);
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, gl_minor);
 
@@ -45,7 +45,7 @@ void Engine::init()
   initWindowCallbacks(window);
 
   if (framerate == 0) glfwSwapInterval(vsync);
-  else                    glfwSwapInterval(0);
+  else                glfwSwapInterval(0);
 
   std::cout << glGetString(GL_VERSION)  << '\n';
   std::cout << glGetString(GL_VENDOR)   << '\n';
@@ -78,7 +78,7 @@ void Engine::start()
 			currentFPS = (u32)(1000.0f / (f32)deltaTime);
 			++timeSinceStart;
 		}
-		//sleepForMs(refreshRateInMS*0.2f);
+		sleepForMs(refreshRateInMS);
 	}
 	isRunning = false;
 	drawThread.join();
@@ -137,7 +137,7 @@ void Engine::gameLoop()
 
 void Engine::addGameObject(GameObject &gameobject)
 {
-	gameobject.id = gameObjectManager.gameObjects.size();
+	gameobject.id = (u32)gameObjectManager.gameObjects.size();
 	gameObjectManager.gameObjects.emplace_back(std::make_unique<GameObject>(gameobject));
 }
 

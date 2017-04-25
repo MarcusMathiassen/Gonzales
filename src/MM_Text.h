@@ -147,7 +147,8 @@ static void drawText(const T& t, f32 x, f32 y, f32 aspectRatio)
 #endif
 
   const f32 inverseAspectRatio = 1.0f/aspectRatio;
-  Transform transform{glm::vec3(x,y,0), glm::vec3(), glm::vec3(1,1,1)};
+  Transform transform;
+  transform.pos = glm::vec3(x,y,0);
   transform.scale = glm::vec3(inverseAspectRatio, 1, 0);
 
   const auto numChars = text.length();

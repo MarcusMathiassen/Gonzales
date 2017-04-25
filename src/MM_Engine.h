@@ -22,7 +22,6 @@ struct Engine
   Camera                             mainCamera;
   UIManager                          uiManager;
   GameObjectManager					         gameObjectManager;
-  //TaskManager                        TaskManager;
 
   u16			      width               { 640 };
   u16			      height              { 400 };

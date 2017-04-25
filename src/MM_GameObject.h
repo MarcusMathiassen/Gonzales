@@ -2,7 +2,7 @@
 
 #define GLEW_STATIC
 #include <GL/glew.h>
-#define GLFW_DLL
+//#define GLFW_DLL
 #include <GLFW/glfw3.h>
 
 #include "MM_Shader.h"
@@ -26,8 +26,8 @@ struct GameObject
 
   void update()
   {
-    transform.rot.y = glfwGetTime()*0.05;
-    transform.rot.z = glfwGetTime()*0.07;
+    transform.rot.y = (f32)(glfwGetTime() * 0.05f);
+    transform.rot.z = (f32)(glfwGetTime() * 0.07f);
   }
   void draw(const glm::mat4 &viewProjection)
   {

@@ -3,7 +3,7 @@
 
 #define GLEW_STATIC
 #include <GL/glew.h>
-#define GLFW_DLL
+//#define GLFW_DLL
 #include <GLFW/glfw3.h>
 
 #include "MM_Camera.h"
