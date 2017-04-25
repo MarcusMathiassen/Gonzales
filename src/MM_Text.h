@@ -24,7 +24,7 @@ struct MMTextBuffer;
 static MMTextBuffer *MMDefaultTextBuffer = NULL;
 
 template<typename T>
-static void drawText(const T& t, float x, float y, float aspectRatio);
+static void drawText(const T& t, f32 x, f32 y, f32 aspectRatio);
 
 /* Definitions */
 struct MMCharacter
@@ -38,9 +38,9 @@ struct MMCharacter
     glDrawElements( GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, NULL);
   }
 
-  MMCharacter(float x = 0, float y = 0)
+  MMCharacter(f32 x = 0, f32 y = 0)
   {
-    constexpr GLfloat positions[] =
+    constexpr f32 positions[] =
     {
       0.0f,                 MM_FONT_CHAR_SIZE,
       0.0f,                 0.0f,
@@ -48,7 +48,7 @@ struct MMCharacter
       MM_FONT_CHAR_SIZE,    MM_FONT_CHAR_SIZE,
     };
 
-    const GLfloat uv[] =
+    const f32 uv[] =
     {
       x,                     y,
       x,                     y + MM_FONT_CHAR_SIZE,
@@ -63,13 +63,13 @@ struct MMCharacter
 
     // positions
     glBindBuffer( GL_ARRAY_BUFFER, VBO[POSITION] );
-    glBufferData( GL_ARRAY_BUFFER, 4*sizeof(GLfloat)*2, positions, GL_STATIC_DRAW );
+    glBufferData( GL_ARRAY_BUFFER, 4*sizeof(f32)*2, positions, GL_STATIC_DRAW );
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
     // texture coordinates
     glBindBuffer( GL_ARRAY_BUFFER, VBO[UV] );
-    glBufferData( GL_ARRAY_BUFFER, 4*sizeof(GLfloat)*2, uv, GL_STATIC_DRAW );
+    glBufferData( GL_ARRAY_BUFFER, 4*sizeof(f32)*2, uv, GL_STATIC_DRAW );
     glEnableVertexAttribArray(1);
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
@@ -83,7 +83,7 @@ class Text
 {
 private:
 public:
-  float x, y;
+  f32 x, y;
   std::string txt;
   Text() = default;
 };
@@ -96,7 +96,7 @@ struct MMTextBuffer
   MMCharacter         character[256];
   s32               uniform[NUM_UNIFORMS];
 
-  MMTextBuffer(const char* fontAtlas, GLfloat filtering) : texture{fontAtlas, filtering}
+  MMTextBuffer(const char* fontAtlas, f32 filtering) : texture{fontAtlas, filtering}
   {
     shaderProgram = glCreateProgram();
     u32 vertexShader   = createShader("./res/MM_Text.vs", GL_VERTEX_SHADER);
@@ -128,7 +128,7 @@ struct MMTextBuffer
 };
 
 template<typename T>
-static void drawText(const T& t, float x, float y, float aspectRatio)
+static void drawText(const T& t, f32 x, f32 y, f32 aspectRatio)
 {
   if (MMDefaultTextBuffer == NULL)
     MMDefaultTextBuffer = new MMTextBuffer("./res/MM_fontAtlas.png", GL_LINEAR);
@@ -146,7 +146,7 @@ static void drawText(const T& t, float x, float y, float aspectRatio)
 	  else text = std::to_string(t);
 #endif
 
-  const float inverseAspectRatio = 1.0f/aspectRatio;
+  const f32 inverseAspectRatio = 1.0f/aspectRatio;
   Transform transform{glm::vec3(x,y,0), glm::vec3(), glm::vec3(1,1,1)};
   transform.scale = glm::vec3(inverseAspectRatio, 1, 0);
 

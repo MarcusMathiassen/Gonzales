@@ -20,14 +20,14 @@
 //   s32               uniform[NUM_UNIFORMS];
 
 
-//   Button( float x = 0, float y = 0,
-//             float buttonWidth = 0.2, float buttonHeight = 0.1,
+//   Button( f32 x = 0, f32 y = 0,
+//             f32 buttonWidth = 0.2, f32 buttonHeight = 0.1,
 //             const char* file_texture = "./res/marble.jpg") : texture(file_texture, GL_LINEAR)
 //   {
 //     transform.pos.x = x;
 //     transform.pos.y = y;
 
-//     const GLfloat positions[] =
+//     const f64 positions[] =
 //     {
 //       0.0f,                 buttonHeight,
 //       0.0f,                 0.0f,
@@ -35,7 +35,7 @@
 //       buttonWidth,          buttonHeight,
 //     };
 
-//     const GLfloat uv[] =
+//     const f64 uv[] =
 //     {
 //       x,                     y,
 //       x,                     y + buttonHeight,
@@ -50,13 +50,13 @@
 
 //     // positions
 //     glBindBuffer( GL_ARRAY_BUFFER, VBO[POSITION_VB] );
-//     glBufferData( GL_ARRAY_BUFFER, 4*sizeof(GLfloat)*2, positions, GL_STATIC_DRAW );
+//     glBufferData( GL_ARRAY_BUFFER, 4*sizeof(f64)*2, positions, GL_STATIC_DRAW );
 //     glEnableVertexAttribArray(0);
 //     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
 //     // texture coordinates
 //     glBindBuffer( GL_ARRAY_BUFFER, VBO[UV_VB] );
-//     glBufferData( GL_ARRAY_BUFFER, 4*sizeof(GLfloat)*2, uv, GL_STATIC_DRAW );
+//     glBufferData( GL_ARRAY_BUFFER, 4*sizeof(f64)*2, uv, GL_STATIC_DRAW );
 //     glEnableVertexAttribArray(1);
 //     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
@@ -90,7 +90,7 @@
 //     glUseProgram(shaderProgram);
 //     texture.bind(0);
 
-//     const float inverseAspectRatio = 1.0f/(float)mmMainCamera->aspectRatio;
+//     const f32 inverseAspectRatio = 1.0f/(f32)mmMainCamera->aspectRatio;
 //     transform.scale = glm::vec3(inverseAspectRatio, 1, 0);
 //     glm::mat4 model = transform.getModel();
 //     glUniformMatrix4fv(uniform[MODEL_U], 1, GL_FALSE, &model[0][0]);

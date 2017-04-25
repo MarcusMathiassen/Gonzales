@@ -4,7 +4,7 @@ project(app)
 # Compiler flags
 set(CMAKE_CXX_STANDARD 17)
 
-SET(CMAKE_CXX_FLAGS "-O3 -Wall -Wextra -Wno-unused-function -Wno-unused-parameter" )
+SET(CMAKE_CXX_FLAGS "-Wall -Wextra -Wno-unused-function -Wno-unused-parameter" )
 
 set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 

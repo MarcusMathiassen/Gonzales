@@ -1,11 +1,11 @@
 #include "MM_UIButton.h"
 
-UIButton::UIButton(float x, float y, float width, float height, const char* file_texture) : texture(file_texture, GL_LINEAR)
+UIButton::UIButton(f32 x, f32 y, f32 width, f32 height, const char* file_texture) : texture(file_texture, GL_LINEAR)
 {
   transform.pos.x = x;
   transform.pos.y = y;
 
-  const GLfloat positions[] =
+  const f64 positions[] =
   {
     0.0f,  height,
     0.0f,  0.0f,
@@ -13,7 +13,7 @@ UIButton::UIButton(float x, float y, float width, float height, const char* file
     width,  height,
   };
 
-  const GLfloat uv[] =
+  const f64 uv[] =
   {
     x,          y,
     x,          y + height,
@@ -28,13 +28,13 @@ UIButton::UIButton(float x, float y, float width, float height, const char* file
 
   // POSITIONS
   glBindBuffer( GL_ARRAY_BUFFER, VBO[POSITION_VB] );
-  glBufferData( GL_ARRAY_BUFFER, 4*sizeof(GLfloat)*2, positions, GL_STATIC_DRAW );
+  glBufferData( GL_ARRAY_BUFFER, 4*sizeof(f64)*2, positions, GL_STATIC_DRAW );
   glEnableVertexAttribArray(0);
   glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
   // TEXTURE COORDINATES
   glBindBuffer( GL_ARRAY_BUFFER, VBO[UV_VB] );
-  glBufferData( GL_ARRAY_BUFFER, 4*sizeof(GLfloat)*2, uv, GL_STATIC_DRAW );
+  glBufferData( GL_ARRAY_BUFFER, 4*sizeof(f64)*2, uv, GL_STATIC_DRAW );
   glEnableVertexAttribArray(1);
   glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
@@ -65,7 +65,7 @@ UIButton::UIButton(float x, float y, float width, float height, const char* file
 
 void UIButton::update()
 {
-  const float inverseAspectRatio = 1.0f/aspectRatio;
+  const f32 inverseAspectRatio = 1.0f/aspectRatio;
   transform.scale = glm::vec3(inverseAspectRatio, 1, 0);
 }
 

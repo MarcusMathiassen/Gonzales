@@ -26,12 +26,12 @@ public:
   u32           VAO{0}, VBO[NUM_BUFFERS]{0};
   s32           uniform[NUM_UNIFORMS];
 
-  float width{0.2f}, height{0.1f};
+  f32 width{0.2f}, height{0.1f};
 
   void update();
   void draw();
 
   UIButton() = default;
-  UIButton(float x, float y, float width, float height, const char* file_texture);
+  UIButton(f32 x, f32 y, f32 width, f32 height, const char* file_texture);
 
 };

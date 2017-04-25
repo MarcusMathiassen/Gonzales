@@ -6,32 +6,24 @@
 #include "MM_Typedefs.h"
 #include "MM_Camera.h"
 
-class UI
+struct UI
 {
-
-public:
-
-  u32           id{0};
-  static float  aspectRatio;
+  u32            id{0};
+  static  f32  aspectRatio;
 
   virtual void update(){};
   virtual void draw(){};
 
   virtual ~UI() = default;
   UI() = default;
-
 };
 
-class UIManager
+struct UIManager
 {
-
-public:
-
   std::vector<std::unique_ptr<UI> > uiObjects;
 
-  void update(const Camera &camera);
+  void update(const Camera& camera);
   void draw();
 
   UIManager() = default;
-
 };

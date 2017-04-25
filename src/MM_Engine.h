@@ -16,30 +16,28 @@
 
 #include "MM_Typedefs.h"
 
-class Engine
+struct Engine
 {
-
-public:
-
   GLFWwindow                        *window{nullptr};
   Camera                             mainCamera;
   UIManager                          uiManager;
   GameObjectManager					         gameObjectManager;
+  //TaskManager                        TaskManager;
 
   u16			      width               { 640 };
   u16			      height              { 400 };
   std::string   title               { "Engine" };
-  double        openGLVersion       { 4.1 };
-  u32			      framerate           { 0 };
-  float         refreshRateInMS     { 60.0f };
-  float         fixedFrametime      { 0.0f };
+  f64           openGLVersion       { 4.1 };
+  u32           framerate           { 0 };
+  f32           refreshRateInMS     { 60.0f };
+  f32           fixedFrametime      { 0.0f };
   u8			      vsync               { 1 };
 
-  bool        fullscreen            { false };
-  bool        isRunning             { true };
-  u32         currentFPS            { 0 };
-  double      deltaTime             { 0.0 };
-  double      timeSinceStart        { 0.0 };
+  bool          fullscreen          { false };
+  bool          isRunning           { true };
+  u32           currentFPS          { 0 };
+  f64           deltaTime           { 0.0 };
+  f64           timeSinceStart      { 0.0 };
 
   void init();
   void start();
@@ -48,14 +46,13 @@ public:
   void update();
   void draw();
 
-  template<typename T>
-  void addUI(T &ui);
+  template <typename T>
+  void addUI(T& ui);
   void addGameObject(GameObject &gameobject);
-
 };
 
-template<typename T>
-void Engine::addUI(T &ui)
+template <typename T>
+void Engine::addUI(T& ui)
 {
   ui.id = uiManager.uiObjects.size();
   uiManager.uiObjects.emplace_back(std::make_unique<T>(ui));

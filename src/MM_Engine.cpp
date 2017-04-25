@@ -13,8 +13,8 @@ void Engine::init()
 
   glfwInit();
 
-  const int gl_major = (int)std::floor(openGLVersion);
-  const int gl_minor = (int)((openGLVersion - gl_major)*10.00001f);
+  const u8 gl_major = (u8)std::floor(openGLVersion);
+  const u8 gl_minor = (u8)((openGLVersion - gl_major)*10.00001f);
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, gl_major);
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, gl_minor);
 
@@ -27,7 +27,7 @@ void Engine::init()
   window = glfwCreateWindow(width, height, title.c_str(), fullscreen ? glfwGetPrimaryMonitor() : NULL, NULL);
   glfwMakeContextCurrent(window);
 
-  int count;
+  s32 count;
   const GLFWvidmode* modes = glfwGetVideoModes( glfwGetPrimaryMonitor(), &count);
   refreshRateInMS = 1000.0f/(modes->refreshRate);
 
@@ -47,15 +47,17 @@ void Engine::init()
   if (framerate == 0) glfwSwapInterval(vsync);
   else                    glfwSwapInterval(0);
 
-  std::cout << glGetString(GL_VERSION) << '\n';
-  std::cout << glGetString(GL_VENDOR) << '\n';
+  std::cout << glGetString(GL_VERSION)  << '\n';
+  std::cout << glGetString(GL_VENDOR)   << '\n';
   std::cout << glGetString(GL_RENDERER) << '\n';
 
-  int width, height;
+  s32 width, height;
   glfwGetFramebufferSize(window, &width, &height);
   glViewport(0, 0, width, height);
+  this->width  = width;
+  this->height = height;
 
-  mainCamera.aspectRatio = (float)width / height;
+  mainCamera.aspectRatio = (f32)width / height;
   mainCamera.updatePerspective();
 }
 
@@ -70,10 +72,10 @@ void Engine::start()
 		!(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS))
 	{
 		glfwPollEvents();
-		const double timeStartFrame{ glfwGetTime() };
+		const f64 timeStartFrame{ glfwGetTime() };
 		if (timeStartFrame - timeSinceStart >= 1.0)
 		{
-			currentFPS = (u32)(1000.0f / (float)deltaTime);
+			currentFPS = (u32)(1000.0f / (f32)deltaTime);
 			++timeSinceStart;
 		}
 		//sleepForMs(refreshRateInMS*0.2f);
@@ -86,13 +88,13 @@ void Engine::start()
 void Engine::update()
 {
   // @Hack: please for the love of god fix this
-  int width, height;
+  s32 width, height;
   glfwGetFramebufferSize(window, &width, &height);
   glViewport(0, 0, width, height);
-  width = width;
-  height = height;
+  this->width  = width;
+  this->height = height;
 
-  mainCamera.aspectRatio = (float)width / height;
+  mainCamera.aspectRatio = (f32)width / height;
   mainCamera.updatePerspective();
 
   gameObjectManager.update();
@@ -107,26 +109,24 @@ void Engine::draw()
 
 void Engine::gameLoop()
 {
-	double timeSpentSwapBuffer{ 0.0 };
+	f64 timeSpentSwapBuffer{ 0.0 };
 	glfwSetTime(0.0);
 	glfwMakeContextCurrent(window);
 
 	while (isRunning)
 	{
-		const double timeStartFrame{ glfwGetTime() };
+		const f64 timeStartFrame{ glfwGetTime() };
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		// FRAME START
 
 		update();
 		draw();
 
     drawText(std::to_string(currentFPS)+"fps "+std::to_string(deltaTime)+"ms", -1.0, -1.0, mainCamera.aspectRatio);
 
-		// FRAME END
 		if (framerate > 0)
       limitFPS(framerate, timeStartFrame - timeSpentSwapBuffer);
 
-		const double timeStartSwapBuffer{ glfwGetTime() };
+		const f64 timeStartSwapBuffer{ glfwGetTime() };
 		glfwSwapBuffers(window);
 		timeSpentSwapBuffer = glfwGetTime() - timeStartSwapBuffer;
 

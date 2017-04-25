@@ -1,6 +1,6 @@
 #include "MM_UIManager.h"
 
-float UI::aspectRatio{1.0f};
+f32 UI::aspectRatio{1.0f};
 
 void UIManager::update(const Camera &camera)
 {

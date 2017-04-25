@@ -10,7 +10,7 @@
 
 #include <string>
 #include <cstring>
-#include <cstdlib>
+// #include <cstdlib>
 #include <cstdio>
 #include <fstream>
 #include <iostream>
@@ -30,21 +30,21 @@
 
 /* Declarations */
 static void loadOBJ(const char* file, std::vector<glm::vec3> *vertices, std::vector<glm::vec3> *normals, std::vector<glm::vec2> *uvs, std::vector<u16>  *indices);
-static void limitFPS(u32 framesPerSecond, double timeStartFrame);
+static void limitFPS(u32 framesPerSecond, f64 timeStartFrame);
 static void readFile(const char *file, char **buffer);
 #ifdef _WIN32 // visual studio didnt like constexpr here
-  static glm::vec3 getHSV(u16 h, float s, float v);
+  static glm::vec3 getHSV(u16 h, f32 s, f32 v);
 #else // everyone else likes it
-  static constexpr glm::vec3 getHSV(uint16_t h, float s, float v);
+  static constexpr glm::vec3 getHSV(uint16_t h, f32 s, f32 v);
 #endif
-static void sleepForSec(float sec);
-static void sleepForMs(float ms);
-static bool waitForSec(float timeSinceStart, float sec);
+static void sleepForSec(f32 sec);
+static void sleepForMs(f32 ms);
+static bool waitForSec(f32 timeSinceStart, f32 sec);
 
 /* Definitions */
-static float timeToWait;
+static f32 timeToWait;
 static bool waited{false};
-static bool waitForSec(float timeSinceStart, float sec)
+static bool waitForSec(f32 timeSinceStart, f32 sec)
 {
   if (!waited)
   {
@@ -58,7 +58,7 @@ static bool waitForSec(float timeSinceStart, float sec)
   return true;
 }
 
-static void sleepForMs(float ms)
+static void sleepForMs(f32 ms)
 {
   #ifdef _WIN32
     Sleep((DWORD)ms);
@@ -67,7 +67,7 @@ static void sleepForMs(float ms)
   #endif
 }
 
-static void sleepForSec(float sec)
+static void sleepForSec(f32 sec)
 {
   #ifdef _WIN32
     Sleep((DWORD)(1000.0/sec));
@@ -76,16 +76,16 @@ static void sleepForSec(float sec)
   #endif
 }
 
-static void limitFPS(u32 framesPerSecond, double timeStartFrame)
+static void limitFPS(u32 framesPerSecond, f64 timeStartFrame)
 {
-  const double frametime = (double)(1000.0/framesPerSecond);
-  double timeSpentFrame{(glfwGetTime() - timeStartFrame) * 1000.0};
+  const f64 frametime = (f64)(1000.0/framesPerSecond);
+  f64 timeSpentFrame{(glfwGetTime() - timeStartFrame) * 1000.0};
   #ifdef _WIN32
     #define SLEEP_TIME_OFFSET 1.0
   #elif __APPLE__
     #define SLEEP_TIME_OFFSET 2.0
   #endif
-  const double sleepTime{(frametime-SLEEP_TIME_OFFSET) - timeSpentFrame};
+  const f64 sleepTime{(frametime-SLEEP_TIME_OFFSET) - timeSpentFrame};
   if (sleepTime > 0)
   {
   #ifdef _WIN32
@@ -111,21 +111,21 @@ static void readFile(const char *file, char **buffer)
 }
 
 #ifdef _WIN32 // visual studio didnt like constexpr here
-  static glm::vec3 getHSV(u16 h, float s, float v)
+  static glm::vec3 getHSV(u16 h, f32 s, f32 v)
 #else // everyone else likes it
-  static constexpr glm::vec3 getHSV(uint16_t h, float s, float v)
+  static constexpr glm::vec3 getHSV(uint16_t h, f32 s, f32 v)
 #endif
 {
   h = (h >= 360) ? 0 : h;
-  const float hue{ (float)h * 0.016666f };
+  const f32 hue{ (f32)h * 0.016666f };
 
   const u8 i { (u8)hue };
-  const float f   { hue - i };
-  const float p   { v * (1.0f - s) };
-  const float q   { v * (1.0f - s*f) };
-  const float t   { v * (1.0f - s*(1.0f-f)) };
+  const f32 f   { hue - i };
+  const f32 p   { v * (1.0f - s) };
+  const f32 q   { v * (1.0f - s*f) };
+  const f32 t   { v * (1.0f - s*(1.0f-f)) };
 
-  float r{0.0f}, g{0.0f}, b{0.0f};
+  f32 r{0.0f}, g{0.0f}, b{0.0f};
 
   switch(i) {
     case 0: r = v; g = t; b = p; break;

@@ -35,7 +35,7 @@ struct TearingTest
     validateShaderProgram("TearingTest",shaderProgram);
 
 
-    GLfloat vertices[] =
+    f64 vertices[] =
     {
       -0.02f,    -1.0f,
       -0.02f,     1.0f,
@@ -49,13 +49,13 @@ struct TearingTest
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
     glBufferData( GL_ARRAY_BUFFER,
-                  sizeof(vertices) * sizeof(GLfloat),
+                  sizeof(vertices) * sizeof(f64),
                   vertices,
                   GL_STATIC_DRAW
                 );
 
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), NULL);
+    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 2 * sizeof(f64), NULL);
   }
 
   void draw()
@@ -65,7 +65,7 @@ struct TearingTest
     glClearColor(color.r,color.g,color.b, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    const float x = (float)sin(glfwGetTime());
+    const f32 x = (f32)sin(glfwGetTime());
 
     glBindVertexArray(VAO);
     glUseProgram(shaderProgram);
