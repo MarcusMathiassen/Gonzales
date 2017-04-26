@@ -1,21 +1,20 @@
 #include "MM_Engine.h"
 #include "MM_Text.h"
 
+#include <stdio.h>
 #include <thread>
-#include <iostream>
-#include <cmath>
-#include <memory>
-
-#include "MM_UIButton.h"
+#include <math.h>
 
 void Engine::init()
 {
   if (framerate > 0) fixedFrametime = 1000.0f/framerate;
 
+
+  // @Cleanup: this is window initialization. Do it somewhere else.
   glfwInit();
 
   const u8 gl_major = (u8)std::floor(openGLVersion);
-  const u8 gl_minor = (u8)((openGLVersion - gl_major)*10.0001f);
+  const u8 gl_minor = (u8)((openGLVersion - gl_major) * 10.0001f);
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, gl_major);
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, gl_minor);
 
@@ -53,9 +52,10 @@ void Engine::init()
   if (framerate == 0) glfwSwapInterval(vsync);
   else                glfwSwapInterval(0);
 
-  std::cout << glGetString(GL_VERSION)  << '\n';
-  std::cout << glGetString(GL_VENDOR)   << '\n';
-  std::cout << glGetString(GL_RENDERER) << '\n';
+  // @Cleanup: move this somewhere else
+  printf("%s\n", glGetString(GL_VERSION));
+  printf("%s\n", glGetString(GL_VENDOR));
+  printf("%s\n", glGetString(GL_RENDERER));
 
   s32 width, height;
   glfwGetFramebufferSize(window, &width, &height);
@@ -132,9 +132,9 @@ void Engine::gameLoop()
 		update();
 		draw();
 
-    drawText(std::to_string(currentFPS)+"fps "+std::to_string(deltaTime)+"ms",
-             -1.0, -1.0,
-             mainCamera.aspectRatio);
+    char fpsinfo[20];
+    sprintf(fpsinfo,"%dfps %fms",currentFPS, deltaTime);
+    drawText(fpsinfo, -1.0, -1.0, mainCamera.aspectRatio);
 
 		if (framerate > 0)
       limitFPS(framerate, timeStartFrame - timeSpentSwapBuffer);

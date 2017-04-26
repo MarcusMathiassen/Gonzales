@@ -22,8 +22,7 @@ struct MMCharacter;
 struct MMTextBuffer;
 static MMTextBuffer *MMDefaultTextBuffer = NULL;
 
-template<typename T>
-static void drawText(const T& t, f32 x, f32 y, f32 aspectRatio);
+static void drawText(const char* text, f32 x, f32 y, f32 aspectRatio);
 
 struct MMCharacter
 {
@@ -113,8 +112,7 @@ struct MMTextBuffer
   }
 };
 
-template<typename T>
-static void drawText(const T& t, f32 x, f32 y, f32 aspectRatio)
+static void drawText(const char* text, f32 x, f32 y, f32 aspectRatio)
 {
   if (MMDefaultTextBuffer == NULL)
     MMDefaultTextBuffer = new MMTextBuffer("./res/MM_fontAtlas.png", GL_LINEAR);
@@ -122,22 +120,13 @@ static void drawText(const T& t, f32 x, f32 y, f32 aspectRatio)
   glDisable(GL_DEPTH_TEST);
   glUseProgram(MMDefaultTextBuffer->shaderProgram);
   MMDefaultTextBuffer->texture.bind(0);
-  std::string text;
-#ifdef _WIN32 // win32 doesnt support if constexpr yet. Also doesnt support the needed overloads for std::to_string
-    if (std::is_same<std::string, T>::value)            text = t;
-    else if (std::is_array<T>::value)                   text = t;
-#else // everyone else supports it
-    if constexpr (std::is_same<std::string, T>::value)  text = t;
-    else if constexpr (std::is_array<T>::value)         text = t;
-	  else text = std::to_string(t);
-#endif
 
   const f32 inverseAspectRatio = 1.0f/aspectRatio;
   Transform transform;
   transform.pos = vec3(x,y,0);
   transform.scale = vec3(inverseAspectRatio, 1, 0);
 
-  const auto numChars = text.length();
+  const auto numChars = strlen(text);
   for (size_t i = 0; i < numChars; ++i)
   {
     if (text[i] == ' ') continue;

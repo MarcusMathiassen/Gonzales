@@ -13,7 +13,7 @@
 #include "MM_TextManager.h"
 #include "MM_ResourceManager.h"
 
-#include <string>
+#include "../res/string.h"
 #include "MM_Utility.h"
 #include "MM_Window.h"
 
@@ -21,17 +21,17 @@
 
 struct Engine
 {
-  GLFWwindow                        *window{nullptr};
+  GLFWwindow                        *window{NULL};
   Renderer                           renderer;
   Camera                             mainCamera;
   UIManager                          uiManager;
   GameObjectManager                  gameObjectManager;
   ResourceManager                    resourceManager;
-  TextManager                        *textManager{nullptr};
+  TextManager                       *textManager{NULL};
 
   u16			      width               { 640 };
   u16			      height              { 400 };
-  std::string   title               { "Engine" };
+  string        title               { "Engine" };
   f64           openGLVersion       { 4.1 };
   u32           framerate           { 0 };
   f32           refreshRateInMS     { 60.0f };
