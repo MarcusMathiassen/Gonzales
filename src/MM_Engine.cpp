@@ -24,7 +24,12 @@ void Engine::init()
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
   }
 
-  window = glfwCreateWindow(width, height, title.c_str(), fullscreen ? glfwGetPrimaryMonitor() : NULL, NULL);
+  window = glfwCreateWindow(width,
+                            height,
+                            title.c_str(),
+                            fullscreen ? glfwGetPrimaryMonitor() : NULL,
+                            NULL);
+
   glfwMakeContextCurrent(window);
 
   s32 count;
@@ -61,7 +66,6 @@ void Engine::init()
   mainCamera.updatePerspective();
 }
 
-
 void Engine::start()
 {
 	glfwMakeContextCurrent(NULL);
@@ -78,8 +82,12 @@ void Engine::start()
 			currentFPS = (u32)(1000.0f / (f32)deltaTime);
 			++timeSinceStart;
 		}
+
+    // @Cleanup: do we need to sleep?
 		sleepForMs(refreshRateInMS);
 	}
+
+  // @Cleanup: place this somewhere else
 	isRunning = false;
 	drawThread.join();
 	glfwTerminate();
@@ -105,6 +113,8 @@ void Engine::draw()
 {
   gameObjectManager.draw(mainCamera);
   uiManager.draw();
+
+  textManager->drawAll();
 }
 
 void Engine::gameLoop()
@@ -121,7 +131,9 @@ void Engine::gameLoop()
 		update();
 		draw();
 
-    drawText(std::to_string(currentFPS)+"fps "+std::to_string(deltaTime)+"ms", -1.0, -1.0, mainCamera.aspectRatio);
+    // drawText(std::to_string(currentFPS)+"fps "+std::to_string(deltaTime)+"ms",
+    //          -1.0, -1.0,
+    //          mainCamera.aspectRatio);
 
 		if (framerate > 0)
       limitFPS(framerate, timeStartFrame - timeSpentSwapBuffer);
@@ -135,9 +147,16 @@ void Engine::gameLoop()
 	glfwMakeContextCurrent(NULL);
 }
 
+void Engine::addText(const Text &text)
+{
+  textManager->addText(text);
+}
+
 void Engine::addGameObject(GameObject &gameobject)
 {
 	gameobject.id = (u32)gameObjectManager.gameObjects.size();
 	gameObjectManager.gameObjects.emplace_back(std::make_unique<GameObject>(gameobject));
+
+  resourceManager.addGameObject(gameobject);
 }
 

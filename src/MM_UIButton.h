@@ -9,7 +9,7 @@
 #include "MM_Transform.h"
 #include "MM_Texture.h"
 #include "MM_Shader.h"
-#include "MM_Text.h"
+#include "MM_TextManager.h"
 
 class UIButton : public UI
 {

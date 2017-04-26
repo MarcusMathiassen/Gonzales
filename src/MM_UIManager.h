@@ -8,7 +8,7 @@
 
 struct UI
 {
-  u32            id{0};
+  u32          id{0};
   static  f32  aspectRatio;
 
   virtual void update(){};

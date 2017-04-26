@@ -2,7 +2,6 @@
 
 #define GLEW_STATIC
 #include <GL/glew.h>
-//#define GLFW_DLL
 #include <GLFW/glfw3.h>
 
 #include "MM_Shader.h"
@@ -18,6 +17,7 @@ struct GameObject
 {
   u32 id      { 0 };
   enum        {MVP, NUM_UNIFORMS};
+  Shader      shader;
   Texture     texture;
   Mesh        mesh;
   Transform   transform;
@@ -31,6 +31,7 @@ struct GameObject
   }
   void draw(const glm::mat4 &viewProjection)
   {
+    //shader.bind();
     glUseProgram(shaderProgram);
     texture.bind(0);
 

@@ -1,23 +1,32 @@
-#ifndef _MM_SHADER_H_
-#define _MM_SHADER_H_
+#pragma once
 
 #include "MM_Utility.h"
+#include "MM_Typedefs.h"
 
 #define GLEW_STATIC
 #include <GL/glew.h>
 
-#include <cstdlib>
+#include <cstdio>
 
-/* Declarations */
 static void validateShader(const char *file, const char *type, u32 shader);
 static void validateShaderProgram(const char* name, u32 shaderProgram);
 static u32 createShader(const char *file, const GLenum type);
 
-/* Definitions */
+struct Shader
+{
+  enum { MVP, NUM_UNIFORMS };
+  std::vector<s32> uniforms;
+  u32 program{0};
+  u32 uniform[NUM_UNIFORMS]{0};
+  void bind();
+  Shader(const std::string &file);
+  Shader() = default;
+};
+
 static void validateShader(const char *file, const char *type, u32 shader)
 {
-  GLchar  infoLog[512] = {0};
-  s32   success;
+  char  infoLog[512] = {0};
+  s32     success;
   glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
   if (!success)
   {
@@ -29,7 +38,7 @@ static void validateShader(const char *file, const char *type, u32 shader)
 
 static void validateShaderProgram(const char* name, u32 shaderProgram)
 {
-  GLchar  infoLog[512] = {0};
+  char  infoLog[512] = {0};
   s32   success;
   glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
   if (!success)
@@ -41,14 +50,14 @@ static void validateShaderProgram(const char* name, u32 shaderProgram)
 
 static u32 createShader(const char *file, const GLenum type)
 {
-  GLchar *source = NULL;
+  char *source = NULL;
   readFile(file, &source);
 
   u32 shader = glCreateShader(type);
   if (NULL != source)
   {
-	  glShaderSource(shader, 1, &source, NULL);
-	  free(source);
+    glShaderSource(shader, 1, &source, NULL);
+    free(source);
   }
 
   glCompileShader(shader);
@@ -62,5 +71,3 @@ static u32 createShader(const char *file, const GLenum type)
   printf("Shader loaded: %s\n", file);
   return shader;
 }
-
-#endif

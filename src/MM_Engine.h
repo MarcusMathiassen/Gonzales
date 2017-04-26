@@ -9,6 +9,9 @@
 #include "MM_GameObject.h"
 #include "MM_GameObjectManager.h"
 #include "MM_UIManager.h"
+#include "MM_Renderer.h"
+#include "MM_TextManager.h"
+#include "MM_ResourceManager.h"
 
 #include <string>
 #include "MM_Utility.h"
@@ -19,9 +22,12 @@
 struct Engine
 {
   GLFWwindow                        *window{nullptr};
+  Renderer                           renderer;
   Camera                             mainCamera;
   UIManager                          uiManager;
-  GameObjectManager					         gameObjectManager;
+  GameObjectManager                  gameObjectManager;
+  ResourceManager                    resourceManager;
+  TextManager                        *textManager{nullptr};
 
   u16			      width               { 640 };
   u16			      height              { 400 };
@@ -47,6 +53,7 @@ struct Engine
 
   template <typename T>
   void addUI(T& ui);
+  void addText(const Text &text);
   void addGameObject(GameObject &gameobject);
 };
 
