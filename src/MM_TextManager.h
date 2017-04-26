@@ -13,8 +13,8 @@ struct Text
 {
   f32 x{0.0f}, y{0.0f};
   std::string txt{"default text"};
-  glm::vec4 color{1.0f, 1.0f, 1.0f, 1.0f};
-  Text(const char *text, f32 x, f32 y, const glm::vec4 &color) : txt(text), x(x), y(y), color(color) {}
+  vec4 color{1.0f, 1.0f, 1.0f, 1.0f};
+  Text(const char *text, f32 x, f32 y, const vec4 &color) : txt(text), x(x), y(y), color(color) {}
   Text() = default;
 };
 
@@ -28,10 +28,10 @@ struct TextManager
   u32           uniform[NUM_UNIFORMS];
   Texture       texture;
 
-  std::vector<Text> text_buffer;
+  vector<Text> text_buffer;
   void drawAll();
   void addText(const Text &text);
-  void addText(const char *text, f32 x, f32 y, const glm::vec4 &color = glm::vec4(1,1,1,1));
+  void addText(const char *text, f32 x, f32 y, const vec4 &color = vec4(1,1,1,1));
   TextManager();
 };
 

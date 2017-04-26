@@ -9,7 +9,7 @@
  class GameObjectManager
  {
    public:
-     std::vector<std::unique_ptr<GameObject> > gameObjects;
+     vector<std::unique_ptr<GameObject> > gameObjects;
 
      void update()
      {
@@ -18,7 +18,7 @@
      }
      void draw(const Camera &camera)
      {
-        const glm::mat4 viewProjection = camera.getViewProjection();
+        const mat4 viewProjection = camera.getViewProjection();
         for (auto& gameobject: gameObjects)
           gameobject->draw(viewProjection);
      }

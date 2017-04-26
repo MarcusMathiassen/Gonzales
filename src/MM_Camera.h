@@ -8,19 +8,19 @@
 
 struct Camera
 {
-  glm::vec3 position{0, 0, -5};
-  glm::vec3 forward{0, 0, 1};
-  glm::vec3 up{0, 1, 0};
+  vec3 position{0, 0, -5};
+  vec3 forward{0, 0, 1};
+  vec3 up{0, 1, 0};
 
   f32 fov{120.0f};
   f32 aspectRatio{1.0f};
   f32 zNear{0.01f};
   f32 zFar{1000.0f};
-  glm::mat4 perspective{glm::perspective(fov, aspectRatio, zNear, zFar)};
+  mat4 perspective{glm::perspective(fov, aspectRatio, zNear, zFar)};
 
   f32 moveSpeed{0.02f};
   Camera() = default;
-  glm::mat4 getViewProjection() const
+  mat4 getViewProjection() const
   {
     return perspective * glm::lookAt(position, position + forward, up);
   }

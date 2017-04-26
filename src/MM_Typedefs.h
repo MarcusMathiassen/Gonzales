@@ -1,6 +1,9 @@
 #pragma once
 
 #include <stdint.h>
+#include <glm/glm.hpp>
+#include <vector>
+#include <memory>
 
 typedef uint8_t     u8;
 typedef uint16_t    u16;
@@ -14,3 +17,11 @@ typedef int64_t     s64;
 
 typedef float       f32;
 typedef double      f64;
+
+using std::vector;
+using std::unique_ptr;
+
+using glm::vec2;
+using glm::vec3;
+using glm::vec4;
+using glm::mat4;

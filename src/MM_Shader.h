@@ -15,7 +15,7 @@ static u32 createShader(const char *file, const GLenum type);
 struct Shader
 {
   enum { MVP, NUM_UNIFORMS };
-  std::vector<s32> uniforms;
+  vector<s32> uniforms;
   u32 program{0};
   u32 uniform[NUM_UNIFORMS]{0};
   void bind();

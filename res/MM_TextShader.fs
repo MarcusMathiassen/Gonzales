@@ -2,7 +2,7 @@
 
 out vec4 fragColor;
 
-uniform sampler2D diffuse;
+uniform sampler2D tex;
 
 in Vertex
 {
@@ -11,5 +11,5 @@ in Vertex
 
 void main()
 {
-  fragColor = texture(diffuse, frag.textCoord);
+  fragColor = texture(tex, frag.textCoord);
 }

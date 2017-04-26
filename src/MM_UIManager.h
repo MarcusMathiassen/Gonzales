@@ -20,7 +20,7 @@ struct UI
 
 struct UIManager
 {
-  std::vector<std::unique_ptr<UI> > uiObjects;
+  vector<std::unique_ptr<UI> > uiObjects;
 
   void update(const Camera& camera);
   void draw();

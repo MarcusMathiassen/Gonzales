@@ -61,7 +61,7 @@ struct TearingTest
   void draw()
   {
     if (hue++ > 360) hue = 0;
-    const glm::vec3 color = getHSV(hue, 0.7f, 1.0f);
+    const vec3 color = getHSV(hue, 0.7f, 1.0f);
     glClearColor(color.r,color.g,color.b, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 

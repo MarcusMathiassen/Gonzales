@@ -22,7 +22,7 @@
 
 //   Button( f32 x = 0, f32 y = 0,
 //             f32 buttonWidth = 0.2, f32 buttonHeight = 0.1,
-//             const char* file_texture = "./res/marble.jpg") : texture(file_texture, GL_LINEAR)
+//             const s8* file_texture = "./res/marble.jpg") : texture(file_texture, GL_LINEAR)
 //   {
 //     transform.pos.x = x;
 //     transform.pos.y = y;
@@ -91,8 +91,8 @@
 //     texture.bind(0);
 
 //     const f32 inverseAspectRatio = 1.0f/(f32)mmMainCamera->aspectRatio;
-//     transform.scale = glm::vec3(inverseAspectRatio, 1, 0);
-//     glm::mat4 model = transform.getModel();
+//     transform.scale = vec3(inverseAspectRatio, 1, 0);
+//     mat4 model = transform.getModel();
 //     glUniformMatrix4fv(uniform[MODEL_U], 1, GL_FALSE, &model[0][0]);
 
 //     glBindVertexArray(VAO);

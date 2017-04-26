@@ -25,13 +25,13 @@
   #include <unistd.h>
 #endif
 
-static void loadOBJ(const char* file, std::vector<glm::vec3> *vertices, std::vector<glm::vec3> *normals, std::vector<glm::vec2> *uvs, std::vector<u16>  *indices);
+static void loadOBJ(const char* file, vector<vec3> *vertices, vector<vec3> *normals, vector<vec2> *uvs, vector<u16>  *indices);
 static void limitFPS(u32 framesPerSecond, f64 timeStartFrame);
 static void readFile(const char *file, char **buffer);
 #ifdef _WIN32
-  static glm::vec3 getHSV(u16 h, f32 s, f32 v);
+  static vec3 getHSV(u16 h, f32 s, f32 v);
 #else
-  static constexpr glm::vec3 getHSV(u16 h, f32 s, f32 v);
+  static constexpr vec3 getHSV(u16 h, f32 s, f32 v);
 #endif
 static void sleepForSec(f32 sec);
 static void sleepForMs(f32 ms);
@@ -79,7 +79,7 @@ static void limitFPS(u32 framesPerSecond, f64 timeStartFrame)
   }
 }
 
-static void readFile(const char *file, char **buffer)
+static void readFile(const char* file, char** buffer)
 {
   std::string buff, line;
   std::ifstream fileIn(file);
@@ -89,9 +89,9 @@ static void readFile(const char *file, char **buffer)
 }
 
 #ifdef _WIN32
-  static glm::vec3 getHSV(u16 h, f32 s, f32 v)
+  static vec3 getHSV(u16 h, f32 s, f32 v)
 #else
-  static constexpr glm::vec3 getHSV(u16 h, f32 s, f32 v)
+  static constexpr vec3 getHSV(u16 h, f32 s, f32 v)
 #endif
 {
   h = (h >= 360) ? 0 : h;
@@ -115,15 +115,15 @@ static void readFile(const char *file, char **buffer)
     case 5:
     default: r = v; g = p; b = q; break;
   }
-  return glm::vec3(r,g,b);
+  return vec3(r,g,b);
 }
 
 static void loadOBJ(
 	const char* file,
-	std::vector<glm::vec3> *vertices,
-	std::vector<glm::vec3> *normals,
-	std::vector<glm::vec2> *uvs,
-	std::vector<u16>       *indices)
+	vector<vec3> *vertices,
+	vector<vec3> *normals,
+	vector<vec2> *uvs,
+	vector<u16>       *indices)
 {
 	char *buffer;
 	readFile(file, &buffer);
@@ -134,10 +134,10 @@ static void loadOBJ(
 	if (NULL != buffer)
 		free(buffer);
 
-	std::vector<glm::vec3> temp_vertices;
-	std::vector<glm::vec3> temp_normals;
-	std::vector<glm::vec2> temp_uvs;
-	std::vector<u16> vert_indices, uv_indices, norm_indices;
+	vector<vec3> temp_vertices;
+	vector<vec3> temp_normals;
+	vector<vec2> temp_uvs;
+	vector<u16> vert_indices, uv_indices, norm_indices;
 
 	bool hasUV{ false }, hasNormal{ false };
 
@@ -152,7 +152,7 @@ static void loadOBJ(
 			{
 			case ' ':
 			{
-				glm::vec3 v;
+				vec3 v;
 				sscanf(line.c_str() + 1, "%f %f %f", &v.x, &v.y, &v.z);
 				temp_vertices.emplace_back(v);
 			}
@@ -161,7 +161,7 @@ static void loadOBJ(
 			case 'n':
 			{
 				hasNormal = true;
-				glm::vec3 n;
+				vec3 n;
 				sscanf(line.c_str() + 2, "%f %f %f", &n.x, &n.y, &n.z);
 				temp_normals.emplace_back(n);
 			}
@@ -170,7 +170,7 @@ static void loadOBJ(
 			case 't':
 			{
 				hasUV = true;
-				glm::vec2 t;
+				vec2 t;
 				sscanf(line.c_str() + 2, "%f %f", &t.x, &t.y);
 				temp_uvs.emplace_back(t);
 			}

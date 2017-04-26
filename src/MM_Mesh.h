@@ -16,10 +16,10 @@ struct Mesh
   s16 drawCount{0};
   f32 drawType{GL_TRIANGLES};
 
-  std::vector<glm::vec3> positions;
-  std::vector<glm::vec3> normals;
-  std::vector<glm::vec2> uvs;
-  std::vector<u16>       indices;
+  vector<vec3> positions;
+  vector<vec3> normals;
+  vector<vec2> uvs;
+  vector<u16>  indices;
 
   void draw()
   {
@@ -35,10 +35,10 @@ struct Mesh
   Mesh() = default;
   Mesh(const char* file)
   {
-    std::vector<glm::vec3> positions;
-    std::vector<glm::vec3> normals;
-    std::vector<glm::vec2> uvs;
-    std::vector<u16>  indices;
+    vector<vec3> positions;
+    vector<vec3> normals;
+    vector<vec2> uvs;
+    vector<u16>  indices;
     loadOBJ(file, &positions, &normals, &uvs, &indices);
     drawCount = (u16)positions.size();
 

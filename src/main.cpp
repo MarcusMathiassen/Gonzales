@@ -27,10 +27,10 @@ int main()
   engine.vsync = 0;
 	engine.init();
 
-  // GameObject cube("./res/cubeUV.obj",
-  //                 "./res/marble.jpg",
-  //                 "./res/MM_BasicGameObject.vs",
-  //                 "./res/MM_BasicGameObject.fs");
+  GameObject cube("./res/sphereUV.obj",
+                  "./res/earth.jpg",
+                  "./res/MM_BasicGameObject.vs",
+                  "./res/MM_BasicGameObject.fs");
 
   engine.textManager = new TextManager();
 
@@ -40,7 +40,7 @@ int main()
   text.y = 0;
   engine.addText(text);
 
-  //engine.addGameObject(cube);
+  engine.addGameObject(cube);
 
 	engine.start();
 }

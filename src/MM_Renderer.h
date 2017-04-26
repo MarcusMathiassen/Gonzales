@@ -10,7 +10,7 @@ struct Renderer
 {
   struct MeshObject { u32 VAO; u32 count; f32 type; };
 
-  std::vector<GameObject>  gameobjects;
+  vector<GameObject>  gameobjects;
 
   enum {POSITION, NORMAL, UV, INDEX, NUM_BUFFERS};
 

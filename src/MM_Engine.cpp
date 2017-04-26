@@ -1,4 +1,5 @@
 #include "MM_Engine.h"
+#include "MM_Text.h"
 
 #include <thread>
 #include <iostream>
@@ -131,9 +132,9 @@ void Engine::gameLoop()
 		update();
 		draw();
 
-    // drawText(std::to_string(currentFPS)+"fps "+std::to_string(deltaTime)+"ms",
-    //          -1.0, -1.0,
-    //          mainCamera.aspectRatio);
+    drawText(std::to_string(currentFPS)+"fps "+std::to_string(deltaTime)+"ms",
+             -1.0, -1.0,
+             mainCamera.aspectRatio);
 
 		if (framerate > 0)
       limitFPS(framerate, timeStartFrame - timeSpentSwapBuffer);

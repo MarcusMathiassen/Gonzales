@@ -3376,13 +3376,13 @@ static void stbi__YCbCr_to_RGB_simd(stbi_uc *out, stbi_uc const *y,
       uint8x8_t y_bytes = vld1_u8(y + i);
       uint8x8_t cr_bytes = vld1_u8(pcr + i);
       uint8x8_t cb_bytes = vld1_u8(pcb + i);
-      int8x8_t cr_biased = vreinterpret_s8_u8(vsub_u8(cr_bytes, signflip));
-      int8x8_t cb_biased = vreinterpret_s8_u8(vsub_u8(cb_bytes, signflip));
+      int8x8_t cr_biased = vreinterpret_char_u8(vsub_u8(cr_bytes, signflip));
+      int8x8_t cb_biased = vreinterpret_char_u8(vsub_u8(cb_bytes, signflip));
 
       // expand to s16
       int16x8_t yws = vreinterpretq_s16_u16(vshll_n_u8(y_bytes, 4));
-      int16x8_t crw = vshll_n_s8(cr_biased, 7);
-      int16x8_t cbw = vshll_n_s8(cb_biased, 7);
+      int16x8_t crw = vshll_n_char(cr_biased, 7);
+      int16x8_t cbw = vshll_n_char(cb_biased, 7);
 
       // color transform
       int16x8_t cr0 = vqdmulhq_s16(crw, cr_const0);

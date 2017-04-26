@@ -11,9 +11,9 @@
 
 struct ResourceManager
 {
-  std::vector<u32> shaders;
-  std::vector<u32> meshes;
-  std::vector<u32> textures;
+  vector<u32> shaders;
+  vector<u32> meshes;
+  vector<u32> textures;
 
   void printAll();
 

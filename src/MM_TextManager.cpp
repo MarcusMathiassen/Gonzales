@@ -7,7 +7,7 @@ void TextManager::addText(const Text &text)
 {
   text_buffer.emplace_back(text);
 }
-void TextManager::addText(const char *text, f32 x, f32 y, const glm::vec4 &color)
+void TextManager::addText(const char* text, f32 x, f32 y, const vec4 &color)
 {
   text_buffer.emplace_back(Text(text,x,y,color));
 }
@@ -20,18 +20,17 @@ void TextManager::drawAll()
   glBindVertexArray(vao);
   for (const Text &text: text_buffer)
   {
-    const u8 num_chars{(u8)text.txt.length()};
-    for (u8 i = 0; i < num_chars; ++i)
+    const u8 num_s8s{(u8)text.txt.length()};
+    for (u8 i = 0; i < num_s8s; ++i)
     {
       if (text.txt[i] == ' ') continue;
-      glUniform2f(uniform[POSITION_OFFSET], text.x + i*DIST_BETW_CHAR, text.y);
+      glUniform2f(uniform[POSITION_OFFSET], text.x + i * DIST_BETW_CHAR, text.y);
       glUniform1f(uniform[TEXTCOORD_INDEX], text.txt[i]);
       glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, NULL);
     }
   }
   glEnable(GL_DEPTH_TEST);
 }
-
 
 TextManager::TextManager() : texture("./res/marble.jpg", GL_LINEAR)
 {
@@ -50,7 +49,7 @@ TextManager::TextManager() : texture("./res/marble.jpg", GL_LINEAR)
   glBindVertexArray(vao);
   glGenBuffers(1, &vbo);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo);
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6*sizeof(u8), indices, GL_STATIC_DRAW);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(u8), indices, GL_STATIC_DRAW);
 
   uniform[POSITION_OFFSET] = glGetUniformLocation(shaderProgram, "pos_offset");
   uniform[TEXTCOORD_INDEX] = glGetUniformLocation(shaderProgram, "textCoord_index");
