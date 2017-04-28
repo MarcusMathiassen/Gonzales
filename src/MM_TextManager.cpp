@@ -3,15 +3,6 @@
 
 #define DIST_BETW_CHAR 0.030f
 
-void TextManager::addText(const Text &text)
-{
-  text_buffer.emplace_back(text);
-}
-void TextManager::addText(const char* text, f32 x, f32 y, const vec4 &color)
-{
-  text_buffer.emplace_back(Text(text,x,y,color));
-}
-
 void TextManager::drawAll()
 {
   glDisable(GL_DEPTH_TEST);
@@ -26,7 +17,7 @@ void TextManager::drawAll()
       if (text.txt[i] == ' ') continue;
       glUniform2f(uniform[POSITION_OFFSET], text.x + i * DIST_BETW_CHAR, text.y);
       glUniform1i(uniform[TEXTCOORD_INDEX], text.txt[i]);
-      glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, NULL);
+      glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, NULL);
     }
   }
   glEnable(GL_DEPTH_TEST);
@@ -50,22 +41,10 @@ TextManager::TextManager() : texture("./res/MM_fontAtlas.png", GL_LINEAR)
   u32 vbo;
   glGenBuffers(1, &vbo);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo);
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(u8), indices, GL_STATIC_DRAW);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
   uniform[POSITION_OFFSET] = glGetUniformLocation(shaderProgram, "pos_offset");
   uniform[TEXTCOORD_INDEX] = glGetUniformLocation(shaderProgram, "textCoord_index");
-
-  // const f32 uv[] =
-  // {
-  //   x,                     y,
-  //   x,                     y + MM_FONT_CHAR_SIZE,
-  //   x + MM_FONT_CHAR_SIZE, y + MM_FONT_CHAR_SIZE,
-  //   x + MM_FONT_CHAR_SIZE, y,
-  // };
-
-  // for (u8 y = 0; y < 16; ++y)
-  //   for (u8 x = 0; x < 16; ++x)
-  //     glyph[16 * y+x] = Glyph(x*MM_FONT_CHAR_SIZE, y*MM_FONT_CHAR_SIZE);
 }
 TextManager::~TextManager()
 {

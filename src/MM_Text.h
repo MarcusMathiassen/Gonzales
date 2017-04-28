@@ -33,7 +33,6 @@ struct MMCharacter
   {
     glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, NULL);
-    glBindVertexArray(0);
   }
 
   MMCharacter(f32 x = 0, f32 y = 0)
@@ -138,8 +137,6 @@ static void drawText(const char* text, f32 x, f32 y, f32 aspectRatio)
 
     MMDefaultTextBuffer->character[(int)text[i] - 32].draw();
   }
-      glBindTexture(GL_TEXTURE_2D, 0);
-
 }
 
 #endif

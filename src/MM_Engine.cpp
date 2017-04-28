@@ -150,7 +150,7 @@ void Engine::gameLoop()
 
 void Engine::addText(const Text &text)
 {
-  textManager->addText(text);
+  textManager->text_buffer.emplace_back(text);
 }
 
 void Engine::addGameObject(GameObject &gameobject)
