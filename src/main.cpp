@@ -27,7 +27,7 @@ int main()
   engine.textManager = new TextManager();
 
   Text text;
-  text.txt = "Hello Can YOU SEE 243565374463512";
+  text.txt = "M A R C U S";
   text.x = 0;
   text.y = 0;
   engine.addText(text);

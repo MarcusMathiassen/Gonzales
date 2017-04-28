@@ -284,6 +284,6 @@ out Vertex
 void main()
 {
   vertex.textCoord.x = tex[textCoord_index-32].x + 0.0625*(gl_VertexID/2);
-  vertex.textCoord.y = tex[textCoord_index-32].y + 0.0625*(gl_VertexID%3);
+  vertex.textCoord.y = tex[textCoord_index-32].y + 0.0625*((gl_VertexID*gl_VertexID)%3);
   gl_Position      = vec4(position[gl_VertexID] + pos_offset, 0, 1.0 );
 }

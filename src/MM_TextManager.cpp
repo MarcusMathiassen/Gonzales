@@ -15,9 +15,9 @@ void TextManager::addText(const char* text, f32 x, f32 y, const vec4 &color)
 void TextManager::drawAll()
 {
   glDisable(GL_DEPTH_TEST);
+  glBindVertexArray(vao);
   glUseProgram(shaderProgram);
   texture.bind(0);
-  glBindVertexArray(vao);
   for (const Text &text: text_buffer)
   {
     const u8 num_s8s{(u8)text.txt.length()};
@@ -25,7 +25,7 @@ void TextManager::drawAll()
     {
       if (text.txt[i] == ' ') continue;
       glUniform2f(uniform[POSITION_OFFSET], text.x + i * DIST_BETW_CHAR, text.y);
-      glUniform1f(uniform[TEXTCOORD_INDEX], 'A');
+      glUniform1i(uniform[TEXTCOORD_INDEX], text.txt[i]);
       glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, NULL);
     }
   }

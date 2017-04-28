@@ -12,4 +12,5 @@ in Vertex
 void main()
 {
   fragColor = texture(tex, frag.textCoord);
+  fragColor = vec4(1,1,1,1);
 }
