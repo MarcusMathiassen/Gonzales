@@ -15,8 +15,10 @@
 #include <iostream>
 #include <cstring>
 
-#define MM_DIST_BETW_CHAR 0.030f
-#define MM_FONT_CHAR_SIZE 0.0625f
+#define FONT_ATLAS_CHARACTERS_ROWS  16
+#define FONT_ATLAS_CHARACTERS_COLS  16
+#define FONT_ATLAS_CHARACTER_WIDTH  0.06125f
+#define FONT_ATLAS_CHARACTER_HEIGHT 0.06125f
 
 struct MMCharacter;
 struct MMTextBuffer;
@@ -39,18 +41,18 @@ struct MMCharacter
   {
     constexpr f32 positions[] =
     {
-      0.0f,                 MM_FONT_CHAR_SIZE,
-      0.0f,                 0.0f,
-      MM_FONT_CHAR_SIZE,    0.0f,
-      MM_FONT_CHAR_SIZE,    MM_FONT_CHAR_SIZE,
+      0.0f,                       FONT_ATLAS_CHARACTER_HEIGHT,
+      0.0f,                       0.0f,
+      FONT_ATLAS_CHARACTER_WIDTH, 0.0f,
+      FONT_ATLAS_CHARACTER_WIDTH, FONT_ATLAS_CHARACTER_HEIGHT,
     };
 
     const f32 uv[] =
     {
-      x,                     y,
-      x,                     y + MM_FONT_CHAR_SIZE,
-      x + MM_FONT_CHAR_SIZE, y + MM_FONT_CHAR_SIZE,
-      x + MM_FONT_CHAR_SIZE, y,
+      x,                              y,
+      x,                              y + FONT_ATLAS_CHARACTER_HEIGHT,
+      x + FONT_ATLAS_CHARACTER_WIDTH, y + FONT_ATLAS_CHARACTER_HEIGHT,
+      x + FONT_ATLAS_CHARACTER_WIDTH, y,
     };
 
     glGenVertexArrays(1, &VAO);
@@ -102,9 +104,9 @@ struct MMTextBuffer
 
     uniform[MODEL] = glGetUniformLocation(shaderProgram, "model");
 
-    for (u8 y = 0; y < 16; ++y)
-      for (u8 x = 0; x < 16; ++x)
-        character[16 * y+x] = MMCharacter(x*MM_FONT_CHAR_SIZE, y*MM_FONT_CHAR_SIZE);
+    for (u8 y = 0; y < FONT_ATLAS_CHARACTERS_ROWS; ++y)
+      for (u8 x = 0; x < FONT_ATLAS_CHARACTERS_COLS; ++x)
+        character[FONT_ATLAS_CHARACTERS_ROWS * y+x] = MMCharacter(x*FONT_ATLAS_CHARACTER_WIDTH, y*FONT_ATLAS_CHARACTER_HEIGHT);
   }
   ~MMTextBuffer()
   {
@@ -115,7 +117,7 @@ struct MMTextBuffer
 static void drawText(const char* text, f32 x, f32 y, f32 aspectRatio)
 {
   if (MMDefaultTextBuffer == NULL)
-    MMDefaultTextBuffer = new MMTextBuffer("./res/MM_fontAtlas.png", GL_LINEAR);
+    MMDefaultTextBuffer = new MMTextBuffer("./res/font_VCR_OSD_MONO.bmp", GL_NEAREST);
 
   glDisable(GL_DEPTH_TEST);
   glUseProgram(MMDefaultTextBuffer->shaderProgram);
@@ -131,7 +133,7 @@ static void drawText(const char* text, f32 x, f32 y, f32 aspectRatio)
   {
     if (text[i] == ' ') continue;
 
-    transform.pos.x = x+MM_DIST_BETW_CHAR*i*inverseAspectRatio;
+    transform.pos.x = x+(FONT_ATLAS_CHARACTER_WIDTH)*i*inverseAspectRatio;
     mat4 model = transform.getModel();
     glUniformMatrix4fv(MMDefaultTextBuffer->uniform[0], 1, GL_FALSE, &model[0][0]);
 

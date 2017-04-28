@@ -3,11 +3,17 @@
 
 #define DIST_BETW_CHAR 0.030f
 
+#define FONT_ATLAS_CHARACTERS_ROWS  16
+#define FONT_ATLAS_CHARACTERS_COLS  16
+#define FONT_ATLAS_CHARACTER_WIDTH  0.06125f
+#define FONT_ATLAS_CHARACTER_HEIGHT 0.06125f
+
 void TextManager::drawAll()
 {
   glDisable(GL_DEPTH_TEST);
   glBindVertexArray(vao);
   glUseProgram(shaderProgram);
+  //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
   texture.bind(0);
   for (const Text &text: text_buffer)
   {
@@ -15,7 +21,7 @@ void TextManager::drawAll()
     for (u8 i = 0; i < num_s8s; ++i)
     {
       if (text.str[i] == ' ') continue;
-      glUniform2f(uniform[POSITION_OFFSET], text.x + i * DIST_BETW_CHAR, text.y);
+      glUniform2f(uniform[POSITION_OFFSET], text.x + i * FONT_ATLAS_CHARACTER_WIDTH, text.y);
       glUniform4f(uniform[COLOR], text.color.r, text.color.g, text.color.g, text.color.a);
       glUniform1i(uniform[TEXTCOORD_INDEX], text.str[i]);
       glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, NULL);
@@ -24,7 +30,7 @@ void TextManager::drawAll()
   glEnable(GL_DEPTH_TEST);
 }
 
-TextManager::TextManager() : texture("./res/MM_fontAtlas.png", GL_LINEAR)
+TextManager::TextManager() : texture("./res/font_VCR_OSD_MONO.bmp", GL_NEAREST)
 {
   shaderProgram  = glCreateProgram();
   const u32 vs   = createShader("./res/MM_TextShader.vs", GL_VERTEX_SHADER);

@@ -81,10 +81,15 @@ void Engine::start()
 		glfwPollEvents();
 		const f64 timeStartFrame{ glfwGetTime() };
 		if (timeStartFrame - timeSinceStart >= 1.0)
-		{
-			currentFPS = (u32)(1000.0f / (f32)deltaTime);
-			++timeSinceStart;
-		}
+    {
+      currentFPS = (u32)(1000.0f / (f32)deltaTime);
+    	++timeSinceStart;
+    }
+
+    char fpsinfo[20];
+    sprintf(fpsinfo,"%dfps %fms", currentFPS, deltaTime);
+    Text &text = getText(fps_info);
+    text.str = fpsinfo;
 
     // @Cleanup: do we need to sleep?
 		sleepForMs(refreshRateInMS);
@@ -102,8 +107,6 @@ void Engine::gameLoop()
 	glfwSetTime(0.0);
 	glfwMakeContextCurrent(window);
 
-
-  u32 h = 0 ;
 	while (isRunning)
 	{
 		const f64 timeStartFrame{ glfwGetTime() };
@@ -114,13 +117,7 @@ void Engine::gameLoop()
 
     char fpsinfo[20];
     sprintf(fpsinfo,"%dfps %fms",currentFPS, deltaTime);
-    // drawText(fpsinfo, -1.0, -1.0, mainCamera.aspectRatio);
-
-    if (h++ > 360) h = 0;
-    Text &text = getText(fps_info);
-    text.str = fpsinfo;
-    text.color = glm::vec4(getHSV(h,1.0f,1.0f),1.0);
-
+    drawText(fpsinfo, -1.0, -1.0, mainCamera.aspectRatio);
 		if (framerate > 0)
       limitFPS(framerate, timeStartFrame - timeSpentSwapBuffer);
 
@@ -132,11 +129,6 @@ void Engine::gameLoop()
 	}
 	glfwMakeContextCurrent(NULL);
 }
-
-
-
-
-
 
 void Engine::update()
 {
@@ -158,17 +150,8 @@ void Engine::draw()
 {
   gameObjectManager.draw(mainCamera);
   uiManager.draw();
-
   textManager->drawAll();
 }
-
-
-
-
-
-
-
-
 
 u32 Engine::addText(Text &text)
 {

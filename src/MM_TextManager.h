@@ -2,21 +2,14 @@
 
 #include "MM_Typedefs.h"
 #include "MM_Texture.h"
+#include "MM_UIText.h"
 #include <string>
 #include <vector>
 #include <glm/glm.hpp>
 
 #define GLEW_STATIC
 #include <GL/glew.h>
-
-struct Text
-{
-  u32 id{0};
-  f32 x{0.0f}, y{0.0f};
-  std::string str{"default text"};
-  vec4 color{1.0f, 1.0f, 1.0f, 1.0f};
-  Text() = default;
-};
+#include "MM_UIManager.h"
 
 struct TextManager
 {
@@ -29,6 +22,6 @@ struct TextManager
 
   vector<Text> text_buffer;
   void drawAll();
-  TextManager();
+    TextManager();
   ~TextManager();
 };

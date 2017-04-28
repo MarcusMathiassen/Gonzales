@@ -22,13 +22,13 @@ typedef double      f64;
 struct string
 {
   char*              data    { NULL  };
-  u16                length  { 0 };
+  size_t                length  { 0 };
 
   string() = default;
   ~string() { delete data; }
 
   const char* c_str() { return data; }
-  char operator [] (u16 i)
+  char operator [] (size_t i)
   {
     return data[i];
   }
@@ -103,7 +103,7 @@ static string itos(const u32 i)
   while (res)
   {
     u32 rem=res%10;
-    res *= 0.1f;
+    res = (u32)(res *  0.1f);
     buffer[index++]='0'+rem;
   }
   return string(strrev(buffer, index));
