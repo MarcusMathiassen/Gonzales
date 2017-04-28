@@ -23,7 +23,7 @@ public:
   Text          text;
   Texture       texture;
   u32           shaderProgram;
-  u32           VAO{0}, VBO[NUM_BUFFERS]{0};
+  u32           vao{0};
   s32           uniform[NUM_UNIFORMS];
 
   f32 width{0.2f}, height{0.1f};

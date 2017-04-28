@@ -21,25 +21,25 @@ UIButton::UIButton(f32 x, f32 y, f32 width, f32 height, const char* file_texture
     x + width,  y,
   };
 
-  glGenVertexArrays(1, &VAO);
-  glBindVertexArray(VAO);
+  glGenVertexArrays(1, &vao);
+  glBindVertexArray(vao);
 
-  glGenBuffers(NUM_BUFFERS, VBO);
+  u32 vbo[NUM_BUFFERS];
+  glGenBuffers(NUM_BUFFERS, vbo);
 
-  glBindBuffer( GL_ARRAY_BUFFER, VBO[POSITION_VB] );
+  glBindBuffer( GL_ARRAY_BUFFER, vbo[POSITION_VB] );
   glBufferData( GL_ARRAY_BUFFER, 4*sizeof(f32)*2, positions, GL_STATIC_DRAW );
   glEnableVertexAttribArray(0);
   glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
-  glBindBuffer( GL_ARRAY_BUFFER, VBO[UV_VB] );
+  glBindBuffer( GL_ARRAY_BUFFER, vbo[UV_VB] );
   glBufferData( GL_ARRAY_BUFFER, 4*sizeof(f32)*2, uv, GL_STATIC_DRAW );
   glEnableVertexAttribArray(1);
   glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
-  glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, VBO[INDEX_VB] );
+  glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, vbo[INDEX_VB] );
   glBufferData( GL_ELEMENT_ARRAY_BUFFER, 6*sizeof(GLubyte), indices, GL_STATIC_DRAW);
 
-  // SHADER SETUP
   shaderProgram      = glCreateProgram();
   u32 vertexShader   = createShader("./res/MM_Text.vs", GL_VERTEX_SHADER);
   u32 fragmentShader = createShader("./res/MM_Text.fs", GL_FRAGMENT_SHADER);
@@ -69,14 +69,13 @@ void UIButton::update()
 void UIButton::draw()
 {
   glDisable(GL_DEPTH_TEST);
-  glEnable(GL_BLEND);
 
+  glBindVertexArray(vao);
   glUseProgram(shaderProgram);
   texture.bind(0);
 
   mat4 model = transform.getModel();
   glUniformMatrix4fv(uniform[MODEL_U], 1, GL_FALSE, &model[0][0]);
 
-  glBindVertexArray(VAO);
   glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, NULL);
 }

@@ -36,6 +36,7 @@ struct Engine
   f32           refreshRateInMS     { 60.0f };
   f32           fixedFrametime      { 0.0f };
   u8			      vsync               { 1 };
+  u16           fps_info;
 
   bool          fullscreen          { false };
   bool          isRunning           { true };
@@ -53,6 +54,7 @@ struct Engine
   template <typename T>
   void addUI(T& ui);
   u32  addText(Text &text);
+  Text& getText(u32 id);
   void updateText(u32 id, const char* new_string);
   void addGameObject(GameObject &gameobject);
 };

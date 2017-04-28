@@ -66,9 +66,6 @@ void Engine::init()
   mainCamera.aspectRatio = (f32)width / height;
   mainCamera.updatePerspective();
 
-
-
-
   textManager = new TextManager;
 }
 
@@ -99,6 +96,48 @@ void Engine::start()
 	glfwTerminate();
 }
 
+void Engine::gameLoop()
+{
+	f64 timeSpentSwapBuffer{ 0.0 };
+	glfwSetTime(0.0);
+	glfwMakeContextCurrent(window);
+
+
+  u32 h = 0 ;
+	while (isRunning)
+	{
+		const f64 timeStartFrame{ glfwGetTime() };
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+
+		update();
+		draw();
+
+    char fpsinfo[20];
+    sprintf(fpsinfo,"%dfps %fms",currentFPS, deltaTime);
+    // drawText(fpsinfo, -1.0, -1.0, mainCamera.aspectRatio);
+
+    if (h++ > 360) h = 0;
+    Text &text = getText(fps_info);
+    text.str = fpsinfo;
+    text.color = glm::vec4(getHSV(h,1.0f,1.0f),1.0);
+
+		if (framerate > 0)
+      limitFPS(framerate, timeStartFrame - timeSpentSwapBuffer);
+
+		const f64 timeStartSwapBuffer{ glfwGetTime() };
+		glfwSwapBuffers(window);
+		timeSpentSwapBuffer = glfwGetTime() - timeStartSwapBuffer;
+
+		deltaTime = (glfwGetTime() - timeStartFrame)*1000.0;
+	}
+	glfwMakeContextCurrent(NULL);
+}
+
+
+
+
+
+
 void Engine::update()
 {
   // @Hack: please for the love of god fix this
@@ -112,7 +151,7 @@ void Engine::update()
   mainCamera.updatePerspective();
 
   gameObjectManager.update();
-	uiManager.update(mainCamera);
+  uiManager.update(mainCamera);
 }
 
 void Engine::draw()
@@ -123,35 +162,13 @@ void Engine::draw()
   textManager->drawAll();
 }
 
-void Engine::gameLoop()
-{
-	f64 timeSpentSwapBuffer{ 0.0 };
-	glfwSetTime(0.0);
-	glfwMakeContextCurrent(window);
 
-	while (isRunning)
-	{
-		const f64 timeStartFrame{ glfwGetTime() };
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-		update();
-		draw();
 
-    char fpsinfo[20];
-    sprintf(fpsinfo,"%dfps %fms",currentFPS, deltaTime);
-    drawText(fpsinfo, -1.0, -1.0, mainCamera.aspectRatio);
 
-		if (framerate > 0)
-      limitFPS(framerate, timeStartFrame - timeSpentSwapBuffer);
 
-		const f64 timeStartSwapBuffer{ glfwGetTime() };
-		glfwSwapBuffers(window);
-		timeSpentSwapBuffer = glfwGetTime() - timeStartSwapBuffer;
 
-		deltaTime = (glfwGetTime() - timeStartFrame)*1000.0;
-	}
-	glfwMakeContextCurrent(NULL);
-}
+
 
 u32 Engine::addText(Text &text)
 {
@@ -167,6 +184,12 @@ void Engine::addGameObject(GameObject &gameobject)
 	gameObjectManager.gameObjects.emplace_back(std::make_unique<GameObject>(gameobject));
 
   resourceManager.addGameObject(gameobject);
+}
+
+Text& Engine::getText(u32 id)
+{
+  for (auto &text: textManager->text_buffer)
+    if (id == text.id) return text;
 }
 
 void Engine::updateText(u32 id, const char* new_string)
