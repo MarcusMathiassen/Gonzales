@@ -2,7 +2,7 @@
 
 set std=/std:c++latest
 set output=app.exe
-set olvl=
+set olvl=/Ox
 set wlvl=-W3 /wd4530 /wd4005 /wd4996
 set options=%std% %wlvl% %olvl% %std%
 

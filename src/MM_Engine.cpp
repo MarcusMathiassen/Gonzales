@@ -2,13 +2,13 @@
 #include "MM_Text.h"
 
 #include <stdio.h>
+#include <string.h>
 #include <thread>
 #include <math.h>
 
 void Engine::init()
 {
   if (framerate > 0) fixedFrametime = 1000.0f/framerate;
-
 
   // @Cleanup: this is window initialization. Do it somewhere else.
   glfwInit();
@@ -65,6 +65,11 @@ void Engine::init()
 
   mainCamera.aspectRatio = (f32)width / height;
   mainCamera.updatePerspective();
+
+
+
+
+  textManager = new TextManager;
 }
 
 void Engine::start()
@@ -148,9 +153,12 @@ void Engine::gameLoop()
 	glfwMakeContextCurrent(NULL);
 }
 
-void Engine::addText(const Text &text)
+u32 Engine::addText(Text &text)
 {
+  const u32 id{ (u32)textManager->text_buffer.size() };
+  text.id = id;
   textManager->text_buffer.emplace_back(text);
+  return id;
 }
 
 void Engine::addGameObject(GameObject &gameobject)
@@ -159,5 +167,13 @@ void Engine::addGameObject(GameObject &gameobject)
 	gameObjectManager.gameObjects.emplace_back(std::make_unique<GameObject>(gameobject));
 
   resourceManager.addGameObject(gameobject);
+}
+
+void Engine::updateText(u32 id, const char* new_string)
+{
+  for (auto &text: textManager->text_buffer)
+  {
+    if (id == text.id) text.str = new_string;
+  }
 }
 

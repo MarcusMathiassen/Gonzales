@@ -11,12 +11,13 @@ void TextManager::drawAll()
   texture.bind(0);
   for (const Text &text: text_buffer)
   {
-    const u8 num_s8s{(u8)text.txt.length()};
+    const u8 num_s8s{(u8)text.str.length()};
     for (u8 i = 0; i < num_s8s; ++i)
     {
-      if (text.txt[i] == ' ') continue;
+      if (text.str[i] == ' ') continue;
       glUniform2f(uniform[POSITION_OFFSET], text.x + i * DIST_BETW_CHAR, text.y);
-      glUniform1i(uniform[TEXTCOORD_INDEX], text.txt[i]);
+      glUniform4f(uniform[COLOR], text.color.r, text.color.g, text.color.g, text.color.a);
+      glUniform1i(uniform[TEXTCOORD_INDEX], text.str[i]);
       glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, NULL);
     }
   }
@@ -44,6 +45,7 @@ TextManager::TextManager() : texture("./res/MM_fontAtlas.png", GL_LINEAR)
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
   uniform[POSITION_OFFSET] = glGetUniformLocation(shaderProgram, "pos_offset");
+  uniform[COLOR]           = glGetUniformLocation(shaderProgram, "color");
   uniform[TEXTCOORD_INDEX] = glGetUniformLocation(shaderProgram, "textCoord_index");
 }
 TextManager::~TextManager()

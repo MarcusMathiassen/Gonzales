@@ -268,15 +268,19 @@ const vec2 tex[256] = vec2[256](
 
 uniform int textCoord_index;
 uniform vec2 pos_offset;
+uniform vec4 color;
 
 out Vertex
 {
   vec2 textCoord;
+  vec4 color;
 } vertex;
 
 void main()
 {
   vertex.textCoord.x = tex[textCoord_index-32].x + 0.0625*(gl_VertexID/2);
   vertex.textCoord.y = tex[textCoord_index-32].y + 0.0625*((gl_VertexID*gl_VertexID)%3);
+  vertex.color       = color;
+
   gl_Position      = vec4(position[gl_VertexID] + pos_offset, 0.0, 1.0 );
 }

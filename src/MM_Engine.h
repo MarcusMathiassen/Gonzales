@@ -2,7 +2,6 @@
 
 #define GLEW_STATIC
 #include <GL/glew.h>
-//#define GLFW_DLL
 #include <GLFW/glfw3.h>
 
 #include "MM_Camera.h"
@@ -53,7 +52,8 @@ struct Engine
 
   template <typename T>
   void addUI(T& ui);
-  void addText(const Text &text);
+  u32  addText(Text &text);
+  void updateText(u32 id, const char* new_string);
   void addGameObject(GameObject &gameobject);
 };
 
