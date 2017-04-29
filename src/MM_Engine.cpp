@@ -161,12 +161,11 @@ u32 Engine::addText(Text &text)
   return id;
 }
 
-void Engine::addGameObject(GameObject &gameobject)
+void Engine::addGameObject(const char* handle, GameObject &gameobject)
 {
 	gameobject.id = (u32)gameObjectManager.gameObjects.size();
 	gameObjectManager.gameObjects.emplace_back(std::make_unique<GameObject>(gameobject));
-
-  resourceManager.addGameObject(gameobject);
+  // resourceManager.addGameObject(handle, std::make_unique<GameObject>(gameobject));
 }
 
 Text& Engine::getText(u32 id)

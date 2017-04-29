@@ -1,5 +1,9 @@
 #version 410
 
+in vec2 pos_offset;
+in vec4 color;
+in int textCoord_index;
+
 const vec2 position[4] = vec2[4](
   vec2(0.0,     0.0625),
   vec2(0.0,     0.0),
@@ -265,10 +269,6 @@ const vec2 tex[256] = vec2[256](
   vec2(0.875000, 0.937500),
   vec2(0.937500, 0.937500)
 );
-
-uniform int textCoord_index;
-uniform vec2 pos_offset;
-uniform vec4 color;
 
 out Vertex
 {

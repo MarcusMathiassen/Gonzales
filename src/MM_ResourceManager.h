@@ -2,8 +2,10 @@
 
 #include <string>
 #include <vector>
+#include <map>
 #include <iostream>
 
+#include "MM_Typedefs.h"
 #include "MM_GameObject.h"
 #include "MM_Shader.h"
 #include "MM_Texture.h"
@@ -11,14 +13,9 @@
 
 struct ResourceManager
 {
-  vector<u32> shaders;
-  vector<u32> meshes;
-  vector<u32> textures;
+  std::map<std::string, unique_ptr<GameObject> > gameobjects;
 
   void printAll();
 
-  void addGameObject(const GameObject &gameobject);
-  void addShader(const Shader &shader);
-  void addMesh(const Mesh &mesh);
-  void addTexture(const Texture &texture);
+  void addGameObject(const char* handle, const unique_ptr<GameObject> &gameobject);
 };

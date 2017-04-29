@@ -8,7 +8,7 @@
 struct Text : public UI
 {
   u32 id{0};
-  f32 x{0.0f}, y{0.0f};
+  vec2 pos {0.0f, 0.0f};
   std::string str{"default text"};
   vec4 color{1.0f, 1.0f, 1.0f, 1.0f};
   Text() = default;

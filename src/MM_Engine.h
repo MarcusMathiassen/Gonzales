@@ -56,7 +56,7 @@ struct Engine
   u32  addText(Text &text);
   Text& getText(u32 id);
   void updateText(u32 id, const char* new_string);
-  void addGameObject(GameObject &gameobject);
+  void addGameObject(const char* handle, GameObject &gameobject);
 };
 
 template <typename T>
