@@ -10,10 +10,10 @@
 
 void TextManager::update()
 {
-  const size_t num_texts{ text_buffer.size() };
+  const size_t num_texts{text_buffer.size()};
 
   // Resize the vectors if text_buffer has increased
-  if (text_buffer.size() > num_texts)
+  if (num_texts > positions.size())
   {
     positions.resize(num_texts);
     colors.resize(num_texts);
@@ -21,7 +21,7 @@ void TextManager::update()
   }
 
   // Update the color and transform arrays
-  u32 i { 0 };
+  size_t i {0};
   for (const auto &text : text_buffer)
   {
     const size_t num_chars{ text.str.length() };
@@ -37,7 +37,7 @@ void TextManager::update()
   // POSITION_OFFSET BUFFER
   glBindBuffer(GL_ARRAY_BUFFER, VBO[POSITION_OFFSET]);
   // Does the buffer need to allocate more space?
-  size_t position_bytes_needed { sizeof(glm::vec2) * num_texts };
+  size_t position_bytes_needed {sizeof(vec2) * num_texts};
   if (position_bytes_needed > position_bytes_allocated) {
     glBufferData(GL_ARRAY_BUFFER, position_bytes_needed, &positions[0], GL_STREAM_DRAW);
     position_bytes_allocated = position_bytes_needed;
@@ -48,7 +48,7 @@ void TextManager::update()
   // COLOR BUFFER
   glBindBuffer(GL_ARRAY_BUFFER, VBO[COLOR]);
   // Does the buffer need to allocate more space?
-  size_t color_bytes_needed { sizeof(glm::vec4) * num_texts };
+  size_t color_bytes_needed {sizeof(vec4) * num_texts};
   if (color_bytes_needed > color_bytes_allocated)
   {
     glBufferData(GL_ARRAY_BUFFER, color_bytes_needed, &colors[0], GL_STREAM_DRAW);
@@ -60,7 +60,7 @@ void TextManager::update()
     // TEXTCOORD BUFFER
   glBindBuffer(GL_ARRAY_BUFFER, VBO[TEXTCOORD_INDEX]);
   // Does the buffer need to allocate more space?
-  size_t textcoord_bytes_needed{ sizeof(u8) * num_texts };
+  size_t textcoord_bytes_needed {sizeof(u8) * num_texts};
   if (textcoord_bytes_needed > textcoord_bytes_allocated) {
     glBufferData(GL_ARRAY_BUFFER, textcoord_bytes_needed, &textcoord_indexes[0], GL_STREAM_DRAW);
     textcoord_bytes_allocated = textcoord_bytes_needed;
