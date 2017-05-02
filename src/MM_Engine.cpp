@@ -46,6 +46,8 @@ void Engine::init()
   glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 
   ImGui_ImplGlfwGL3_Init(window, true);
+  auto imgui = ImGui::GetIO();
+  imgui.FontGlobalScale = 1.0f;
 
   initWindowCallbacks(window);
 
@@ -121,6 +123,7 @@ void Engine::gameLoop()
 	while (isRunning)
 	{
 		const f64 timeStartFrame{ glfwGetTime() };
+    ImGui_ImplGlfwGL3_NewFrame();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
 		update();
@@ -132,6 +135,7 @@ void Engine::gameLoop()
 		if (framerate > 0)
       limitFPS(framerate, timeStartFrame - timeSpentSwapBuffer);
 
+    ImGui::Render();
 		const f64 timeStartSwapBuffer{ glfwGetTime() };
 		glfwSwapBuffers(window);
 		timeSpentSwapBuffer = glfwGetTime() - timeStartSwapBuffer;
@@ -143,13 +147,6 @@ void Engine::gameLoop()
 
 void Engine::update()
 {
-  // @Hack: please for the love of god fix this
-  s32 width, height;
-  glfwGetFramebufferSize(window, &width, &height);
-  glViewport(0, 0, width, height);
-  this->width  = width;
-  this->height = height;
-
   mainCamera.aspectRatio = (f32)width / height;
   mainCamera.updatePerspective();
 
@@ -158,12 +155,16 @@ void Engine::update()
 }
 void Engine::draw()
 {
-  ImGui_ImplGlfwGL3_NewFrame();
+  // @Hack: please for the love of god fix this
+  s32 width, height;
+  glfwGetFramebufferSize(window, &width, &height);
+  glViewport(0, 0, width, height);
+  this->width  = width;
+  this->height = height;
 
   gameObjectManager.draw(mainCamera);
   uiManager.draw();
   textManager->drawAll();
-  ImGui::Render();
 }
 
 u32 Engine::addText(Text &text)
