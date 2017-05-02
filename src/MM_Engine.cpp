@@ -109,6 +109,7 @@ void Engine::start()
   // @Cleanup: place this somewhere else
 	isRunning = false;
 	drawThread.join();
+  ImGui_ImplGlfwGL3_Shutdown();
 	glfwTerminate();
 }
 
@@ -175,7 +176,8 @@ void Engine::draw()
   textManager->drawAll();
 
   ImGui::Begin("Info");
-  if (ImGui::Button("Vsync")) vsync ^= 1;
+  ImGui::Checkbox("vsync", (bool*)&vsync);
+  ImGui::SameLine();
   ImGui::Text("%dfps %fms",currentFPS, deltaTime);
   ImGui::ColorEdit3("clear color", (float*)&clear_color);
   ImGui::End();
