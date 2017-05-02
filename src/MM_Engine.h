@@ -30,7 +30,7 @@ struct Engine
 
   u16			      width               { 640 };
   u16			      height              { 400 };
-  std::string   title               { "Engine" };
+  string        title               { "Engine" };
   f64           openGLVersion       { 4.1 };
   u32           framerate           { 0 };
   f32           refreshRateInMS     { 60.0f };

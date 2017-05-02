@@ -18,6 +18,7 @@ typedef int64_t     s64;
 typedef float       f32;
 typedef double      f64;
 
+using std::string;
 using std::vector;
 using std::unique_ptr;
 

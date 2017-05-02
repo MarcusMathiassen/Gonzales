@@ -81,7 +81,7 @@ static void limitFPS(u32 framesPerSecond, f64 timeStartFrame)
 
 static void readFile(const char* file, char** buffer)
 {
-  std::string buff, line;
+  string buff, line;
   std::ifstream fileIn(file);
   while (std::getline(fileIn, line)) buff += line+'\n';
   *buffer = (char*)malloc((buff.length()+1) * sizeof(char));
@@ -123,7 +123,7 @@ static void loadOBJ(
 	vector<vec3> *vertices,
 	vector<vec3> *normals,
 	vector<vec2> *uvs,
-	vector<u16>       *indices)
+	vector<u16>  *indices)
 {
 	char *buffer;
 	readFile(file, &buffer);
@@ -141,7 +141,7 @@ static void loadOBJ(
 
 	bool hasUV{ false }, hasNormal{ false };
 
-	std::string line;
+	string line;
 	while (std::getline(ss, line))
 	{
 		if (line[0] == '#') continue;

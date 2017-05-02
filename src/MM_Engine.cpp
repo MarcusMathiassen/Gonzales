@@ -40,7 +40,7 @@ void Engine::init()
 
   glewInit();
 
-  glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+  glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 
   glEnable(GL_DEPTH_TEST);
   glEnable(GL_CULL_FACE);
