@@ -11,7 +11,7 @@
 void TextManager::drawAll()
 {
   glDisable(GL_DEPTH_TEST);
-  glEnable(GL_BLEND);
+  //glEnable(GL_BLEND);
   //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
   glBindVertexArray(VAO);
   glUseProgram(shaderProgram);

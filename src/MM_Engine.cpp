@@ -46,8 +46,6 @@ void Engine::init()
   glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 
   ImGui_ImplGlfwGL3_Init(window, true);
-  auto imgui = ImGui::GetIO();
-  imgui.FontGlobalScale = 1.0f;
 
   initWindowCallbacks(window);
 
@@ -91,8 +89,8 @@ void Engine::start()
 	while (!glfwWindowShouldClose(window) &&
 		!(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS))
 	{
+    const f64 timeStartFrame{ glfwGetTime() };
 		glfwPollEvents();
-		const f64 timeStartFrame{ glfwGetTime() };
 		if (timeStartFrame - timeSinceStart >= 1.0)
     {
       currentFPS = (u32)(1000.0f / (f32)deltaTime);
@@ -114,6 +112,7 @@ void Engine::start()
 	glfwTerminate();
 }
 
+ImVec4 clear_color = ImColor(105,183,121);
 void Engine::gameLoop()
 {
 	f64 timeSpentSwapBuffer{ 0.0 };
@@ -126,8 +125,8 @@ void Engine::gameLoop()
     ImGui_ImplGlfwGL3_NewFrame();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-		update();
-		draw();
+    update();
+    draw();
 
     char fpsinfo[20];
     sprintf(fpsinfo,"%dfps %fms",currentFPS, deltaTime);
@@ -145,26 +144,41 @@ void Engine::gameLoop()
 	glfwMakeContextCurrent(NULL);
 }
 
-void Engine::update()
+void Engine::internal_update()
 {
+  // @Cleanup: put this somewhere else
+  s32 width, height;
+  glfwGetFramebufferSize(window, &width, &height);
+  glViewport(0, 0, width, height);
+  this->width  = width;
+  this->height = height;
   mainCamera.aspectRatio = (f32)width / height;
   mainCamera.updatePerspective();
+
+  if (framerate == 0) glfwSwapInterval(vsync);
+  else                glfwSwapInterval(0);
+
+  glClearColor(clear_color.x,clear_color.y,clear_color.z,1.0);
+}
+
+void Engine::update()
+{
+  if (internal_settings_changed) internal_update();
 
   gameObjectManager.update();
   uiManager.update(mainCamera);
 }
 void Engine::draw()
 {
-  // @Hack: please for the love of god fix this
-  s32 width, height;
-  glfwGetFramebufferSize(window, &width, &height);
-  glViewport(0, 0, width, height);
-  this->width  = width;
-  this->height = height;
-
   gameObjectManager.draw(mainCamera);
   uiManager.draw();
   textManager->drawAll();
+
+  ImGui::Begin("Info");
+  if (ImGui::Button("Vsync")) vsync ^= 1;
+  ImGui::Text("%dfps %fms",currentFPS, deltaTime);
+  ImGui::ColorEdit3("clear color", (float*)&clear_color);
+  ImGui::End();
 }
 
 u32 Engine::addText(Text &text)
@@ -195,4 +209,6 @@ void Engine::updateText(u32 id, const char* new_string)
     if (id == text.id) text.str = new_string;
   }
 }
+
+
 

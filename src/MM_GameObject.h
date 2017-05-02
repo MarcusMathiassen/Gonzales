@@ -17,7 +17,7 @@ struct GameObject
 {
   u32 id      { 0 };
   enum        {MVP, NUM_UNIFORMS};
-  Shader      shader;
+  //Shader      shader;
   Texture     texture;
   Mesh        mesh;
   Transform   transform;

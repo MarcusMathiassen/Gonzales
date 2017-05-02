@@ -8,8 +8,9 @@ int main()
   engine.vsync = 0;
   engine.init();
 
-  //GameObject cube("./res/cubeUV","./res/marble.jpg","./res/MM_BasicGameObject.vs","./res/MM_BasicGameObject.fs");
-  //engine.addGameObject("cube_01", cube);
+  GameObject cube("./res/sphereUV","./res/marble.jpg","./res/MM_BasicGameObject.vs","./res/MM_BasicGameObject.fs");
+  engine.addGameObject("cube_01", cube);
 
 	engine.start();
 }
+

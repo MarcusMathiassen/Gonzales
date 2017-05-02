@@ -28,6 +28,7 @@ struct Engine
   ResourceManager                    resourceManager;
   TextManager                       *textManager{NULL};
 
+  bool          internal_settings_changed {true};
   u16			      width               { 640 };
   u16			      height              { 400 };
   string        title               { "Engine" };
@@ -50,6 +51,7 @@ struct Engine
   void gameLoop();
   void update();
   void draw();
+  void internal_update();
 
   template <typename T>
   void addUI(T& ui);
