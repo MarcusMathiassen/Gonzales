@@ -12,5 +12,6 @@ in Vertex
 
 void main()
 {
+  if (frag.color == vec4(0,0,0,1)) discard;
   fragColor = texture(tex, frag.textCoord) * frag.color;
 }

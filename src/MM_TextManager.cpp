@@ -11,6 +11,7 @@
 void TextManager::drawAll()
 {
   glDisable(GL_DEPTH_TEST);
+  glEnable(GL_BLEND);
   //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
   glBindVertexArray(VAO);
   glUseProgram(shaderProgram);
@@ -18,8 +19,8 @@ void TextManager::drawAll()
   for (const Text &text: text_buffer)
   {
     glUniform4f(uniform[COLOR], text.color.r, text.color.g, text.color.g, text.color.a);
-    const u8 num_chars{(u8)text.str.length()};
-    for (u8 i = 0; i < num_chars; ++i)
+    const size_t num_chars{text.str.length()};
+    for (size_t i = 0; i < num_chars; ++i)
     {
       if (text.str[i] == ' ') continue;
       glUniform2f(uniform[POSITION_OFFSET], text.pos.x + i * FONT_ATLAS_CHARACTER_WIDTH, text.pos.y);
@@ -31,7 +32,7 @@ void TextManager::drawAll()
   glEnable(GL_DEPTH_TEST);
 }
 
-TextManager::TextManager() : texture("./res/font_VCR_OSD_MONO.bmp", GL_NEAREST)
+TextManager::TextManager() : texture("./res/font_Consolas.bmp", GL_LINEAR)
 {
   shaderProgram  = glCreateProgram();
   const u32 vs   = createShader("./res/MM_TextShader.vs", GL_VERTEX_SHADER);

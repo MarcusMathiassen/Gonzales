@@ -1,6 +1,9 @@
 #include "MM_Engine.h"
 #include "MM_Text.h"
 
+#include "imgui.h"
+#include "imgui_impl_glfw_gl3.h"
+
 #include <stdio.h>
 #include <string.h>
 #include <thread>
@@ -42,12 +45,14 @@ void Engine::init()
 
   glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 
+  ImGui_ImplGlfwGL3_Init(window, false);
+
+  initWindowCallbacks(window);
+
   glEnable(GL_DEPTH_TEST);
   glEnable(GL_CULL_FACE);
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-  initWindowCallbacks(window);
 
   if (framerate == 0) glfwSwapInterval(vsync);
   else                glfwSwapInterval(0);
@@ -74,6 +79,12 @@ void Engine::start()
 	glfwMakeContextCurrent(NULL);
 	std::thread drawThread(&Engine::gameLoop, this);
 
+  Text text;
+  text.color = glm::vec4(1, 0, 0, 1);
+  text.pos.x = -1;
+  text.pos.y = -0.9375;
+  u32 id = addText(text);
+
 	timeSinceStart = glfwGetTime();
 	while (!glfwWindowShouldClose(window) &&
 		!(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS))
@@ -88,7 +99,7 @@ void Engine::start()
 
     char fpsinfo[20];
     sprintf(fpsinfo,"%dfps %fms", currentFPS, deltaTime);
-    Text &text = getText(fps_info);
+    Text &text = getText(id);
     text.str = fpsinfo;
 
     // @Cleanup: do we need to sleep?
@@ -130,6 +141,11 @@ void Engine::gameLoop()
 	glfwMakeContextCurrent(NULL);
 }
 
+bool show_test_window = true;
+bool show_another_window = false;
+ImVec4 clear_color = ImColor(10, 10, 10);
+
+
 void Engine::update()
 {
   // @Hack: please for the love of god fix this
@@ -145,12 +161,43 @@ void Engine::update()
   gameObjectManager.update();
   uiManager.update(mainCamera);
 }
-
 void Engine::draw()
 {
   gameObjectManager.draw(mainCamera);
   uiManager.draw();
   textManager->drawAll();
+
+  ImGui_ImplGlfwGL3_NewFrame();
+
+  // 1. Show a simple window
+  // Tip: if we don't call ImGui::Begin()/ImGui::End() the widgets appears in a window automatically called "Debug"
+  {
+      static float f = 0.0f;
+      ImGui::Text("Hello, world!");
+      ImGui::SliderFloat("float", &f, 0.0f, 1.0f);
+      ImGui::ColorEdit3("clear color", (float*)&clear_color);
+      if (ImGui::Button("Test Window")) show_test_window ^= 1;
+      if (ImGui::Button("Another Window")) show_another_window ^= 1;
+      ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+  }
+
+  // 2. Show another simple window, this time using an explicit Begin/End pair
+  if (show_another_window)
+  {
+      ImGui::SetNextWindowSize(ImVec2(200,100), ImGuiSetCond_FirstUseEver);
+      ImGui::Begin("Another Window", &show_another_window);
+      ImGui::Text("Hello");
+      ImGui::End();
+  }
+
+  // 3. Show the ImGui test window. Most of the sample code is in ImGui::ShowTestWindow()
+  if (show_test_window)
+  {
+      ImGui::SetNextWindowPos(ImVec2(650, 20), ImGuiSetCond_FirstUseEver);
+      ImGui::ShowTestWindow(&show_test_window);
+  }
+
+  ImGui::Render();
 }
 
 u32 Engine::addText(Text &text)

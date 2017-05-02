@@ -9,7 +9,7 @@
  class GameObjectManager
  {
    public:
-     vector<std::unique_ptr<GameObject> > gameObjects;
+     vector<unique_ptr<GameObject> > gameObjects;
 
      void update()
      {
