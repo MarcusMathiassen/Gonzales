@@ -158,9 +158,12 @@ void Engine::update()
 }
 void Engine::draw()
 {
+  ImGui_ImplGlfwGL3_NewFrame();
+
   gameObjectManager.draw(mainCamera);
   uiManager.draw();
   textManager->drawAll();
+  ImGui::Render();
 }
 
 u32 Engine::addText(Text &text)
