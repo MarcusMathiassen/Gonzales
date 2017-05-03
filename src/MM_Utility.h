@@ -261,4 +261,10 @@ static void loadOBJ(
 		for (const auto& uv_i : uv_indices)
 			uvs->emplace_back(temp_uvs[uv_i - 1]);
 	}
+
+  std::cout << "file: " << file << '\n';
+  std::cout << "      positions: " << vertices->size() << '\n';
+  std::cout << "      normals: " << normals->size() << '\n';
+  std::cout << "      uvs: " << uvs->size() << '\n';
+
 }

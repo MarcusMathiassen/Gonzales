@@ -129,18 +129,18 @@ void Engine::gameLoop()
     update();
     draw();
 
-    char fpsinfo[20];
-    sprintf(fpsinfo,"%dfps %fms",currentFPS, deltaTime);
-    drawText(fpsinfo, -1.0, -1.0, mainCamera.aspectRatio);
+    // char fpsinfo[20];
+    // sprintf(fpsinfo,"%dfps %fms",currentFPS, deltaTime);
+    // drawText(fpsinfo, -1.0, -1.0, mainCamera.aspectRatio);
 		if (framerate > 0)
       limitFPS(framerate, timeStartFrame - timeSpentSwapBuffer);
 
     ImGui::Render();
-		const f64 timeStartSwapBuffer{ glfwGetTime() };
-		glfwSwapBuffers(window);
-		timeSpentSwapBuffer = glfwGetTime() - timeStartSwapBuffer;
+    const f64 timeStartSwapBuffer{ glfwGetTime() };
+    glfwSwapBuffers(window);
+    timeSpentSwapBuffer = glfwGetTime() - timeStartSwapBuffer;
 
-		deltaTime = (glfwGetTime() - timeStartFrame)*1000.0;
+    deltaTime = (glfwGetTime() - timeStartFrame)*1000.0;
 	}
 	glfwMakeContextCurrent(NULL);
 }
@@ -173,14 +173,22 @@ void Engine::draw()
 {
   gameObjectManager.draw(mainCamera);
   uiManager.draw();
-  textManager->drawAll();
+  // textManager->drawAll();
 
-  ImGui::Begin("Info");
-  ImGui::Checkbox("vsync", (bool*)&vsync);
+  ImGui::Begin("Settings");
+  ImGui::Checkbox("Vsync", (bool*)&vsync);
   ImGui::SameLine();
-  ImGui::Text("%dfps %fms",currentFPS, deltaTime);
+  ImGui::Text("%dfps %.3fms",(u32)ImGui::GetIO().Framerate, 1000.0f/ImGui::GetIO().Framerate);
   ImGui::ColorEdit3("clear color", (float*)&clear_color);
+  ImGui::Separator();
+  // Resource managaer. Add Mesh or Texture
+  static char buf1[256] = ""; ImGui::InputText("", buf1, 256);
+  if (ImGui::Button("load mesh")) gameObjectManager.gameObjects[0]->mesh = resourceManager.mesh_isLoaded(buf1, buf1);
+  ImGui::SameLine();
+  if (ImGui::Button("load texture")) gameObjectManager.gameObjects[0]->texture.id = resourceManager.texture_isLoaded(buf1, buf1);
   ImGui::End();
+
+  resourceManager.printAll();
 }
 
 u32 Engine::addText(Text &text)
@@ -195,7 +203,7 @@ void Engine::addGameObject(const char* handle, GameObject &gameobject)
 {
 	gameobject.id = (u32)gameObjectManager.gameObjects.size();
 	gameObjectManager.gameObjects.emplace_back(std::make_unique<GameObject>(gameobject));
-  // resourceManager.addGameObject(handle, std::make_unique<GameObject>(gameobject));
+  resourceManager.addGameObject(handle, gameobject);
 }
 
 Text& Engine::getText(u32 id)
@@ -211,6 +219,3 @@ void Engine::updateText(u32 id, const char* new_string)
     if (id == text.id) text.str = new_string;
   }
 }
-
-
-

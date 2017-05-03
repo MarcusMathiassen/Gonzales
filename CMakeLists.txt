@@ -26,6 +26,13 @@ elseif(APPLE)
 	  link_libraries(${OPENGL_LIBRARIES})
 	endif()
 
+	 # OPENGL
+	find_package(boost REQUIRED)
+	if (BOOST_FOUND)
+	  include_directories(${BOOST_INCLUDE_DIRS})
+	  link_libraries(${BOOST_LIBRARIES})
+	endif()
+
 	# GLEW
 	if (!${GLEW_FOUND})
 	  include_directories(${CMAKE_CURRENT_SOURCE_DIR}/lib/GL/include)

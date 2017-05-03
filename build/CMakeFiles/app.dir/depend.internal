@@ -36,6 +36,9 @@ CMakeFiles/app.dir/src/MM_ResourceManager.cpp.o
  /Users/marcusmathiassen/MM/src/MM_Transform.h
  /Users/marcusmathiassen/MM/src/MM_Typedefs.h
  /Users/marcusmathiassen/MM/src/MM_Utility.h
+ /Users/marcusmathiassen/MM/src/imconfig.h
+ /Users/marcusmathiassen/MM/src/imgui.h
+ /Users/marcusmathiassen/MM/src/imgui_impl_glfw_gl3.h
 CMakeFiles/app.dir/src/MM_Shader.cpp.o
  /Users/marcusmathiassen/MM/src/MM_Shader.cpp
  /Users/marcusmathiassen/MM/src/MM_Shader.h

@@ -40,6 +40,7 @@ struct Mesh
     vector<vec2> uvs;
     vector<u16>  indices;
     loadOBJ(file, &positions, &normals, &uvs, &indices);
+
     drawCount = (u16)positions.size();
 
     glGenVertexArrays(1, &VAO);

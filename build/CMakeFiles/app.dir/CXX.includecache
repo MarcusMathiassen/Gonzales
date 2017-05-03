@@ -179,6 +179,12 @@ vector
 /Users/marcusmathiassen/MM/src/MM_ResourceManager.cpp
 MM_ResourceManager.h
 /Users/marcusmathiassen/MM/src/MM_ResourceManager.h
+MM_Utility.h
+/Users/marcusmathiassen/MM/src/MM_Utility.h
+imgui.h
+/Users/marcusmathiassen/MM/src/imgui.h
+imgui_impl_glfw_gl3.h
+/Users/marcusmathiassen/MM/src/imgui_impl_glfw_gl3.h
 
 /Users/marcusmathiassen/MM/src/MM_ResourceManager.h
 string

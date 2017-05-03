@@ -35,6 +35,9 @@ CMakeFiles/app.dir/src/MM_ResourceManager.cpp.o: ../src/MM_Texture.h
 CMakeFiles/app.dir/src/MM_ResourceManager.cpp.o: ../src/MM_Transform.h
 CMakeFiles/app.dir/src/MM_ResourceManager.cpp.o: ../src/MM_Typedefs.h
 CMakeFiles/app.dir/src/MM_ResourceManager.cpp.o: ../src/MM_Utility.h
+CMakeFiles/app.dir/src/MM_ResourceManager.cpp.o: ../src/imconfig.h
+CMakeFiles/app.dir/src/MM_ResourceManager.cpp.o: ../src/imgui.h
+CMakeFiles/app.dir/src/MM_ResourceManager.cpp.o: ../src/imgui_impl_glfw_gl3.h
 
 CMakeFiles/app.dir/src/MM_Shader.cpp.o: ../src/MM_Shader.cpp
 CMakeFiles/app.dir/src/MM_Shader.cpp.o: ../src/MM_Shader.h

@@ -8,7 +8,7 @@ std=-std=c++1z
 olvl=
 
 src=./src/*.cpp
-libs=-lglew\ -lglfw\ -framework\ OpenGL
+libs=-lglew\ -lglfw\ -framework\ OpenGL\ -framework\ Boost
 
 start=`date +%s`
 pushd ./build
