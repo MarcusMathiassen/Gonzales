@@ -24,8 +24,8 @@ struct Engine
 {
   WindowManager                     *windowManager{NULL};
   Renderer                          *renderer{NULL};
-  Camera                             camera;
-  GameObjectManager                  gameObjectManager;
+  Camera                            *camera{NULL};
+  GameObjectManager                 *gameObjectManager{NULL};
   ResourceManager                   *resourceManager{NULL};
   TextManager                       *textManager{NULL};
 
@@ -38,7 +38,7 @@ struct Engine
   u16           fps_info;
 
   bool          fullscreen          { false };
-  bool          isRunning           { true };
+  bool          quit                { false };
   u32           currentFPS          { 0 };
   f64           deltaTime           { 0.0 };
   f64           timeSinceStart      { 0.0 };

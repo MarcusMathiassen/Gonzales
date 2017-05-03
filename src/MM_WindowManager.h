@@ -5,6 +5,7 @@
 #include <GLFW/glfw3.h>
 
 #include "MM_Typedefs.h"
+#include <string>
 
 struct WindowManager
 {
@@ -20,7 +21,7 @@ struct WindowManager
   u8            vsync                 { 1 };
 
 
-  void createWindow(u32 width, u32 height, string title);
+  void createWindow(u32 _width, u32 _height, string _title);
 
   void update();
 

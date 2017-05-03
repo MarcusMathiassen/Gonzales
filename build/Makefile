@@ -150,6 +150,33 @@ src/MM_Engine.cpp.s:
 	$(MAKE) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/MM_Engine.cpp.s
 .PHONY : src/MM_Engine.cpp.s
 
+src/MM_Renderer.o: src/MM_Renderer.cpp.o
+
+.PHONY : src/MM_Renderer.o
+
+# target to build an object file
+src/MM_Renderer.cpp.o:
+	$(MAKE) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/MM_Renderer.cpp.o
+.PHONY : src/MM_Renderer.cpp.o
+
+src/MM_Renderer.i: src/MM_Renderer.cpp.i
+
+.PHONY : src/MM_Renderer.i
+
+# target to preprocess a source file
+src/MM_Renderer.cpp.i:
+	$(MAKE) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/MM_Renderer.cpp.i
+.PHONY : src/MM_Renderer.cpp.i
+
+src/MM_Renderer.s: src/MM_Renderer.cpp.s
+
+.PHONY : src/MM_Renderer.s
+
+# target to generate assembly for a file
+src/MM_Renderer.cpp.s:
+	$(MAKE) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/MM_Renderer.cpp.s
+.PHONY : src/MM_Renderer.cpp.s
+
 src/MM_ResourceManager.o: src/MM_ResourceManager.cpp.o
 
 .PHONY : src/MM_ResourceManager.o
@@ -284,6 +311,33 @@ src/MM_UIManager.s: src/MM_UIManager.cpp.s
 src/MM_UIManager.cpp.s:
 	$(MAKE) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/MM_UIManager.cpp.s
 .PHONY : src/MM_UIManager.cpp.s
+
+src/MM_WindowManager.o: src/MM_WindowManager.cpp.o
+
+.PHONY : src/MM_WindowManager.o
+
+# target to build an object file
+src/MM_WindowManager.cpp.o:
+	$(MAKE) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/MM_WindowManager.cpp.o
+.PHONY : src/MM_WindowManager.cpp.o
+
+src/MM_WindowManager.i: src/MM_WindowManager.cpp.i
+
+.PHONY : src/MM_WindowManager.i
+
+# target to preprocess a source file
+src/MM_WindowManager.cpp.i:
+	$(MAKE) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/MM_WindowManager.cpp.i
+.PHONY : src/MM_WindowManager.cpp.i
+
+src/MM_WindowManager.s: src/MM_WindowManager.cpp.s
+
+.PHONY : src/MM_WindowManager.s
+
+# target to generate assembly for a file
+src/MM_WindowManager.cpp.s:
+	$(MAKE) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/MM_WindowManager.cpp.s
+.PHONY : src/MM_WindowManager.cpp.s
 
 src/imgui.o: src/imgui.cpp.o
 
@@ -432,6 +486,9 @@ help:
 	@echo "... src/MM_Engine.o"
 	@echo "... src/MM_Engine.i"
 	@echo "... src/MM_Engine.s"
+	@echo "... src/MM_Renderer.o"
+	@echo "... src/MM_Renderer.i"
+	@echo "... src/MM_Renderer.s"
 	@echo "... src/MM_ResourceManager.o"
 	@echo "... src/MM_ResourceManager.i"
 	@echo "... src/MM_ResourceManager.s"
@@ -447,6 +504,9 @@ help:
 	@echo "... src/MM_UIManager.o"
 	@echo "... src/MM_UIManager.i"
 	@echo "... src/MM_UIManager.s"
+	@echo "... src/MM_WindowManager.o"
+	@echo "... src/MM_WindowManager.i"
+	@echo "... src/MM_WindowManager.s"
 	@echo "... src/imgui.o"
 	@echo "... src/imgui.i"
 	@echo "... src/imgui.s"

@@ -109,8 +109,8 @@ MM_GameObject.h
 /Users/marcusmathiassen/MM/src/MM_GameObject.h
 MM_GameObjectManager.h
 /Users/marcusmathiassen/MM/src/MM_GameObjectManager.h
-MM_UIManager.h
-/Users/marcusmathiassen/MM/src/MM_UIManager.h
+MM_WindowManager.h
+/Users/marcusmathiassen/MM/src/MM_WindowManager.h
 MM_Renderer.h
 /Users/marcusmathiassen/MM/src/MM_Renderer.h
 MM_TextManager.h
@@ -167,6 +167,16 @@ vector
 -
 MM_Utility.h
 /Users/marcusmathiassen/MM/src/MM_Utility.h
+
+/Users/marcusmathiassen/MM/src/MM_Renderer.cpp
+MM_Renderer.h
+/Users/marcusmathiassen/MM/src/MM_Renderer.h
+GL/glew.h
+-
+imgui.h
+/Users/marcusmathiassen/MM/src/imgui.h
+imgui_impl_glfw_gl3.h
+/Users/marcusmathiassen/MM/src/imgui_impl_glfw_gl3.h
 
 /Users/marcusmathiassen/MM/src/MM_Renderer.h
 MM_Typedefs.h
@@ -391,6 +401,24 @@ GLFW/glfw3.h
 -
 MM_Camera.h
 /Users/marcusmathiassen/MM/src/MM_Camera.h
+
+/Users/marcusmathiassen/MM/src/MM_WindowManager.cpp
+MM_WindowManager.h
+/Users/marcusmathiassen/MM/src/MM_WindowManager.h
+imgui.h
+/Users/marcusmathiassen/MM/src/imgui.h
+imgui_impl_glfw_gl3.h
+/Users/marcusmathiassen/MM/src/imgui_impl_glfw_gl3.h
+
+/Users/marcusmathiassen/MM/src/MM_WindowManager.h
+GL/glew.h
+-
+GLFW/glfw3.h
+-
+MM_Typedefs.h
+/Users/marcusmathiassen/MM/src/MM_Typedefs.h
+string
+-
 
 /Users/marcusmathiassen/MM/src/imconfig.h
 

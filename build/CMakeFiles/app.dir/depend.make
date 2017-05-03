@@ -20,9 +20,25 @@ CMakeFiles/app.dir/src/MM_Engine.cpp.o: ../src/MM_UIManager.h
 CMakeFiles/app.dir/src/MM_Engine.cpp.o: ../src/MM_UIText.h
 CMakeFiles/app.dir/src/MM_Engine.cpp.o: ../src/MM_Utility.h
 CMakeFiles/app.dir/src/MM_Engine.cpp.o: ../src/MM_Window.h
+CMakeFiles/app.dir/src/MM_Engine.cpp.o: ../src/MM_WindowManager.h
 CMakeFiles/app.dir/src/MM_Engine.cpp.o: ../src/imconfig.h
 CMakeFiles/app.dir/src/MM_Engine.cpp.o: ../src/imgui.h
 CMakeFiles/app.dir/src/MM_Engine.cpp.o: ../src/imgui_impl_glfw_gl3.h
+
+CMakeFiles/app.dir/src/MM_Renderer.cpp.o: ../res/stb_image.h
+CMakeFiles/app.dir/src/MM_Renderer.cpp.o: ../src/MM_Camera.h
+CMakeFiles/app.dir/src/MM_Renderer.cpp.o: ../src/MM_GameObject.h
+CMakeFiles/app.dir/src/MM_Renderer.cpp.o: ../src/MM_Mesh.h
+CMakeFiles/app.dir/src/MM_Renderer.cpp.o: ../src/MM_Renderer.cpp
+CMakeFiles/app.dir/src/MM_Renderer.cpp.o: ../src/MM_Renderer.h
+CMakeFiles/app.dir/src/MM_Renderer.cpp.o: ../src/MM_Shader.h
+CMakeFiles/app.dir/src/MM_Renderer.cpp.o: ../src/MM_Texture.h
+CMakeFiles/app.dir/src/MM_Renderer.cpp.o: ../src/MM_Transform.h
+CMakeFiles/app.dir/src/MM_Renderer.cpp.o: ../src/MM_Typedefs.h
+CMakeFiles/app.dir/src/MM_Renderer.cpp.o: ../src/MM_Utility.h
+CMakeFiles/app.dir/src/MM_Renderer.cpp.o: ../src/imconfig.h
+CMakeFiles/app.dir/src/MM_Renderer.cpp.o: ../src/imgui.h
+CMakeFiles/app.dir/src/MM_Renderer.cpp.o: ../src/imgui_impl_glfw_gl3.h
 
 CMakeFiles/app.dir/src/MM_ResourceManager.cpp.o: ../res/stb_image.h
 CMakeFiles/app.dir/src/MM_ResourceManager.cpp.o: ../src/MM_Camera.h
@@ -76,6 +92,13 @@ CMakeFiles/app.dir/src/MM_UIManager.cpp.o: ../src/imconfig.h
 CMakeFiles/app.dir/src/MM_UIManager.cpp.o: ../src/imgui.h
 CMakeFiles/app.dir/src/MM_UIManager.cpp.o: ../src/imgui_impl_glfw_gl3.h
 
+CMakeFiles/app.dir/src/MM_WindowManager.cpp.o: ../src/MM_Typedefs.h
+CMakeFiles/app.dir/src/MM_WindowManager.cpp.o: ../src/MM_WindowManager.cpp
+CMakeFiles/app.dir/src/MM_WindowManager.cpp.o: ../src/MM_WindowManager.h
+CMakeFiles/app.dir/src/MM_WindowManager.cpp.o: ../src/imconfig.h
+CMakeFiles/app.dir/src/MM_WindowManager.cpp.o: ../src/imgui.h
+CMakeFiles/app.dir/src/MM_WindowManager.cpp.o: ../src/imgui_impl_glfw_gl3.h
+
 CMakeFiles/app.dir/src/imgui.cpp.o: ../src/imconfig.h
 CMakeFiles/app.dir/src/imgui.cpp.o: ../src/imgui.cpp
 CMakeFiles/app.dir/src/imgui.cpp.o: ../src/imgui.h
@@ -121,5 +144,6 @@ CMakeFiles/app.dir/src/main.cpp.o: ../src/MM_UIManager.h
 CMakeFiles/app.dir/src/main.cpp.o: ../src/MM_UIText.h
 CMakeFiles/app.dir/src/main.cpp.o: ../src/MM_Utility.h
 CMakeFiles/app.dir/src/main.cpp.o: ../src/MM_Window.h
+CMakeFiles/app.dir/src/main.cpp.o: ../src/MM_WindowManager.h
 CMakeFiles/app.dir/src/main.cpp.o: ../src/main.cpp
 

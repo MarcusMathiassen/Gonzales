@@ -5,11 +5,13 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
   "/Users/marcusmathiassen/MM/src/MM_Engine.cpp" "/Users/marcusmathiassen/MM/build/CMakeFiles/app.dir/src/MM_Engine.cpp.o"
+  "/Users/marcusmathiassen/MM/src/MM_Renderer.cpp" "/Users/marcusmathiassen/MM/build/CMakeFiles/app.dir/src/MM_Renderer.cpp.o"
   "/Users/marcusmathiassen/MM/src/MM_ResourceManager.cpp" "/Users/marcusmathiassen/MM/build/CMakeFiles/app.dir/src/MM_ResourceManager.cpp.o"
   "/Users/marcusmathiassen/MM/src/MM_Shader.cpp" "/Users/marcusmathiassen/MM/build/CMakeFiles/app.dir/src/MM_Shader.cpp.o"
   "/Users/marcusmathiassen/MM/src/MM_TextManager.cpp" "/Users/marcusmathiassen/MM/build/CMakeFiles/app.dir/src/MM_TextManager.cpp.o"
   "/Users/marcusmathiassen/MM/src/MM_UIButton.cpp" "/Users/marcusmathiassen/MM/build/CMakeFiles/app.dir/src/MM_UIButton.cpp.o"
   "/Users/marcusmathiassen/MM/src/MM_UIManager.cpp" "/Users/marcusmathiassen/MM/build/CMakeFiles/app.dir/src/MM_UIManager.cpp.o"
+  "/Users/marcusmathiassen/MM/src/MM_WindowManager.cpp" "/Users/marcusmathiassen/MM/build/CMakeFiles/app.dir/src/MM_WindowManager.cpp.o"
   "/Users/marcusmathiassen/MM/src/imgui.cpp" "/Users/marcusmathiassen/MM/build/CMakeFiles/app.dir/src/imgui.cpp.o"
   "/Users/marcusmathiassen/MM/src/imgui_demo.cpp" "/Users/marcusmathiassen/MM/build/CMakeFiles/app.dir/src/imgui_demo.cpp.o"
   "/Users/marcusmathiassen/MM/src/imgui_draw.cpp" "/Users/marcusmathiassen/MM/build/CMakeFiles/app.dir/src/imgui_draw.cpp.o"

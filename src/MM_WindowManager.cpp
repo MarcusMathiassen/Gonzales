@@ -3,8 +3,6 @@
 #include "imgui.h"
 #include "imgui_impl_glfw_gl3.h"
 
-#include <stdio.h>
-
 void WindowManager::createWindow(u32 _width, u32 _height, string _title)
 {
   width   = _width;

@@ -81,9 +81,33 @@ CMakeFiles/app.dir/src/MM_Engine.cpp.o.provides: CMakeFiles/app.dir/src/MM_Engin
 CMakeFiles/app.dir/src/MM_Engine.cpp.o.provides.build: CMakeFiles/app.dir/src/MM_Engine.cpp.o
 
 
+CMakeFiles/app.dir/src/MM_Renderer.cpp.o: CMakeFiles/app.dir/flags.make
+CMakeFiles/app.dir/src/MM_Renderer.cpp.o: ../src/MM_Renderer.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/marcusmathiassen/MM/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/app.dir/src/MM_Renderer.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/app.dir/src/MM_Renderer.cpp.o -c /Users/marcusmathiassen/MM/src/MM_Renderer.cpp
+
+CMakeFiles/app.dir/src/MM_Renderer.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/app.dir/src/MM_Renderer.cpp.i"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/marcusmathiassen/MM/src/MM_Renderer.cpp > CMakeFiles/app.dir/src/MM_Renderer.cpp.i
+
+CMakeFiles/app.dir/src/MM_Renderer.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/app.dir/src/MM_Renderer.cpp.s"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/marcusmathiassen/MM/src/MM_Renderer.cpp -o CMakeFiles/app.dir/src/MM_Renderer.cpp.s
+
+CMakeFiles/app.dir/src/MM_Renderer.cpp.o.requires:
+
+.PHONY : CMakeFiles/app.dir/src/MM_Renderer.cpp.o.requires
+
+CMakeFiles/app.dir/src/MM_Renderer.cpp.o.provides: CMakeFiles/app.dir/src/MM_Renderer.cpp.o.requires
+	$(MAKE) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/MM_Renderer.cpp.o.provides.build
+.PHONY : CMakeFiles/app.dir/src/MM_Renderer.cpp.o.provides
+
+CMakeFiles/app.dir/src/MM_Renderer.cpp.o.provides.build: CMakeFiles/app.dir/src/MM_Renderer.cpp.o
+
+
 CMakeFiles/app.dir/src/MM_ResourceManager.cpp.o: CMakeFiles/app.dir/flags.make
 CMakeFiles/app.dir/src/MM_ResourceManager.cpp.o: ../src/MM_ResourceManager.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/marcusmathiassen/MM/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/app.dir/src/MM_ResourceManager.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/marcusmathiassen/MM/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/app.dir/src/MM_ResourceManager.cpp.o"
 	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/app.dir/src/MM_ResourceManager.cpp.o -c /Users/marcusmathiassen/MM/src/MM_ResourceManager.cpp
 
 CMakeFiles/app.dir/src/MM_ResourceManager.cpp.i: cmake_force
@@ -107,7 +131,7 @@ CMakeFiles/app.dir/src/MM_ResourceManager.cpp.o.provides.build: CMakeFiles/app.d
 
 CMakeFiles/app.dir/src/MM_Shader.cpp.o: CMakeFiles/app.dir/flags.make
 CMakeFiles/app.dir/src/MM_Shader.cpp.o: ../src/MM_Shader.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/marcusmathiassen/MM/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/app.dir/src/MM_Shader.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/marcusmathiassen/MM/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/app.dir/src/MM_Shader.cpp.o"
 	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/app.dir/src/MM_Shader.cpp.o -c /Users/marcusmathiassen/MM/src/MM_Shader.cpp
 
 CMakeFiles/app.dir/src/MM_Shader.cpp.i: cmake_force
@@ -131,7 +155,7 @@ CMakeFiles/app.dir/src/MM_Shader.cpp.o.provides.build: CMakeFiles/app.dir/src/MM
 
 CMakeFiles/app.dir/src/MM_TextManager.cpp.o: CMakeFiles/app.dir/flags.make
 CMakeFiles/app.dir/src/MM_TextManager.cpp.o: ../src/MM_TextManager.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/marcusmathiassen/MM/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/app.dir/src/MM_TextManager.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/marcusmathiassen/MM/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/app.dir/src/MM_TextManager.cpp.o"
 	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/app.dir/src/MM_TextManager.cpp.o -c /Users/marcusmathiassen/MM/src/MM_TextManager.cpp
 
 CMakeFiles/app.dir/src/MM_TextManager.cpp.i: cmake_force
@@ -155,7 +179,7 @@ CMakeFiles/app.dir/src/MM_TextManager.cpp.o.provides.build: CMakeFiles/app.dir/s
 
 CMakeFiles/app.dir/src/MM_UIButton.cpp.o: CMakeFiles/app.dir/flags.make
 CMakeFiles/app.dir/src/MM_UIButton.cpp.o: ../src/MM_UIButton.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/marcusmathiassen/MM/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/app.dir/src/MM_UIButton.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/marcusmathiassen/MM/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/app.dir/src/MM_UIButton.cpp.o"
 	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/app.dir/src/MM_UIButton.cpp.o -c /Users/marcusmathiassen/MM/src/MM_UIButton.cpp
 
 CMakeFiles/app.dir/src/MM_UIButton.cpp.i: cmake_force
@@ -179,7 +203,7 @@ CMakeFiles/app.dir/src/MM_UIButton.cpp.o.provides.build: CMakeFiles/app.dir/src/
 
 CMakeFiles/app.dir/src/MM_UIManager.cpp.o: CMakeFiles/app.dir/flags.make
 CMakeFiles/app.dir/src/MM_UIManager.cpp.o: ../src/MM_UIManager.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/marcusmathiassen/MM/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/app.dir/src/MM_UIManager.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/marcusmathiassen/MM/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/app.dir/src/MM_UIManager.cpp.o"
 	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/app.dir/src/MM_UIManager.cpp.o -c /Users/marcusmathiassen/MM/src/MM_UIManager.cpp
 
 CMakeFiles/app.dir/src/MM_UIManager.cpp.i: cmake_force
@@ -201,9 +225,33 @@ CMakeFiles/app.dir/src/MM_UIManager.cpp.o.provides: CMakeFiles/app.dir/src/MM_UI
 CMakeFiles/app.dir/src/MM_UIManager.cpp.o.provides.build: CMakeFiles/app.dir/src/MM_UIManager.cpp.o
 
 
+CMakeFiles/app.dir/src/MM_WindowManager.cpp.o: CMakeFiles/app.dir/flags.make
+CMakeFiles/app.dir/src/MM_WindowManager.cpp.o: ../src/MM_WindowManager.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/marcusmathiassen/MM/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/app.dir/src/MM_WindowManager.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/app.dir/src/MM_WindowManager.cpp.o -c /Users/marcusmathiassen/MM/src/MM_WindowManager.cpp
+
+CMakeFiles/app.dir/src/MM_WindowManager.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/app.dir/src/MM_WindowManager.cpp.i"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/marcusmathiassen/MM/src/MM_WindowManager.cpp > CMakeFiles/app.dir/src/MM_WindowManager.cpp.i
+
+CMakeFiles/app.dir/src/MM_WindowManager.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/app.dir/src/MM_WindowManager.cpp.s"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/marcusmathiassen/MM/src/MM_WindowManager.cpp -o CMakeFiles/app.dir/src/MM_WindowManager.cpp.s
+
+CMakeFiles/app.dir/src/MM_WindowManager.cpp.o.requires:
+
+.PHONY : CMakeFiles/app.dir/src/MM_WindowManager.cpp.o.requires
+
+CMakeFiles/app.dir/src/MM_WindowManager.cpp.o.provides: CMakeFiles/app.dir/src/MM_WindowManager.cpp.o.requires
+	$(MAKE) -f CMakeFiles/app.dir/build.make CMakeFiles/app.dir/src/MM_WindowManager.cpp.o.provides.build
+.PHONY : CMakeFiles/app.dir/src/MM_WindowManager.cpp.o.provides
+
+CMakeFiles/app.dir/src/MM_WindowManager.cpp.o.provides.build: CMakeFiles/app.dir/src/MM_WindowManager.cpp.o
+
+
 CMakeFiles/app.dir/src/imgui.cpp.o: CMakeFiles/app.dir/flags.make
 CMakeFiles/app.dir/src/imgui.cpp.o: ../src/imgui.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/marcusmathiassen/MM/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/app.dir/src/imgui.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/marcusmathiassen/MM/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/app.dir/src/imgui.cpp.o"
 	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/app.dir/src/imgui.cpp.o -c /Users/marcusmathiassen/MM/src/imgui.cpp
 
 CMakeFiles/app.dir/src/imgui.cpp.i: cmake_force
@@ -227,7 +275,7 @@ CMakeFiles/app.dir/src/imgui.cpp.o.provides.build: CMakeFiles/app.dir/src/imgui.
 
 CMakeFiles/app.dir/src/imgui_demo.cpp.o: CMakeFiles/app.dir/flags.make
 CMakeFiles/app.dir/src/imgui_demo.cpp.o: ../src/imgui_demo.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/marcusmathiassen/MM/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/app.dir/src/imgui_demo.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/marcusmathiassen/MM/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/app.dir/src/imgui_demo.cpp.o"
 	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/app.dir/src/imgui_demo.cpp.o -c /Users/marcusmathiassen/MM/src/imgui_demo.cpp
 
 CMakeFiles/app.dir/src/imgui_demo.cpp.i: cmake_force
@@ -251,7 +299,7 @@ CMakeFiles/app.dir/src/imgui_demo.cpp.o.provides.build: CMakeFiles/app.dir/src/i
 
 CMakeFiles/app.dir/src/imgui_draw.cpp.o: CMakeFiles/app.dir/flags.make
 CMakeFiles/app.dir/src/imgui_draw.cpp.o: ../src/imgui_draw.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/marcusmathiassen/MM/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/app.dir/src/imgui_draw.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/marcusmathiassen/MM/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/app.dir/src/imgui_draw.cpp.o"
 	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/app.dir/src/imgui_draw.cpp.o -c /Users/marcusmathiassen/MM/src/imgui_draw.cpp
 
 CMakeFiles/app.dir/src/imgui_draw.cpp.i: cmake_force
@@ -275,7 +323,7 @@ CMakeFiles/app.dir/src/imgui_draw.cpp.o.provides.build: CMakeFiles/app.dir/src/i
 
 CMakeFiles/app.dir/src/imgui_impl_glfw_gl3.cpp.o: CMakeFiles/app.dir/flags.make
 CMakeFiles/app.dir/src/imgui_impl_glfw_gl3.cpp.o: ../src/imgui_impl_glfw_gl3.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/marcusmathiassen/MM/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/app.dir/src/imgui_impl_glfw_gl3.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/marcusmathiassen/MM/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/app.dir/src/imgui_impl_glfw_gl3.cpp.o"
 	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/app.dir/src/imgui_impl_glfw_gl3.cpp.o -c /Users/marcusmathiassen/MM/src/imgui_impl_glfw_gl3.cpp
 
 CMakeFiles/app.dir/src/imgui_impl_glfw_gl3.cpp.i: cmake_force
@@ -299,7 +347,7 @@ CMakeFiles/app.dir/src/imgui_impl_glfw_gl3.cpp.o.provides.build: CMakeFiles/app.
 
 CMakeFiles/app.dir/src/main.cpp.o: CMakeFiles/app.dir/flags.make
 CMakeFiles/app.dir/src/main.cpp.o: ../src/main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/marcusmathiassen/MM/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/app.dir/src/main.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/marcusmathiassen/MM/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/app.dir/src/main.cpp.o"
 	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/app.dir/src/main.cpp.o -c /Users/marcusmathiassen/MM/src/main.cpp
 
 CMakeFiles/app.dir/src/main.cpp.i: cmake_force
@@ -324,11 +372,13 @@ CMakeFiles/app.dir/src/main.cpp.o.provides.build: CMakeFiles/app.dir/src/main.cp
 # Object files for target app
 app_OBJECTS = \
 "CMakeFiles/app.dir/src/MM_Engine.cpp.o" \
+"CMakeFiles/app.dir/src/MM_Renderer.cpp.o" \
 "CMakeFiles/app.dir/src/MM_ResourceManager.cpp.o" \
 "CMakeFiles/app.dir/src/MM_Shader.cpp.o" \
 "CMakeFiles/app.dir/src/MM_TextManager.cpp.o" \
 "CMakeFiles/app.dir/src/MM_UIButton.cpp.o" \
 "CMakeFiles/app.dir/src/MM_UIManager.cpp.o" \
+"CMakeFiles/app.dir/src/MM_WindowManager.cpp.o" \
 "CMakeFiles/app.dir/src/imgui.cpp.o" \
 "CMakeFiles/app.dir/src/imgui_demo.cpp.o" \
 "CMakeFiles/app.dir/src/imgui_draw.cpp.o" \
@@ -339,11 +389,13 @@ app_OBJECTS = \
 app_EXTERNAL_OBJECTS =
 
 ../app: CMakeFiles/app.dir/src/MM_Engine.cpp.o
+../app: CMakeFiles/app.dir/src/MM_Renderer.cpp.o
 ../app: CMakeFiles/app.dir/src/MM_ResourceManager.cpp.o
 ../app: CMakeFiles/app.dir/src/MM_Shader.cpp.o
 ../app: CMakeFiles/app.dir/src/MM_TextManager.cpp.o
 ../app: CMakeFiles/app.dir/src/MM_UIButton.cpp.o
 ../app: CMakeFiles/app.dir/src/MM_UIManager.cpp.o
+../app: CMakeFiles/app.dir/src/MM_WindowManager.cpp.o
 ../app: CMakeFiles/app.dir/src/imgui.cpp.o
 ../app: CMakeFiles/app.dir/src/imgui_demo.cpp.o
 ../app: CMakeFiles/app.dir/src/imgui_draw.cpp.o
@@ -353,7 +405,7 @@ app_EXTERNAL_OBJECTS =
 ../app: ../lib/GL/libGLEW.a
 ../app: ../lib/GLFW/libglfw3.a
 ../app: CMakeFiles/app.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/marcusmathiassen/MM/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Linking CXX executable ../app"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/marcusmathiassen/MM/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Linking CXX executable ../app"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/app.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -362,11 +414,13 @@ CMakeFiles/app.dir/build: ../app
 .PHONY : CMakeFiles/app.dir/build
 
 CMakeFiles/app.dir/requires: CMakeFiles/app.dir/src/MM_Engine.cpp.o.requires
+CMakeFiles/app.dir/requires: CMakeFiles/app.dir/src/MM_Renderer.cpp.o.requires
 CMakeFiles/app.dir/requires: CMakeFiles/app.dir/src/MM_ResourceManager.cpp.o.requires
 CMakeFiles/app.dir/requires: CMakeFiles/app.dir/src/MM_Shader.cpp.o.requires
 CMakeFiles/app.dir/requires: CMakeFiles/app.dir/src/MM_TextManager.cpp.o.requires
 CMakeFiles/app.dir/requires: CMakeFiles/app.dir/src/MM_UIButton.cpp.o.requires
 CMakeFiles/app.dir/requires: CMakeFiles/app.dir/src/MM_UIManager.cpp.o.requires
+CMakeFiles/app.dir/requires: CMakeFiles/app.dir/src/MM_WindowManager.cpp.o.requires
 CMakeFiles/app.dir/requires: CMakeFiles/app.dir/src/imgui.cpp.o.requires
 CMakeFiles/app.dir/requires: CMakeFiles/app.dir/src/imgui_demo.cpp.o.requires
 CMakeFiles/app.dir/requires: CMakeFiles/app.dir/src/imgui_draw.cpp.o.requires
