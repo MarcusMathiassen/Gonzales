@@ -11,41 +11,10 @@
 
 void Engine::init()
 {
-  if (framerate > 0) fixedFrametime = 1000.0f/framerate;
+  windowManager = new WindowManager;
+  windowManager->createWindow(width,height,title);
 
-  // @Cleanup: this is window initialization. Do it somewhere else.
-  glfwInit();
-
-  const u8 gl_major = (u8)std::floor(openGLVersion);
-  const u8 gl_minor = (u8)((openGLVersion - gl_major) * 10.0001f);
-  glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, gl_major);
-  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, gl_minor);
-
-  if (gl_major > 2)
-  {
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-  }
-
-  window = glfwCreateWindow(width,
-                            height,
-                            title.c_str(),
-                            fullscreen ? glfwGetPrimaryMonitor() : NULL,
-                            NULL);
-
-  glfwMakeContextCurrent(window);
-
-  s32 count;
-  const GLFWvidmode* modes = glfwGetVideoModes( glfwGetPrimaryMonitor(), &count);
-  refreshRateInMS = 1000.0f/(modes->refreshRate);
-
-  if (gl_major > 2) glewExperimental = GL_TRUE;
-
-  glewInit();
-
-  glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-
-  ImGui_ImplGlfwGL3_Init(window, true);
+  ImGui_ImplGlfwGL3_Init(windowManager->window, true);
   ImGuiIO& io = ImGui::GetIO();
   io.Fonts->AddFontFromFileTTF("./res/DroidSans.ttf", 18.0f, NULL, io.Fonts->GetGlyphRangesJapanese());
   auto& style = ImGui::GetStyle();
@@ -54,120 +23,44 @@ void Engine::init()
   style.Colors[ImGuiCol_TitleBgActive] = ImVec4(0.1f, 0.1f, 0.1f, 0.90f);
   style.Colors[ImGuiCol_Button] = ImVec4(0.3f, 0.3f, 0.3f, 0.90f);
 
-
-  initWindowCallbacks(window);
+  resourceManager = new ResourceManager;
+  renderer = new Renderer;
+  textManager = new TextManager;
 
   glEnable(GL_DEPTH_TEST);
   glEnable(GL_CULL_FACE);
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-  if (framerate == 0) glfwSwapInterval(vsync);
-  else                glfwSwapInterval(0);
-
-  // @Cleanup: move this somewhere else
-  printf("%s\n", glGetString(GL_VERSION));
-  printf("%s\n", glGetString(GL_VENDOR));
-  printf("%s\n", glGetString(GL_RENDERER));
-
-  s32 width, height;
-  glfwGetFramebufferSize(window, &width, &height);
-  glViewport(0, 0, width, height);
-  this->width  = width;
-  this->height = height;
-
-  mainCamera.aspectRatio = (f32)width / height;
-  mainCamera.updatePerspective();
-
-  textManager = new TextManager;
 }
 
 void Engine::start()
 {
-	glfwMakeContextCurrent(NULL);
-	std::thread drawThread(&Engine::gameLoop, this);
-
-  Text text;
-  text.color = glm::vec4(1, 0, 0, 1);
-  text.pos.x = -1;
-  text.pos.y = -0.9375;
-  u32 id = addText(text);
-
 	timeSinceStart = glfwGetTime();
-	while (!glfwWindowShouldClose(window) &&
-		!(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS))
+	while (!glfwWindowShouldClose(windowManager->window) && !(glfwGetKey(windowManager->window, GLFW_KEY_ESCAPE) == GLFW_PRESS))
 	{
-    const f64 timeStartFrame{ glfwGetTime() };
-		glfwPollEvents();
-		if (timeStartFrame - timeSinceStart >= 1.0)
-    {
-      currentFPS = (u32)(1000.0f / (f32)deltaTime);
-    	++timeSinceStart;
-    }
-
-    char fpsinfo[20];
-    sprintf(fpsinfo,"%dfps %fms", currentFPS, deltaTime);
-    Text &text = getText(id);
-    text.str = fpsinfo;
-
-    // @Cleanup: do we need to sleep?
-		sleepForMs(refreshRateInMS);
-	}
-
-  // @Cleanup: place this somewhere else
-	isRunning = false;
-	drawThread.join();
-  ImGui_ImplGlfwGL3_Shutdown();
-	glfwTerminate();
-}
-
-ImVec4 clear_color = ImColor(105,183,121);
-void Engine::gameLoop()
-{
-	f64 timeSpentSwapBuffer{ 0.0 };
-	glfwSetTime(0.0);
-	glfwMakeContextCurrent(window);
-
-	while (isRunning)
-	{
-		const f64 timeStartFrame{ glfwGetTime() };
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
     ImGui_ImplGlfwGL3_NewFrame();
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+		glfwPollEvents();
 
     update();
     draw();
 
-    // char fpsinfo[20];
-    // sprintf(fpsinfo,"%dfps %fms",currentFPS, deltaTime);
-    // drawText(fpsinfo, -1.0, -1.0, mainCamera.aspectRatio);
-		if (framerate > 0)
-      limitFPS(framerate, timeStartFrame - timeSpentSwapBuffer);
-
-    ImGui::Render();
-    const f64 timeStartSwapBuffer{ glfwGetTime() };
-    glfwSwapBuffers(window);
-    timeSpentSwapBuffer = glfwGetTime() - timeStartSwapBuffer;
-
-    deltaTime = (glfwGetTime() - timeStartFrame)*1000.0;
+    glfwSwapBuffers(windowManager->window);
 	}
-	glfwMakeContextCurrent(NULL);
+  ImGui_ImplGlfwGL3_Shutdown();
+	glfwTerminate();
 }
 
 void Engine::internal_update()
 {
-  // @Cleanup: put this somewhere else
-  s32 width, height;
-  glfwGetFramebufferSize(window, &width, &height);
-  glViewport(0, 0, width, height);
-  this->width  = width;
-  this->height = height;
-  mainCamera.aspectRatio = (f32)width / height;
-  mainCamera.updatePerspective();
+  windowManager->update();
 
-  if (framerate == 0) glfwSwapInterval(vsync);
-  else                glfwSwapInterval(0);
+  renderer->viewport_width  = windowManager->viewport_width;
+  renderer->viewport_height = windowManager->viewport_height;
+  renderer->update();
 
-  glClearColor(clear_color.x,clear_color.y,clear_color.z,1.0);
+  camera.aspectRatio = (f32)renderer->viewport_width / renderer->viewport_height;
+  camera.updatePerspective();
 }
 
 void Engine::update()
@@ -175,57 +68,59 @@ void Engine::update()
   if (internal_settings_changed) internal_update();
 
   gameObjectManager.update();
-  uiManager.update(mainCamera);
 }
 void Engine::draw()
 {
-  gameObjectManager.draw(mainCamera);
-  uiManager.draw();
-  // textManager->drawAll();
+  gameObjectManager.draw(camera);
 
-  ImGui::Begin("Settings");
-  ImGui::Checkbox("Vsync", (bool*)&vsync);
-  ImGui::SameLine();
-  ImGui::Text("%dfps %.3fms",(u32)ImGui::GetIO().Framerate, 1000.0f/ImGui::GetIO().Framerate);
-  ImGui::ColorEdit3("clear color", (float*)&clear_color);
+#ifdef DEBUG
+  if (ImGui::BeginMainMenuBar())
+  {
+    if (ImGui::BeginMenu("show"))
+    {
+      ImGui::MenuItem("engine",         NULL, &show_engine_debug);
+      ImGui::MenuItem("renderer",       NULL, &show_renderer_debug);
+      ImGui::MenuItem("resourceManager",NULL, &show_resourceManager_debug);
+      ImGui::MenuItem("windowmanager",  NULL, &show_windowManager_debug);
+      ImGui::EndMenu();
+    }
+    ImGui::EndMainMenuBar();
+  }
 
-  ImGui::Separator();
 
-  // Resource managaer. Add Mesh or Texture
-  static char buf1[256] = ""; ImGui::InputText("", buf1, 256);
-  if (ImGui::Button("load mesh")) gameObjectManager.gameObjects[0]->mesh = resourceManager.mesh_isLoaded(buf1, buf1);
-  ImGui::SameLine();
-  if (ImGui::Button("load texture")) gameObjectManager.gameObjects[0]->texture.id = resourceManager.texture_isLoaded(buf1, buf1);
-  ImGui::End();
+  if (show_resourceManager_debug)     resourceManager->display_debug_imGui();
+  if (show_engine_debug)              display_debug_imGui();
+  if (show_windowManager_debug)       windowManager->display_debug_imGui();
+  if (show_renderer_debug)            renderer->display_debug_imGui();
 
-  resourceManager.printAll();
-}
+  ImGui::Render();
 
-u32 Engine::addText(Text &text)
-{
-  const u32 id{ (u32)textManager->text_buffer.size() };
-  text.id = id;
-  textManager->text_buffer.emplace_back(text);
-  return id;
+#endif
 }
 
 void Engine::addGameObject(const char* handle, GameObject &gameobject)
 {
 	gameobject.id = (u32)gameObjectManager.gameObjects.size();
 	gameObjectManager.gameObjects.emplace_back(std::make_unique<GameObject>(gameobject));
-  resourceManager.addGameObject(handle, gameobject);
+  resourceManager->addGameObject(handle, gameobject);
 }
 
-Text& Engine::getText(u32 id)
+void Engine::display_debug_imGui()
 {
-  for (auto &text: textManager->text_buffer)
-    if (id == text.id) return text;
-}
+  ImGui::Begin("Engine Debug Info");
 
-void Engine::updateText(u32 id, const char* new_string)
-{
-  for (auto &text: textManager->text_buffer)
-  {
-    if (id == text.id) text.str = new_string;
-  }
+  // Engine info
+  ImGui::Text("%dfps %.3fms",(u32)ImGui::GetIO().Framerate, 1000.0f/ImGui::GetIO().Framerate);
+  ImGui::Text("isRunning: %d", isRunning);
+  ImGui::Text("deltaTime: %f", deltaTime);
+  ImGui::Text("timeSinceStart: %f", timeSinceStart);
+  ImGui::Text("currentFPS: %d", currentFPS);
+
+  ImGui::Separator();
+
+  static char buf1[256] = ""; ImGui::InputText("", buf1, 256);
+  if (ImGui::Button("load mesh")) gameObjectManager.gameObjects[0]->mesh = resourceManager->mesh_isLoaded(buf1, buf1);
+  ImGui::SameLine();
+  if (ImGui::Button("load texture")) gameObjectManager.gameObjects[0]->texture.id = resourceManager->texture_isLoaded(buf1, buf1);
+  ImGui::End();
 }

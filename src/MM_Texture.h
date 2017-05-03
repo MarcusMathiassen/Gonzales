@@ -21,7 +21,7 @@ struct Texture
 
     glGenTextures(1, &id);
     glBindTexture(GL_TEXTURE_2D, id);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, _filtering);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, (s32)_filtering);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
@@ -31,7 +31,6 @@ struct Texture
     glGenerateMipmap(GL_TEXTURE_2D);
 
     stbi_image_free(image_data);
-    printf("Texture loaded: %s\n",file);
   }
 
   Texture() = default;

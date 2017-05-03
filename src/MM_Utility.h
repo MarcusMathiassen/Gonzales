@@ -35,7 +35,6 @@ static void readFile(const char *file, char **buffer);
 #endif
 static void sleepForSec(f32 sec);
 static void sleepForMs(f32 ms);
-static bool waitForSec(f32 timeSinceStart, f32 sec);
 
 static void sleepForMs(f32 ms)
 {

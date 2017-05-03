@@ -20,7 +20,7 @@ struct TextManager
   u32           uniform[NUM_UNIFORMS];
   Texture       texture;
 
-  vector<Text>   text_buffer;
+  vector<unique_ptr<Text> >   text_buffer;
   void drawAll();
   TextManager();
   ~TextManager();

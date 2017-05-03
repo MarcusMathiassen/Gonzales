@@ -4,9 +4,9 @@
 #include "imgui.h"
 #include "imgui_impl_glfw_gl3.h"
 
-void ResourceManager::printAll()
+void ResourceManager::display_debug_imGui()
 {
-  ImGui::Begin("Resources");
+  ImGui::Begin("ResourceManager Debug Info");
   ImGui::Text("Textures:");
   for (const auto& map: textures)
   {
@@ -20,6 +20,13 @@ void ResourceManager::printAll()
   }
   ImGui::End();
 }
+
+void ResourceManager::loadResource(const char* file)
+{
+  char *buffer;
+  readFile(file, &buffer);
+}
+
 
 void ResourceManager::addGameObject(const char* handle, const GameObject &gameobject)
 {

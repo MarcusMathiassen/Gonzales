@@ -46,11 +46,14 @@ struct Mesh
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
 
-    glGenBuffers(1, &VBO[POSITION]);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO[POSITION]);
-    glBufferData(GL_ARRAY_BUFFER, positions.size() * sizeof(positions[0]), &positions[0], GL_STATIC_DRAW);
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+    if (!positions.empty())
+    {
+      glGenBuffers(1, &VBO[POSITION]);
+      glBindBuffer(GL_ARRAY_BUFFER, VBO[POSITION]);
+      glBufferData(GL_ARRAY_BUFFER, positions.size() * sizeof(positions[0]), &positions[0], GL_STATIC_DRAW);
+      glEnableVertexAttribArray(0);
+      glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+    }
 
     if (!uvs.empty())
     {

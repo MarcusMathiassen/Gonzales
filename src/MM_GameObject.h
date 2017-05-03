@@ -26,8 +26,7 @@ struct GameObject
 
   void update()
   {
-    transform.rot.y = (f32)(glfwGetTime() * 0.05f);
-    transform.rot.z = (f32)(glfwGetTime() * 0.07f);
+    transform.rot.y = (f32)(glfwGetTime() * 0.5f);
   }
   void draw(const mat4 &viewProjection)
   {

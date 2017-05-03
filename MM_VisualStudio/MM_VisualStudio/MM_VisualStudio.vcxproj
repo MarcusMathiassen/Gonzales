@@ -150,6 +150,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\src\imgui.cpp" />
+    <ClCompile Include="..\..\src\imgui_demo.cpp" />
+    <ClCompile Include="..\..\src\imgui_draw.cpp" />
+    <ClCompile Include="..\..\src\imgui_impl_glfw_gl3.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
     <ClCompile Include="..\..\src\MM_Engine.cpp" />
     <ClCompile Include="..\..\src\MM_ResourceManager.cpp" />
@@ -157,8 +161,14 @@
     <ClCompile Include="..\..\src\MM_TextManager.cpp" />
     <ClCompile Include="..\..\src\MM_UIButton.cpp" />
     <ClCompile Include="..\..\src\MM_UIManager.cpp" />
+    <ClCompile Include="..\..\src\MM_WindowManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\src\GZ_hwinfo.h" />
+    <ClInclude Include="..\..\src\imconfig.h" />
+    <ClInclude Include="..\..\src\imgui.h" />
+    <ClInclude Include="..\..\src\imgui_impl_glfw_gl3.h" />
+    <ClInclude Include="..\..\src\imgui_internal.h" />
     <ClInclude Include="..\..\src\MM.h" />
     <ClInclude Include="..\..\src\MM_Engine.h" />
     <ClInclude Include="..\..\src\MM_Button.h" />
@@ -167,6 +177,7 @@
     <ClInclude Include="..\..\src\MM_GameObjectManager.h" />
     <ClInclude Include="..\..\src\MM_Mesh.h" />
     <ClInclude Include="..\..\src\MM_Renderer.h" />
+    <ClInclude Include="..\..\src\MM_Resource.h" />
     <ClInclude Include="..\..\src\MM_ResourceManager.h" />
     <ClInclude Include="..\..\src\MM_Shader.h" />
     <ClInclude Include="..\..\src\MM_TearingTest.h" />
@@ -177,9 +188,14 @@
     <ClInclude Include="..\..\src\MM_Typedefs.h" />
     <ClInclude Include="..\..\src\MM_UIButton.h" />
     <ClInclude Include="..\..\src\MM_UIManager.h" />
+    <ClInclude Include="..\..\src\MM_UIText.h" />
     <ClInclude Include="..\..\src\MM_Utility.h" />
     <ClInclude Include="..\..\src\MM_Window.h" />
+    <ClInclude Include="..\..\src\MM_WindowManager.h" />
     <ClInclude Include="..\..\src\stb_image.h" />
+    <ClInclude Include="..\..\src\stb_rect_pack.h" />
+    <ClInclude Include="..\..\src\stb_textedit.h" />
+    <ClInclude Include="..\..\src\stb_truetype.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

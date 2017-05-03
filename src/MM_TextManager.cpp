@@ -11,24 +11,21 @@
 void TextManager::drawAll()
 {
   glDisable(GL_DEPTH_TEST);
-  //glEnable(GL_BLEND);
-  //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
   glBindVertexArray(VAO);
   glUseProgram(shaderProgram);
   texture.bind(0);
-  for (const Text &text: text_buffer)
+  for (const auto &text: text_buffer)
   {
-    glUniform4f(uniform[COLOR], text.color.r, text.color.g, text.color.g, text.color.a);
-    const size_t num_chars{text.str.length()};
+    glUniform4f(uniform[COLOR], text->color.r, text->color.g, text->color.g, text->color.a);
+    const size_t num_chars{text->str.length()};
     for (size_t i = 0; i < num_chars; ++i)
     {
-      if (text.str[i] == ' ') continue;
-      glUniform2f(uniform[POSITION_OFFSET], text.pos.x + i * FONT_ATLAS_CHARACTER_WIDTH, text.pos.y);
-      glUniform1i(uniform[TEXTCOORD_INDEX], text.str[i]);
+      if (text->str[i] == ' ') continue;
+      glUniform2f(uniform[POSITION_OFFSET], text->pos.x + i * FONT_ATLAS_CHARACTER_WIDTH, text->pos.y);
+      glUniform1i(uniform[TEXTCOORD_INDEX], text->str[i]);
       glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, NULL);
     }
   }
-  //glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
   glEnable(GL_DEPTH_TEST);
 }
 
