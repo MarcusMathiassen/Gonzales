@@ -46,6 +46,14 @@ void Engine::init()
   glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 
   ImGui_ImplGlfwGL3_Init(window, true);
+  ImGuiIO& io = ImGui::GetIO();
+  io.Fonts->AddFontFromFileTTF("./res/DroidSans.ttf", 18.0f, NULL, io.Fonts->GetGlyphRangesJapanese());
+  auto& style = ImGui::GetStyle();
+  style.Colors[ImGuiCol_WindowBg] = ImVec4(0.1f, 0.1f, 0.1f, 0.80f);
+  style.Colors[ImGuiCol_TitleBg] = ImVec4(0.1f, 0.1f, 0.1f, 0.90f);
+  style.Colors[ImGuiCol_TitleBgActive] = ImVec4(0.1f, 0.1f, 0.1f, 0.90f);
+  style.Colors[ImGuiCol_Button] = ImVec4(0.3f, 0.3f, 0.3f, 0.90f);
+
 
   initWindowCallbacks(window);
 
@@ -180,7 +188,9 @@ void Engine::draw()
   ImGui::SameLine();
   ImGui::Text("%dfps %.3fms",(u32)ImGui::GetIO().Framerate, 1000.0f/ImGui::GetIO().Framerate);
   ImGui::ColorEdit3("clear color", (float*)&clear_color);
+
   ImGui::Separator();
+
   // Resource managaer. Add Mesh or Texture
   static char buf1[256] = ""; ImGui::InputText("", buf1, 256);
   if (ImGui::Button("load mesh")) gameObjectManager.gameObjects[0]->mesh = resourceManager.mesh_isLoaded(buf1, buf1);
