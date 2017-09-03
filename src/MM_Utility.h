@@ -58,13 +58,8 @@ static void limitFPS(u32 framesPerSecond, f64 timeStartFrame)
 {
   const f64 frametime = (f64)(1000.0/framesPerSecond);
   f64 timeSpentFrame{(glfwGetTime() - timeStartFrame) * 1000.0};
-  #ifdef _WIN32
-    #define SLEEP_TIME_OFFSET 1.0
-  #elif __APPLE__
-    #define SLEEP_TIME_OFFSET 2.0
-  #endif
-  const f64 sleepTime{(frametime-SLEEP_TIME_OFFSET) - timeSpentFrame};
-  if (sleepTime > 0)
+  const f64 sleepTime{(frametime - timeSpentFrame) * 0.8};
+  if (sleepTime > 0.0)
   {
   #ifdef _WIN32
     Sleep((DWORD)sleepTime);

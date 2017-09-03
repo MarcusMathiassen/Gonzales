@@ -75,8 +75,8 @@ void ImGui_ImplGlfwGL3_RenderDrawLists(ImDrawData* draw_data)
     glViewport(0, 0, (GLsizei)fb_width, (GLsizei)fb_height);
     const float ortho_projection[4][4] =
     {
-        { 2.0f/io.DisplaySize.x, 0.0f,                   0.0f, 0.0f },
-        { 0.0f,                  2.0f/-io.DisplaySize.y, 0.0f, 0.0f },
+        { 2.0f/(io.DisplaySize.x), 0.0f,                   0.0f, 0.0f },
+        { 0.0f,                  2.0f/(-io.DisplaySize.y), 0.0f, 0.0f },
         { 0.0f,                  0.0f,                  -1.0f, 0.0f },
         {-1.0f,                  1.0f,                   0.0f, 1.0f },
     };

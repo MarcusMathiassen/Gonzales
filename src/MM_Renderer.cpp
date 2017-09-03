@@ -9,7 +9,7 @@
 void Renderer::update()
 {
   glViewport(0, 0, viewport_width, viewport_height);
-  glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+  glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 }
 
 void Renderer::display_debug_imGui()

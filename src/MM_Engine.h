@@ -29,12 +29,14 @@ struct Engine
   ResourceManager                   *resourceManager{NULL};
   TextManager                       *textManager{NULL};
 
+  bool          is_running{true};
   bool          internal_settings_changed {true};
   u16			      width               { 640 };
   u16			      height              { 400 };
   string        title               { "Default Title" };
+  u32           framelimit          {0};
   u32           framerate           { 0 };
-  f32           fixedFrametime      { 0.0f };
+  f32           frametime           { 0.0f };
   u16           fps_info;
 
   bool          fullscreen          { false };
@@ -42,6 +44,7 @@ struct Engine
   u32           currentFPS          { 0 };
   f64           deltaTime           { 0.0 };
   f64           timeSinceStart      { 0.0 };
+  f64           timeSinceFrameStart {0.0};
 
 
   #ifdef DEBUG
@@ -55,7 +58,7 @@ struct Engine
   void init();
   void start();
 
-  void gameLoop();
+  void drawLoop();
   void update();
   void draw();
   void internal_update();

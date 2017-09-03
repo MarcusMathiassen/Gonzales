@@ -28,6 +28,8 @@ void WindowManager::initGLFW()
   glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, true);
   window = glfwCreateWindow(width,height,title.c_str(),NULL,NULL);
   glfwMakeContextCurrent(window);
+  glfwGetFramebufferSize(window, &viewport_width, &viewport_height);
+  glfwGetWindowSize(window, &width, &height);
 }
 
 void WindowManager::initGLEW()

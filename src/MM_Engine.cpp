@@ -8,15 +8,37 @@
 #include <string.h>
 #include <thread>
 #include <math.h>
+#include "MM_TearingTest.h"
+void Engine::drawLoop()
+{
+  glfwMakeContextCurrent(windowManager->window);
+
+  while (is_running)
+  {
+    f64 timeSinceFrameStart = glfwGetTime();
+    ImGui_ImplGlfwGL3_NewFrame();
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+
+    update();
+    draw();
+
+    glfwSwapBuffers(windowManager->window);
+    limitFPS(framelimit, timeSinceFrameStart);
+    frametime = (glfwGetTime() - timeSinceFrameStart) * 1000.0f;
+  }
+}
 
 void Engine::init()
 {
   windowManager = new WindowManager;
   windowManager->createWindow(width,height,title);
 
+  const float font_retina_scale = windowManager->viewport_width/windowManager->width;
+  std::cout << "scaling factor: " << font_retina_scale << std::endl;
   ImGui_ImplGlfwGL3_Init(windowManager->window, true);
   ImGuiIO& io = ImGui::GetIO();
-  io.Fonts->AddFontFromFileTTF("./res/DroidSans.ttf", 18.0f, NULL, io.Fonts->GetGlyphRangesJapanese());
+  io.FontGlobalScale = 1.0f / font_retina_scale;
+  io.Fonts->AddFontFromFileTTF("./res/DroidSans.ttf", 18*font_retina_scale, NULL, io.Fonts->GetGlyphRangesJapanese());
   auto& style = ImGui::GetStyle();
   style.Colors[ImGuiCol_MenuBarBg] = ImVec4(0.1f, 0.1f, 0.1f, 0.90f);
   style.Colors[ImGuiCol_WindowBg] = ImVec4(0.1f, 0.1f, 0.1f, 0.80f);
@@ -30,7 +52,7 @@ void Engine::init()
   textManager = new TextManager;
   camera = new Camera;
   gameObjectManager = new GameObjectManager;
-
+  
   glEnable(GL_DEPTH_TEST);
   glEnable(GL_CULL_FACE);
   glEnable(GL_BLEND);
@@ -40,17 +62,18 @@ void Engine::init()
 void Engine::start()
 {
 	timeSinceStart = glfwGetTime();
+
+  glfwMakeContextCurrent(nullptr);
+  std::thread drawThread(&Engine::drawLoop, this);
+
 	while (!glfwWindowShouldClose(windowManager->window) && !quit)
 	{
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-    ImGui_ImplGlfwGL3_NewFrame();
-		glfwPollEvents();
-
-    update();
-    draw();
-
-    glfwSwapBuffers(windowManager->window);
+		glfwWaitEvents();
 	}
+
+  is_running = false;
+  drawThread.join();
+
   ImGui_ImplGlfwGL3_Shutdown();
 	glfwTerminate();
 }
@@ -119,11 +142,7 @@ void Engine::display_debug_imGui()
   ImGui::Begin("Engine Debug Info");
 
   // Engine info
-  ImGui::Text("%dfps %.3fms",(u32)ImGui::GetIO().Framerate, 1000.0f/ImGui::GetIO().Framerate);
-  ImGui::Text("quit: %d", quit);
-  ImGui::Text("deltaTime: %f", deltaTime);
-  ImGui::Text("timeSinceStart: %f", timeSinceStart);
-  ImGui::Text("currentFPS: %d", currentFPS);
+  ImGui::Text("%d fps %.3f ms",(int)(1000/frametime), frametime);
 
   ImGui::Separator();
 

@@ -46,7 +46,7 @@ struct GameObject
     const char* file_vertexShader,
     const char* file_fragmentShader) : mesh(file)
   {
-    texture = Texture(file_texture, GL_LINEAR);
+    texture = Texture(file_texture, GL_NEAREST);
 
     shaderProgram      = glCreateProgram();
     u32 vertexShader   = createShader(file_vertexShader, GL_VERTEX_SHADER);
